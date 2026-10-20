@@ -18,7 +18,8 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 2 | Ambiente e estrutura inicial | Concluída |
 | 3 | Domínio e calculadora nutricional | Concluída |
 | 4a | Catálogo, busca e campo de registro | Concluída |
-| 4b–4c | Diário, refeições salvas e metas | Próxima |
+| 4b | Diário com registro, edição, remoção e painel do dia | Concluída |
+| 4c | Refeições salvas e metas | Próxima |
 | 5–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP

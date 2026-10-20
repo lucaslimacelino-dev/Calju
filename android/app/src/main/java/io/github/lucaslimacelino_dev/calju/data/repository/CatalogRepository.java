@@ -13,6 +13,7 @@ import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodNutrientEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodPortionEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodSearchRow;
+import io.github.lucaslimacelino_dev.calju.data.local.NutrientEntity;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.FoodMatcher;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
@@ -45,6 +46,11 @@ public class CatalogRepository {
         found.sort(Comparator.<FoodSearchRow>comparingInt(row -> FoodMatcher.score(row.searchName, terms))
                 .thenComparing(row -> row.searchName));
         return found.size() > limit ? new ArrayList<>(found.subList(0, limit)) : found;
+    }
+
+    @WorkerThread
+    public List<NutrientEntity> nutrients() {
+        return dao.allNutrients();
     }
 
     @WorkerThread

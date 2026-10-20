@@ -131,4 +131,11 @@ public class NutritionCalculatorTest {
         assertSameValue("2.3", NutrientUnit.GRAM.roundForDisplay(new BigDecimal("2.25")));
         assertSameValue("13", NutrientUnit.MILLIGRAM.roundForDisplay(new BigDecimal("12.5")));
     }
+
+    @Test
+    public void miligramasPequenosMantemUmaCasa() {
+        assertSameValue("0.2", NutrientUnit.MILLIGRAM.roundForDisplay(new BigDecimal("0.24")));
+        assertSameValue("9.9", NutrientUnit.MICROGRAM.roundForDisplay(new BigDecimal("9.94")));
+        assertSameValue("10", NutrientUnit.MILLIGRAM.roundForDisplay(new BigDecimal("9.96")));
+    }
 }

@@ -17,12 +17,51 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceTitleLarge" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/occasion_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/occasion_breakfast"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/occasion_breakfast"
+            android:text="@string/occasion_breakfast_short" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/occasion_lunch"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/occasion_lunch" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/occasion_dinner"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/occasion_dinner" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/occasion_snack"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/occasion_snack" />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/grams_layout"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/quantity_label"
         app:suffixText="g">
 
@@ -87,5 +126,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/quantity_add" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/remove_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/quantity_remove"
+        android:textColor="?attr/colorError"
+        android:visibility="gone" />
 
 </LinearLayout>

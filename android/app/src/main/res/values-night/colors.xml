@@ -14,4 +14,7 @@
     <color name="outline">#3A312B</color>
     <color name="error">#F2B8B5</color>
     <color name="on_error">#601410</color>
+    <color name="inverse_surface">#EFE6DF</color>
+    <color name="inverse_on_surface">#2A211B</color>
+    <color name="inverse_primary">#6B4429</color>
 </resources>

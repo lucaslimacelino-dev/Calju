@@ -28,20 +28,21 @@ import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
+import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.domain.Portion;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 
-/** Painel inferior para confirmar a quantidade, com prévia ao vivo de kcal e macros. */
+/**
+ * Painel inferior para confirmar quantidade e ocasião, com prévia ao vivo de kcal e macros.
+ * Serve tanto para um registro novo quanto para editar ou remover um existente.
+ */
 public class QuantityInputSheet extends BottomSheetDialogFragment {
 
     public static final String TAG = "QuantityInputSheet";
-    public static final String RESULT_KEY = "quantity_result";
-    public static final String RESULT_NAME = "name";
-    public static final String RESULT_GRAMS = "grams";
 
     private SheetQuantityBinding binding;
     private DiaryViewModel viewModel;
-    private Food food;
+    private SelectedFood selected;
     private boolean filled;
 
     @Nullable
@@ -88,14 +89,23 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
             return false;
         });
         binding.addButton.setOnClickListener(v -> confirm());
+        binding.removeButton.setOnClickListener(v -> {
+            if (selected != null && selected.isEdit()) {
+                viewModel.removeEntry(selected.entryId(), selected.occasion());
+                dismiss();
+            }
+        });
     }
 
-    private void show(SelectedFood selected) {
-        if (selected == null || selected.food() == null) {
+    private void show(SelectedFood value) {
+        if (value == null || value.food() == null) {
             return;
         }
-        food = selected.food();
+        selected = value;
+        Food food = value.food();
         binding.foodName.setText(food.name());
+        binding.addButton.setText(value.isEdit() ? R.string.quantity_save : R.string.quantity_add);
+        binding.removeButton.setVisibility(value.isEdit() ? View.VISIBLE : View.GONE);
         if (food.portion().isPresent()) {
             Portion portion = food.portion().get();
             binding.portionButton.setVisibility(View.VISIBLE);
@@ -105,8 +115,9 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
         }
         if (!filled) {
             filled = true;
-            if (selected.suggestedGrams() != null) {
-                setGrams(selected.suggestedGrams());
+            binding.occasionGroup.check(Occasions.chip(value.occasion()));
+            if (value.suggestedGrams() != null) {
+                setGrams(value.suggestedGrams());
             } else {
                 binding.grams.requestFocus();
             }
@@ -129,11 +140,12 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
     }
 
     private void value(ViewNutrientValueBinding view, BigDecimal grams, String code, NutrientUnit unit) {
-        if (food == null || grams == null) {
+        if (selected == null || grams == null) {
             view.value.setText(R.string.value_unknown);
             return;
         }
-        NutrientTotal total = NutritionCalculator.total(Collections.singletonList(new Intake(food, grams)), code);
+        NutrientTotal total = NutritionCalculator.total(
+                Collections.singletonList(new Intake(selected.food(), grams)), code);
         view.value.setText(total.complete() ? Formats.amount(total.amount(), unit) : getString(R.string.value_unknown));
     }
 
@@ -143,18 +155,20 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
     }
 
     private void confirm() {
-        BigDecimal grams = Formats.parsePositive(String.valueOf(binding.grams.getText()));
-        if (food == null) {
+        if (selected == null) {
             return;
         }
+        BigDecimal grams = Formats.parsePositive(String.valueOf(binding.grams.getText()));
         if (grams == null) {
             binding.gramsLayout.setError(getString(R.string.quantity_invalid));
             return;
         }
-        Bundle result = new Bundle();
-        result.putString(RESULT_NAME, food.name());
-        result.putString(RESULT_GRAMS, grams.toPlainString());
-        getParentFragmentManager().setFragmentResult(RESULT_KEY, result);
+        Occasion occasion = Occasions.fromChip(binding.occasionGroup.getCheckedChipId());
+        if (selected.isEdit()) {
+            viewModel.updateItem(selected.itemId(), grams, occasion);
+        } else {
+            viewModel.addFood(selected.foodId(), grams, occasion);
+        }
         dismiss();
     }
 

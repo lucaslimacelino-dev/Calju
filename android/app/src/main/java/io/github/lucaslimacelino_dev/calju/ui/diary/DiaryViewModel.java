@@ -3,10 +3,14 @@ package io.github.lucaslimacelino_dev.calju.ui.diary;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.lucaslimacelino_dev.calju.AppContainer;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodSearchRow;
+import io.github.lucaslimacelino_dev.calju.data.local.NutrientEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
+import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.FoodInput;
 import io.github.lucaslimacelino_dev.calju.domain.FoodInputParser;
@@ -25,6 +31,7 @@ import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
+import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.domain.Qualifier;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 
@@ -33,16 +40,38 @@ public class DiaryViewModel extends ViewModel {
     private static final int MAX_SUGGESTIONS = 8;
     private static final int MIN_QUERY_LENGTH = 2;
 
-    private final CatalogRepository repository;
+    private final CatalogRepository catalog;
+    private final DiaryRepository diary;
     private final Executor executor;
+    private final Clock clock;
+
+    private final MutableLiveData<LocalDate> date;
+    private final LiveData<DayState> dayState;
     private final MutableLiveData<List<Suggestion>> suggestions = new MutableLiveData<>(Collections.emptyList());
     private final MutableLiveData<SelectedFood> selected = new MutableLiveData<>();
+    private final MutableLiveData<DiaryEvent> events = new MutableLiveData<>();
+    private final MutableLiveData<List<NutrientEntity>> nutrients = new MutableLiveData<>();
     /** Cada busca recebe um número; resultados de buscas antigas são descartados. */
     private final AtomicInteger searchGeneration = new AtomicInteger();
 
-    public DiaryViewModel(CatalogRepository repository, Executor executor) {
-        this.repository = repository;
+    public DiaryViewModel(CatalogRepository catalog, DiaryRepository diary, Executor executor, Clock clock) {
+        this.catalog = catalog;
+        this.diary = diary;
         this.executor = executor;
+        this.clock = clock;
+        this.date = new MutableLiveData<>(LocalDate.now(clock));
+        // Quando a data muda, passa a observar outro dia; quando o banco muda, recalcula o estado.
+        this.dayState = Transformations.switchMap(date, day ->
+                Transformations.map(diary.observeDay(day), entries -> DayStateBuilder.build(day, entries)));
+        executor.execute(() -> nutrients.postValue(catalog.nutrients()));
+    }
+
+    public LiveData<DayState> dayState() {
+        return dayState;
+    }
+
+    public LiveData<LocalDate> date() {
+        return date;
     }
 
     public LiveData<List<Suggestion>> suggestions() {
@@ -51,6 +80,28 @@ public class DiaryViewModel extends ViewModel {
 
     public LiveData<SelectedFood> selected() {
         return selected;
+    }
+
+    public LiveData<DiaryEvent> events() {
+        return events;
+    }
+
+    public LiveData<List<NutrientEntity>> nutrients() {
+        return nutrients;
+    }
+
+    public LocalDate today() {
+        return LocalDate.now(clock);
+    }
+
+    public void previousDay() {
+        date.setValue(currentDate().minusDays(1));
+    }
+
+    public void nextDay() {
+        if (currentDate().isBefore(today())) {
+            date.setValue(currentDate().plusDays(1));
+        }
     }
 
     public void onTextChanged(String text) {
@@ -62,8 +113,8 @@ public class DiaryViewModel extends ViewModel {
         }
         executor.execute(() -> {
             List<Suggestion> result = new ArrayList<>();
-            for (FoodSearchRow row : repository.search(input.query(), MAX_SUGGESTIONS)) {
-                result.add(toSuggestion(row, repository.food(row.id), input));
+            for (FoodSearchRow row : catalog.search(input.query(), MAX_SUGGESTIONS)) {
+                result.add(toSuggestion(row, catalog.food(row.id), input));
             }
             if (generation == searchGeneration.get()) {
                 suggestions.postValue(result);
@@ -72,8 +123,14 @@ public class DiaryViewModel extends ViewModel {
     }
 
     public void select(Suggestion suggestion) {
-        executor.execute(() -> selected.postValue(
-                new SelectedFood(suggestion.foodId(), repository.food(suggestion.foodId()), suggestion.grams())));
+        Occasion occasion = Occasion.suggestFor(LocalTime.now(clock));
+        executor.execute(() -> selected.postValue(new SelectedFood(suggestion.foodId(),
+                catalog.food(suggestion.foodId()), suggestion.grams(), occasion, null, null)));
+    }
+
+    public void edit(EntryRow row) {
+        selected.setValue(new SelectedFood(null, row.snapshot(), row.grams(), row.occasion(), row.itemId(),
+                row.entryId()));
     }
 
     public void clearSelection() {
@@ -83,6 +140,41 @@ public class DiaryViewModel extends ViewModel {
     public void clearSuggestions() {
         searchGeneration.incrementAndGet();
         suggestions.setValue(Collections.emptyList());
+    }
+
+    public void addFood(String foodId, BigDecimal grams, Occasion occasion) {
+        LocalDate day = currentDate();
+        executor.execute(() -> {
+            String entryId = diary.addFood(day, occasion, foodId, grams);
+            events.postValue(new DiaryEvent(DiaryEvent.Type.ADDED, entryId, occasion));
+        });
+    }
+
+    public void updateItem(String itemId, BigDecimal grams, Occasion occasion) {
+        executor.execute(() -> diary.updateItem(itemId, grams, occasion));
+    }
+
+    public void removeEntry(String entryId, Occasion occasion) {
+        executor.execute(() -> {
+            diary.removeEntry(entryId);
+            events.postValue(new DiaryEvent(DiaryEvent.Type.REMOVED, entryId, occasion));
+        });
+    }
+
+    /** Desfazer: um registro recém-adicionado é removido; um removido volta. */
+    public void undo(DiaryEvent event) {
+        executor.execute(() -> {
+            if (event.type() == DiaryEvent.Type.ADDED) {
+                diary.removeEntry(event.entryId());
+            } else {
+                diary.restoreEntry(event.entryId());
+            }
+        });
+    }
+
+    private LocalDate currentDate() {
+        LocalDate current = date.getValue();
+        return current != null ? current : today();
     }
 
     private static Suggestion toSuggestion(FoodSearchRow row, Food food, FoodInput input) {
@@ -113,7 +205,8 @@ public class DiaryViewModel extends ViewModel {
             @Override
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new DiaryViewModel(container.catalogRepository, container.databaseExecutor);
+                return (T) new DiaryViewModel(container.catalogRepository, container.diaryRepository,
+                        container.databaseExecutor, container.clock);
             }
         };
     }

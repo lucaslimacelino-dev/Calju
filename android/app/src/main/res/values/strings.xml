@@ -6,7 +6,7 @@
     <string name="tab_meals">Refeições</string>
     <string name="tab_history">Histórico</string>
 
-    <string name="diary_empty">Seus registros do dia aparecerão aqui.</string>
+    <string name="diary_empty">Nenhum registro neste dia. Digite abaixo o que você comeu.</string>
     <string name="meals_empty">Suas refeições salvas aparecerão aqui.</string>
     <string name="history_empty">Seu histórico aparecerá aqui.</string>
 
@@ -25,5 +25,34 @@
     <string name="nutrient_carbohydrate">Carbo (g)</string>
     <string name="nutrient_fat">Gordura (g)</string>
     <string name="value_unknown">—</string>
-    <string name="add_pending">%1$s · %2$s. O registro no diário chega na próxima etapa.</string>
+    <string name="quantity_save">Salvar</string>
+    <string name="quantity_remove">Remover registro</string>
+
+    <string name="occasion_breakfast">Café da manhã</string>
+    <string name="occasion_lunch">Almoço</string>
+    <string name="occasion_dinner">Jantar</string>
+    <string name="occasion_snack">Lanche</string>
+    <string name="occasion_breakfast_short">Café</string>
+
+    <string name="day_today">Hoje</string>
+    <string name="day_yesterday">Ontem</string>
+    <string name="day_previous">Dia anterior</string>
+    <string name="day_next">Próximo dia</string>
+    <string name="kcal_consumed">kcal consumidas</string>
+    <string name="kcal_ring_description">%1$s kcal consumidas</string>
+    <string name="macro_protein">Proteína</string>
+    <string name="macro_carbohydrate">Carboidrato</string>
+    <string name="macro_fat">Gordura</string>
+    <string name="value_grams">%1$s g</string>
+    <string name="value_at_least">≥ %1$s</string>
+    <string name="entry_tag">%1$s · %2$s</string>
+    <string name="entry_kcal">%1$s kcal</string>
+
+    <string name="micronutrients_show">Ver micronutrientes</string>
+    <string name="micronutrients_title">Nutrientes do dia</string>
+    <string name="micronutrients_legend">\"≥\" indica que algum alimento não tem esse valor medido; \"—\", que nenhum tem.</string>
+
+    <string name="event_added">Adicionado: %1$s</string>
+    <string name="event_removed">Registro removido</string>
+    <string name="undo">Desfazer</string>
 </resources>

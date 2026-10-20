@@ -114,7 +114,8 @@ nutrition_goals    (id uuid, owner_user_id, effective_from DATE, kcal, protein_g
 
 - `BigDecimal` em todos os cálculos; Room armazena como `TEXT` via `TypeConverter`;
   PostgreSQL `numeric(12,4)`.
-- Arredondamento apenas na exibição: kcal inteiro, macros 1 casa, mg inteiro.
+- Arredondamento apenas na exibição: kcal inteiro, macros 1 casa, mg e µg inteiros a partir
+  de 10 e com 1 casa abaixo disso (cobre 0,2 mg não pode aparecer como "0 mg").
   Somas sem arredondamento intermediário (a soma das linhas exibidas pode diferir ±1 do total).
 - Fórmula: `consumido = valor_por_100 × quantidade_g ÷ 100`.
   Ex.: 165 kcal/100 g × 150 g = 247,5 kcal (exibido "248 kcal").
@@ -388,7 +389,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 2 (concluída) | README, .gitignore, docker-compose, backend com Flyway V1 + health, app Android com tema e 3 abas | `mvn test` verde; app abre no emulador |
 | 3 (concluída) | `domain/`: modelos, NutritionCalculator, FoodInputParser, porção padrão | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas; regras do texto |
 | 4a (concluída) | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
-| 4b | Diário com snapshot, edição, remoção, desfazer | Alterar alimento não altera registro antigo; persiste após reiniciar |
+| 4b (concluída) | Diário com snapshot, edição, remoção, desfazer, painel do dia, micronutrientes | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |

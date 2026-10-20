@@ -63,3 +63,9 @@ objetiva que os sustente.
   banco Room, importador, busca e testes escritos pelo assistente.
 - Campo de registro, lista de sugestões e tela de quantidade escritos pelo assistente,
   seguindo a tela v3 aprovada pelo autor; verificados no emulador pelo assistente.
+
+### Fase 4b — Diário
+
+- Tabelas do diário (com snapshot dos nutrientes), migração do banco, repositório, painel do
+  dia com números animados, edição, remoção com desfazer, navegação por data, painel de
+  micronutrientes e testes escritos pelo assistente, seguindo o planejamento e a tela v3.

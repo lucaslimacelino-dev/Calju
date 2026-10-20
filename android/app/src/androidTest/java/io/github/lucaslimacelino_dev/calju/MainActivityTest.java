@@ -23,7 +23,8 @@ public class MainActivityTest {
 
     @Test
     public void abreNoDiario() {
-        onView(withText(R.string.diary_empty)).check(matches(isDisplayed()));
+        onView(withId(R.id.food_input)).check(matches(isDisplayed()));
+        onView(withText(R.string.day_today)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -35,6 +36,6 @@ public class MainActivityTest {
         onView(withText(R.string.history_empty)).check(matches(isDisplayed()));
 
         onView(withId(R.id.diaryFragment)).perform(click());
-        onView(withText(R.string.diary_empty)).check(matches(isDisplayed()));
+        onView(withId(R.id.food_input)).check(matches(isDisplayed()));
     }
 }

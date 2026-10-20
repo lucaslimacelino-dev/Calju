@@ -22,8 +22,23 @@ public enum NutrientUnit {
         return symbol;
     }
 
+    public static NutrientUnit fromSymbol(String symbol) {
+        for (NutrientUnit unit : values()) {
+            if (unit.symbol.equals(symbol)) {
+                return unit;
+            }
+        }
+        throw new IllegalArgumentException("Unidade desconhecida: " + symbol);
+    }
+
+    /**
+     * kcal inteiro; g com 1 casa; mg e µg inteiros a partir de 10 e com 1 casa abaixo disso
+     * (ex.: cobre 0,2 mg não pode virar "0 mg").
+     */
     public BigDecimal roundForDisplay(BigDecimal value) {
         Objects.requireNonNull(value, "value");
-        return value.setScale(displayScale, RoundingMode.HALF_UP);
+        boolean small = value.abs().compareTo(BigDecimal.TEN) < 0;
+        int scale = (this == MILLIGRAM || this == MICROGRAM) && small ? 1 : displayScale;
+        return value.setScale(scale, RoundingMode.HALF_UP);
     }
 }

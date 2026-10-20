@@ -42,6 +42,9 @@ public interface CatalogDao {
             + "FROM foods f LEFT JOIN food_portions p ON p.food_id = f.id AND p.is_default = 1")
     List<FoodSearchRow> allForSearch();
 
+    @Query("SELECT * FROM nutrients ORDER BY display_order")
+    List<NutrientEntity> allNutrients();
+
     @Query("SELECT * FROM foods WHERE id = :id")
     FoodEntity food(String id);
 

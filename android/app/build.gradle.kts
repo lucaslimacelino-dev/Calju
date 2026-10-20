@@ -26,6 +26,9 @@ android {
         getByName("main") {
             assets.directories.add("../../data/catalog")
         }
+        getByName("androidTest") {
+            assets.directories.add("$projectDir/schemas")
+        }
     }
 
     buildTypes {
@@ -46,6 +49,10 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 }
 

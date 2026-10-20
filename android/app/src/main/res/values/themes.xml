@@ -22,6 +22,12 @@
         <item name="colorOutlineVariant">@color/outline</item>
         <item name="colorError">@color/error</item>
         <item name="colorOnError">@color/on_error</item>
+        <!-- Cores "invertidas": avisos (Snackbar) escuros sobre o tema claro e vice-versa. -->
+        <item name="colorSurfaceInverse">@color/inverse_surface</item>
+        <item name="colorOnSurfaceInverse">@color/inverse_on_surface</item>
+        <item name="colorPrimaryInverse">@color/inverse_primary</item>
+        <!-- Cartões na cor exata de "surface", sem o tingimento automático por elevação. -->
+        <item name="elevationOverlayEnabled">false</item>
     </style>
 
     <style name="Widget.CaLju.Card" parent="Widget.Material3.CardView.Elevated">
