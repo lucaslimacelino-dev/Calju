@@ -387,7 +387,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 |---|---|---|
 | 2 (concluída) | README, .gitignore, docker-compose, backend com Flyway V1 + health, app Android com tema e 3 abas | `mvn test` verde; app abre no emulador |
 | 3 (concluída) | `domain/`: modelos, NutritionCalculator, FoodInputParser, porção padrão | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas; regras do texto |
-| 4a | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
+| 4a (concluída) | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
 | 4b | Diário com snapshot, edição, remoção, desfazer | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |

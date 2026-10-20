@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.recyclerview)
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.livedata)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
 

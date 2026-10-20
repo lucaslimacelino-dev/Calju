@@ -17,7 +17,8 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 1 | Arquitetura e planejamento | Concluída |
 | 2 | Ambiente e estrutura inicial | Concluída |
 | 3 | Domínio e calculadora nutricional | Concluída |
-| 4 | Catálogo, diário e refeições no app | Próxima |
+| 4a | Catálogo, busca e campo de registro | Concluída |
+| 4b–4c | Diário, refeições salvas e metas | Próxima |
 | 5–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP

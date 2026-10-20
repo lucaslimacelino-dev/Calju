@@ -61,3 +61,5 @@ objetiva que os sustente.
 - Uso dos pesos do IBGE com citação (opção 2) e importação do catálogo por CSV (opção A):
   decisões do autor entre opções apresentadas pelo assistente. Curadoria das 50 porções,
   banco Room, importador, busca e testes escritos pelo assistente.
+- Campo de registro, lista de sugestões e tela de quantidade escritos pelo assistente,
+  seguindo a tela v3 aprovada pelo autor; verificados no emulador pelo assistente.

@@ -9,4 +9,21 @@
     <string name="diary_empty">Seus registros do dia aparecerão aqui.</string>
     <string name="meals_empty">Suas refeições salvas aparecerão aqui.</string>
     <string name="history_empty">Seu histórico aparecerá aqui.</string>
+
+    <string name="food_input_hint">O que você comeu?</string>
+    <string name="food_input_send">Escolher o primeiro alimento sugerido</string>
+    <string name="suggestion_ask_quantity">Toque para informar a quantidade</string>
+    <string name="suggestion_per_100g">%1$s kcal em 100 g</string>
+    <string name="suggestion_with_kcal">%1$s · %2$s kcal</string>
+
+    <string name="quantity_label">Quantidade</string>
+    <string name="quantity_invalid">Informe uma quantidade maior que zero</string>
+    <string name="quantity_use_portion">Usar %1$s (%2$s)</string>
+    <string name="quantity_add">Adicionar</string>
+    <string name="nutrient_kcal">kcal</string>
+    <string name="nutrient_protein">Proteína (g)</string>
+    <string name="nutrient_carbohydrate">Carbo (g)</string>
+    <string name="nutrient_fat">Gordura (g)</string>
+    <string name="value_unknown">—</string>
+    <string name="add_pending">%1$s · %2$s. O registro no diário chega na próxima etapa.</string>
 </resources>
