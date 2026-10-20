@@ -1,7 +1,8 @@
 # CaLju — Arquitetura e planejamento (Fase 1)
 
-Versão do documento: 1.0 — 20/10/2026.
-Status: planejamento concluído; decisões marcadas como "pendente" aguardam aprovação.
+Versão do documento: 1.1 — 20/10/2026.
+Status: planejamento concluído; Fase 2 concluída. Versão 1.1: Java 17 no backend, paleta
+"castanha e caju", tela inicial v3, registro de um alimento por vez, distribuição por APK.
 
 ## 1. Visão do produto
 
@@ -218,71 +219,101 @@ Conta e aparelho:
 
 ## 6. Identidade visual e UX
 
-### Paleta (contraste a validar na Fase 8)
+Revisada em 20/10/2026 (paleta "castanha e caju" e tela inicial v3, aprovadas pelo autor).
 
-| Token | Claro | Escuro |
-|---|---|---|
-| primary | `#1E5B3F` | `#7CC59A` |
-| primaryContainer | `#E2EFE6` | `#23392C` |
-| background | `#FAFAF7` | `#121513` |
-| surface | `#FFFFFF` | `#1A1E1B` |
-| onSurface | `#1A1D1B` | `#E6E9E6` |
-| onSurfaceVariant | `#5E6661` | `#A3ABA6` |
-| outline | `#E2E5E2` | `#2C322E` |
-| error | `#B3261E` | `#F2B8B5` |
+### Paleta "castanha e caju"
 
-- Macros em tons de verde + rótulo + número (nunca só cor).
+| Token | Claro | Escuro | Uso |
+|---|---|---|---|
+| primary | `#6B4429` | `#E8BE9C` | Castanha: cor principal |
+| primaryContainer | `#F2DFCF` | `#4A2F1C` | Destaques suaves, aba ativa |
+| onPrimaryContainer | `#2A1607` | `#F2DFCF` | Texto sobre primaryContainer |
+| secondary | `#C7402A` | `#FF8A70` | Caju: ações principais, anel de kcal |
+| background | `#FAF6F1` | `#1A1613` | Fundo |
+| surface | `#FFFFFF` | `#241E1A` | Cartões |
+| surfaceContainer | `#F3EDE6` | `#2A231E` | Barra inferior, áreas secundárias |
+| onSurface | `#2A211B` | `#EFE6DF` | Texto |
+| onSurfaceVariant | `#6B5E55` | `#B9ABA0` | Texto secundário |
+| outline | `#E6DDD4` | `#3A312B` | Divisórias |
+| error | `#B3261E` | `#F2B8B5` | Erros |
+
+- Contraste medido (WCAG): todas as combinações de texto acima de 5:1.
+- Macros: proteína em vermelho caju, carboidrato em amarelo (`#E9A93A` / `#F2C46B`),
+  gordura em castanha; sempre com rótulo e número (nunca só cor).
 - Roboto do sistema, escala Material 3, algarismos tabulares.
-- Cantos de 12 dp (cartões) e 16 dp (sheets); bordas de 1 dp no lugar de sombras pesadas.
+- Cartões com cantos arredondados e sombra suave; sheets com cantos de 26 dp.
 - Tema escuro no MVP.
-- Símbolo: forma geométrica monocromática inspirada no caju; sem mascote.
+- Símbolo: forma geométrica inspirada no caju; sem mascote (Fase 8).
 
 ### Tela inicial (Diário)
 
 ```
-◐ CaLju        ‹  Hoje, 20 out  ›  ⚙
-1.240 kcal restantes            ← número principal
-▓▓▓▓▓▓▓▓▓░░░░░  760 de 2.000
-Proteína / Carbo / Gordura: consumido / meta + barra fina
-Café da manhã · Almoço · Jantar · Lanches (subtotal e "+ Add" por ocasião)
-[ + Adicionar ]  (FAB estendido)
-Diário | Refeições | Histórico   (barra inferior)
+Hoje                                   ‹ ›
+terça, 20 de outubro
+┌ Painel do dia ──────────────────────────┐
+│        anel grande: 1.240 kcal          │
+│        restantes · 760 de 2.000         │
+│  [Proteína]  [Carboidrato]  [Gordura]   │  um cartão por macro: valor, meta, barra
+│        Ver micronutrientes ›            │
+└─────────────────────────────────────────┘
+┌ ★ Refeições prontas            3 ▾ ┐       seção recolhível
+└────────────────────────────────────┘
+Registros de hoje (cartões por ocasião, com horário e kcal)
+( O que você comeu?                    ↑ )   campo fixo embaixo
+Diário | Histórico | Perfil                  barra inferior
 ```
 
 (Números ilustrativos, não são dados nutricionais reais.)
 
-### Fluxo Adicionar (3 a 4 toques)
+- **Painel animado:** ao adicionar, editar ou remover um alimento, o anel de kcal e as barras
+  dos macros animam do valor anterior até o novo (respeitando a opção do sistema de reduzir
+  animações).
+- **Micronutrientes sob demanda:** o painel mostra kcal e macros; "Ver micronutrientes" abre
+  a lista completa do dia.
 
-1. "+ Adicionar"; a ocasião é sugerida pelo horário e editável.
-2. Tela de busca sem abrir o teclado: Recentes e Refeições salvas; toque no campo para pesquisar.
-3. Alimento → sheet com quantidade (teclado numérico), seletor g/porção, prévia ao vivo, "Adicionar".
-4. Refeição salva → sheet com ingredientes editáveis no lugar; os ajustes valem só para o
-   registro, salvo se o usuário marcar "atualizar refeição salva".
-5. Volta ao Diário com snackbar "Adicionado ao almoço · Desfazer"; totais atualizados via LiveData.
+### Registro de alimento (um por vez)
 
-"Salvar como refeição" fica disponível na aba Refeições e em lançamentos do diário com vários itens.
+1. O usuário digita no campo fixo, por exemplo `arroz 150`.
+2. Sugestões aparecem a cada letra, buscadas no catálogo local (offline).
+3. Um número no texto é interpretado como gramas. Sem número, o app pede a quantidade
+   depois da escolha do alimento.
+4. A ocasião (café, almoço, jantar, lanche) é sugerida pelo horário e pode ser trocada.
+5. "Adicionar" registra o item; o painel anima até os novos totais; snackbar com "Desfazer".
+6. Tocar num registro abre a edição (quantidade, ocasião, remoção).
+
+Vários alimentos numa única frase e interpretação por IA ficam para depois do MVP.
+
+### Refeições prontas
+
+- Seção recolhível na tela inicial; aberta, lista as refeições salvas.
+- **+** adiciona a refeição ao dia como está.
+- **✎** abre a refeição: alterar gramas, remover ou incluir alimentos. Ações:
+  "Salvar refeição" (altera o molde) e "Adicionar hoje" (registra no dia com os ajustes,
+  sem alterar o molde).
+- "+ Nova refeição" cria uma do zero.
 
 ### Navegação
 
-- Barra inferior: **Diário, Refeições, Histórico**.
-- Configurações (metas, conta, sincronização, fontes, sobre) no ícone ⚙.
+- Barra inferior: **Diário, Histórico, Perfil** (pode ser revista).
+- Perfil: metas, conta, sincronização, fontes dos dados, sobre.
 - Estado da sincronização como ícone discreto (✓ / ↻ / ⊘).
 
 ### Componentes reutilizáveis
 
-`SummaryCard`, `MacroProgressRow`, `OccasionSection`, `LogItemRow`
-(RecyclerView + ListAdapter/DiffUtil), `QuantityInputSheet`, `NutrientTable`
-("—" para desconhecido, "Tr" para traço), `EmptyState`.
+`DaySummaryCard` (anel + macros animados), `MacroCard`, `SavedMealsSection`, `LogEntryCard`
+(RecyclerView + ListAdapter/DiffUtil), `FoodInputBar` (campo + sugestões),
+`QuantityInputSheet`, `MealEditorSheet`, `NutrientTable` ("—" para desconhecido, "Tr" para
+traço), `EmptyState`.
 
 ### Acessibilidade e responsividade
 
 - Edge-to-edge com tratamento de `WindowInsets` (obrigatório a partir do targetSdk 35).
 - targetSdk 36 ignora o travamento de orientação em telas ≥ 600 dp: layouts devem
   funcionar em paisagem e redimensionados.
-- `adjustResize` para o teclado.
+- `adjustResize` para o teclado (o campo fixo sobe junto).
 - Alvos de toque ≥ 48 dp, texto em `sp`, testes com fonte em 200%.
-- Descrições para TalkBack.
-- Animações apenas padrão do Material.
+- Descrições para TalkBack (o anel anuncia "1.240 kcal restantes de 2.000").
+- Animações curtas e desativadas quando o sistema pede redução de movimento.
 
 ## 7. Estrutura do repositório
 
@@ -311,8 +342,9 @@ O backend é organizado por funcionalidade, com as camadas dentro de cada pacote
 | Erros de arredondamento | `BigDecimal`, arredondar só na exibição, testes de casos-limite |
 | Sincronização "come" o projeto | Só na Fase 7; UUID e versão no esquema desde o início |
 | Autenticação feita à mão | Só componentes do Spring Security; testes de IDOR |
-| Teste fechado obrigatório da Play para contas pessoais novas | Conferir regra vigente na Fase 9; recrutar testadores cedo |
-| Mudanças de requisitos da Play | Revisão nas fontes oficiais na Fase 9 |
+| Verificação de desenvolvedor do Android (vigente no Brasil desde 30/09/2026, inclusive para APK fora da Play) | Distribuição inicial por APK com conta de distribuição limitada (até 20 aparelhos); reconferir a regra na Fase 9 |
+| Perda da chave de assinatura do APK | Keystore fora do Git, com cópia de segurança; sem ela as atualizações não instalam por cima |
+| Requisitos da Play, se publicar depois | Revisão nas fontes oficiais antes de publicar |
 | Entrega de e-mails | Provedor SMTP transacional; SPF/DKIM |
 | Autoria com uso de IA | `docs/autoria.md`, commits feitos pelo autor, sem percentuais inventados |
 | applicationId permanente | Definido: `io.github.lucaslimacelino_dev.calju` |
@@ -321,7 +353,8 @@ O backend é organizado por funcionalidade, com as camadas dentro de cada pacote
 
 **Entra:**
 
-- Catálogo TACO offline e busca.
+- Catálogo TACO offline e campo de registro com sugestões (um alimento por vez, peso no texto).
+- Painel do dia com kcal e macros animados; micronutrientes sob demanda.
 - Alimentos personalizados com porções próprias.
 - Calculadora com valores desconhecidos e traços.
 - Refeições salvas: criar, editar, duplicar, excluir, ver totais e adicionar ao dia com ajuste.
@@ -335,22 +368,23 @@ O backend é organizado por funcionalidade, com as camadas dentro de cada pacote
 - Política de privacidade.
 
 **Depois:** código de barras, metas de micronutrientes, MFA, receitas com peso cozido,
-exportação CSV (v1.1), widgets, fotos, Wear OS, estimativa por IA, interface web, SQLCipher.
+exportação CSV (v1.1), widgets, fotos, Wear OS, vários alimentos numa frase, interpretação
+de texto por IA, publicação na Play Store, interface web, SQLCipher.
 
 ## 10. Sequência de implementação
 
 | Fase | Entrega | Verificação |
 |---|---|---|
-| 2 | README, .gitignore, docker-compose, backend com Flyway V1 + health, app Android com tema e 3 abas | `mvn test` verde; app abre no emulador |
+| 2 (concluída) | README, .gitignore, docker-compose, backend com Flyway V1 + health, app Android com tema e 3 abas | `mvn test` verde; app abre no emulador |
 | 3 | `domain/`: modelos, NutritionCalculator | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas |
-| 4a | Room, catálogo pré-instalado, busca, tela de quantidade | Testes de DAO; busca em modo avião |
+| 4a | Room, catálogo pré-instalado, campo de registro com sugestões, tela de quantidade | Testes de DAO; busca em modo avião; "arroz 150" preenche 150 g |
 | 4b | Diário com snapshot, edição, remoção, desfazer | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 | Refino visual, símbolo, acessibilidade | TalkBack, fonte 200%, tema escuro |
-| 9 | AAB assinado (Play App Signing), R8, backend de produção, Data safety, teste fechado | Aparelho real; revisão de dependências |
+| 9 | APK de release assinado com R8; distribuição limitada; backend de produção se a conta/sync estiver no escopo. Publicação na Play é opcional e posterior | Aparelho real; revisão de dependências |
 | 10 | Documentação e pacote do INPI | Tag congelada; hash SHA-512 só dessa tag |
 
 ## 11. INPI (resumo; reconferir nas fontes oficiais na Fase 10)
@@ -364,9 +398,16 @@ exportação CSV (v1.1), widgets, fotos, Wear OS, estimativa por IA, interface w
 - Valores de taxa: consultar a tabela oficial no momento do pedido.
 - O registro protege a expressão do código, não a ideia abstrata. Publicar na Play
   Store não substitui o registro.
+- Não exige publicação nem comercialização; recomenda-se programa "suficientemente
+  finalizado". Não se envia código nem executável, só o hash e a Declaração de Veracidade.
+- Validade de 50 anos a partir de 1º de janeiro do ano seguinte à publicação ou, na
+  ausência desta, à criação. O registro não é obrigatório; serve como prova de autoria.
 
 ## Fontes consultadas (20/10/2026)
 
 - Spring Boot: https://endoflife.date/spring-boot · https://versionlog.com/spring-boot/
 - Target SDK da Play: https://developer.android.com/google/play/requirements/target-sdk
 - INPI e-Software: https://www.gov.br/inpi/pt-br/servicos/programas-de-computador/arquivos/guia-basico/eSoftware.pdf
+- INPI perguntas frequentes: https://www.gov.br/inpi/pt-br/servicos/perguntas-frequentes/programas-de-computador
+- Verificação de desenvolvedor Android: https://developer.android.com/developer-verification/guides
+- Compatibilidade AGP/Android Studio: https://developer.android.com/build/releases/about-agp
