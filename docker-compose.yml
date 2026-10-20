@@ -1,0 +1,44 @@
+# =============================================================================
+# CaLju — ambiente de DESENVOLVIMENTO local
+# Sobe um PostgreSQL para o backend usar enquanto você programa.
+# Não é a configuração de produção (essa vem na Fase 9).
+#
+# Uso:
+#   1. Copie .env.example para .env e defina uma senha (o .env não é versionado).
+#   2. docker compose up -d      -> sobe o banco em segundo plano
+#   3. docker compose ps         -> confere se está "healthy"
+#   4. docker compose down       -> para o banco (os dados continuam no volume)
+#      docker compose down -v    -> para e APAGA os dados do banco
+# =============================================================================
+
+name: calju
+
+services:
+  postgres:
+    # Versão exata fixada para que todos usem o mesmo banco.
+    # PostgreSQL 18 é a versão principal mais recente com suporte (até 11/2030).
+    image: postgres:18.6-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-calju}
+      POSTGRES_USER: ${POSTGRES_USER:-calju}
+      # Obrigatória: sem ela, o Compose para com a mensagem abaixo.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no arquivo .env}
+    ports:
+      # Publica só em 127.0.0.1: o banco fica acessível apenas deste computador,
+      # não para outros aparelhos da rede.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      # A partir do PostgreSQL 18, a imagem oficial guarda os dados em
+      # /var/lib/postgresql (antes era /var/lib/postgresql/data).
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      # pg_isready responde se o banco já aceita conexões.
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  # Volume gerenciado pelo Docker: os dados sobrevivem a "down" e reinícios.
+  postgres-data:

@@ -53,10 +53,6 @@ logs/
 *.tmp
 hs_err_pid*
 
-# --- Docker -------------------------------------------------------------------
-# Dados persistidos localmente por contêineres (ex.: banco PostgreSQL de desenvolvimento)
-docker-data/
-
 # --- IDEs e editores ----------------------------------------------------------
 # IntelliJ IDEA / Android Studio
 .idea/

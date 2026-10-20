@@ -69,4 +69,4 @@ O uso de ferramentas de IA no desenvolvimento é documentado em `docs/autoria.md
 
 ## Licença
 
-Todos os direitos reservados. A licença definitiva será definida antes da publicação.
+Software proprietário — todos os direitos reservados. Ver [LICENSE](LICENSE).
