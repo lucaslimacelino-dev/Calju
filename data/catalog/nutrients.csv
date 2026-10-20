@@ -1,0 +1,25 @@
+code,name_pt,unit,display_order
+ENERC,Energia,kcal,1
+PROCNT,Proteína,g,2
+CHOCDF,Carboidrato,g,3
+FAT,Gorduras totais,g,4
+FIBTG,Fibra alimentar,g,5
+CHOLE,Colesterol,mg,6
+NA,Sódio,mg,7
+K,Potássio,mg,8
+CA,Cálcio,mg,9
+FE,Ferro,mg,10
+MG,Magnésio,mg,11
+P,Fósforo,mg,12
+ZN,Zinco,mg,13
+CU,Cobre,mg,14
+MN,Manganês,mg,15
+VITC,Vitamina C,mg,16
+VITA,Vitamina A (RE),µg,17
+RETOL,Retinol,µg,18
+THIA,Tiamina (B1),mg,19
+RIBF,Riboflavina (B2),mg,20
+VITB6A,Piridoxina (B6),mg,21
+NIA,Niacina,mg,22
+WATER,Umidade,g,23
+ASH,Cinzas,g,24

@@ -66,13 +66,13 @@ public class NutritionCalculatorTest {
 
     @Test
     public void somaVariosItensSemArredondar() {
-        Food a = food("Alimento A", Nutrients.ENERGY_KCAL, NutrientAmount.of("165"));
-        Food b = food("Alimento B", Nutrients.ENERGY_KCAL, NutrientAmount.of("33.3"));
+        Food a = food("Alimento A", Nutrients.ENERGY, NutrientAmount.of("165"));
+        Food b = food("Alimento B", Nutrients.ENERGY, NutrientAmount.of("33.3"));
         List<Intake> day = Arrays.asList(
                 new Intake(a, new BigDecimal("150")),
                 new Intake(b, new BigDecimal("50")));
 
-        NutrientTotal total = NutritionCalculator.total(day, Nutrients.ENERGY_KCAL);
+        NutrientTotal total = NutritionCalculator.total(day, Nutrients.ENERGY);
 
         assertSameValue("264.15", total.amount());
         assertTrue(total.complete());

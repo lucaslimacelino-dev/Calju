@@ -50,3 +50,11 @@ objetiva que os sustente.
 
 - Pacote `domain` (modelos, `NutritionCalculator`, `FoodInputParser`) e testes JUnit escritos
   pelo assistente a partir das regras definidas no planejamento e pelo autor.
+
+### Fase 4a — Catálogo
+
+- Conferência dos termos de uso da TACO e do IBGE feita pelo assistente nas publicações
+  oficiais; autorização para versionar a planilha da TACO dada pelo autor.
+- `tools/catalog-builder` e testes escritos pelo assistente. Tratamento das anomalias da
+  planilha (carboidrato negativo, célula inválida) definido pelo assistente com base na
+  tabela impressa e registrado em `docs/fontes-de-dados.md`.

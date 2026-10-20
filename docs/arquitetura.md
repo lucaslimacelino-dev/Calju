@@ -61,8 +61,9 @@ o servidor obtém a identidade do token.
 ### Decisões
 
 1. **Nutrientes como linhas** (`nutrients` + `food_nutrients`), com códigos INFOODS
-   (`ENERC_KCAL`, `PROCNT`, `CHOCDF`, `FAT`, `FASAT`, `FATRN`, `FIBTG`, `SUGAR`, `NA`,
-   `K`, `CA`, `FE`, `MG`, `P`, `ZN`, …). Novo nutriente = nova linha, sem migração.
+   (`ENERC` em kcal, `PROCNT`, `CHOCDF`, `FAT`, `FIBTG`, `CHOLE`, `NA`, `K`, `CA`, `FE`,
+   `MG`, `P`, `ZN`, `VITC`, …; lista completa em `data/catalog/nutrients.csv`, conferida no
+   corpus oficial de tagnames INFOODS). Novo nutriente = nova linha, sem migração.
 2. **Zero ≠ desconhecido:** linha ausente = desconhecido; `amount = 0` = zero medido;
    `qualifier = TRACE` = traço ("Tr" na TACO). Totais com itens desconhecidos são
    exibidos como incompletos ("≥ X"), nunca tratando desconhecido como zero.

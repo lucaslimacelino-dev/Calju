@@ -1,0 +1,597 @@
+id,source_id,source_number,name,category
+f9e7b1b2-0df3-31e4-8b9e-15451b367c1d,TACO-4,1,"Arroz, integral, cozido",Cereais e derivados
+7d3cc9bb-9347-3602-9bfb-a3655a96cb20,TACO-4,2,"Arroz, integral, cru",Cereais e derivados
+b29b1b38-544b-37d7-8e51-b374655b5a11,TACO-4,3,"Arroz, tipo 1, cozido",Cereais e derivados
+a01166e3-5cd9-34b4-a1da-f5ebd9d1d759,TACO-4,4,"Arroz, tipo 1, cru",Cereais e derivados
+e662d8ed-667e-3c0a-9067-0eaabd53fc8f,TACO-4,5,"Arroz, tipo 2, cozido",Cereais e derivados
+da8b425c-31e3-35f9-88d1-9ed1d1e522c2,TACO-4,6,"Arroz, tipo 2, cru",Cereais e derivados
+93d7183b-aeff-33f1-9d65-73daad87e3be,TACO-4,7,"Aveia, flocos, crua",Cereais e derivados
+f82e4191-830a-37d1-8558-ea8a6639484a,TACO-4,8,"Biscoito, doce, maisena",Cereais e derivados
+19a033c8-a2c3-30f7-acdf-ddefac64b287,TACO-4,9,"Biscoito, doce, recheado com chocolate",Cereais e derivados
+ebf8c0a6-cfc6-3f0d-b653-b6a1e65ebec2,TACO-4,10,"Biscoito, doce, recheado com morango",Cereais e derivados
+5b025984-9d2f-3f6d-ae65-737d98e3b233,TACO-4,11,"Biscoito, doce, wafer, recheado de chocolate",Cereais e derivados
+9133c2d6-a70a-30ac-a6a8-a817f53e0e7f,TACO-4,12,"Biscoito, doce, wafer, recheado de morango",Cereais e derivados
+ab6faec8-06fc-3df0-a815-71876d84a2e7,TACO-4,13,"Biscoito, salgado, cream cracker",Cereais e derivados
+801c301e-ab46-39f7-951b-9deed942e548,TACO-4,14,"Bolo, mistura para",Cereais e derivados
+deb80524-aadd-3813-bb8d-062ae44c7ca4,TACO-4,15,"Bolo, pronto, aipim",Cereais e derivados
+d250187f-1619-3080-9968-11e16e9851c8,TACO-4,16,"Bolo, pronto, chocolate",Cereais e derivados
+cb06ccd1-77bc-3f81-932c-50b00a7950f1,TACO-4,17,"Bolo, pronto, coco",Cereais e derivados
+af6ffc6f-4191-36b4-84e8-d422b331073d,TACO-4,18,"Bolo, pronto, milho",Cereais e derivados
+7b4488f7-bfb9-3f82-89ec-3e1ab1e6a382,TACO-4,19,"Canjica, branca, crua",Cereais e derivados
+188da8d2-5237-3269-abea-ef067c8ca196,TACO-4,20,"Canjica, com leite integral",Cereais e derivados
+f7b89c9a-a36b-3803-821d-0f2fa87eaf84,TACO-4,21,"Cereais, milho, flocos, com sal",Cereais e derivados
+97a210c7-d23d-37a8-af48-54aeb85ef535,TACO-4,22,"Cereais, milho, flocos, sem sal",Cereais e derivados
+06f1ad13-25b4-3ab7-8dfe-a1787be7032e,TACO-4,23,"Cereais, mingau, milho, infantil",Cereais e derivados
+c25bd4b9-45e4-3f42-b545-5f698fc7013e,TACO-4,24,"Cereais, mistura para vitamina, trigo, cevada e aveia",Cereais e derivados
+6d0fd33b-afee-3e05-ab0b-bd1d109ddf7f,TACO-4,25,"Cereal matinal, milho",Cereais e derivados
+7ed7ba84-6430-3876-b78c-12121cb536ff,TACO-4,26,"Cereal matinal, milho, açúcar",Cereais e derivados
+0eda2b7f-1f6c-3d57-9f13-6b20e2ffa310,TACO-4,27,"Creme de arroz, pó",Cereais e derivados
+7059e630-b497-3a35-ba58-77a0b98034fa,TACO-4,28,"Creme de milho, pó",Cereais e derivados
+f6550a69-a175-33fc-8ba2-5c399f03277d,TACO-4,29,"Curau, milho verde",Cereais e derivados
+0e338e69-53f3-3e55-bb48-6f675efc594e,TACO-4,30,"Curau, milho verde, mistura para",Cereais e derivados
+90bb7691-6055-3d99-a16c-76223c5fd0e5,TACO-4,31,"Farinha, de arroz, enriquecida",Cereais e derivados
+5141f242-8d62-3cfa-baf7-b827e4b4390e,TACO-4,32,"Farinha, de centeio, integral",Cereais e derivados
+48c3d4c9-0dc4-3105-8422-423910470d26,TACO-4,33,"Farinha, de milho, amarela",Cereais e derivados
+166e9add-414e-3124-84a8-1c990eb2f713,TACO-4,34,"Farinha, de rosca",Cereais e derivados
+09d24656-5c0c-3e7b-b965-6dbea6b7a4b5,TACO-4,35,"Farinha, de trigo",Cereais e derivados
+67beb48a-264a-33d5-be5d-866a16cbaafa,TACO-4,36,"Farinha, láctea, de cereais",Cereais e derivados
+f15e57af-6db6-32de-ba86-5f1a3746a25c,TACO-4,37,"Lasanha, massa fresca, cozida",Cereais e derivados
+fb785500-d7b3-3774-9678-b34525a3fffc,TACO-4,38,"Lasanha, massa fresca, crua",Cereais e derivados
+48d62849-1914-3da2-951c-268dbffa4ebf,TACO-4,39,"Macarrão, instantâneo",Cereais e derivados
+c5cd1172-8860-3fac-b78f-db3ee55ffa23,TACO-4,40,"Macarrão, trigo, cru",Cereais e derivados
+dca19ecd-26e6-3a75-a235-2914855245c3,TACO-4,41,"Macarrão, trigo, cru, com ovos",Cereais e derivados
+8e47c286-eee4-3193-b2e8-71401031d194,TACO-4,42,"Milho, amido, cru",Cereais e derivados
+487b05ec-1a72-3de2-8b52-f350aec2dd6a,TACO-4,43,"Milho, fubá, cru",Cereais e derivados
+f3f521be-77eb-3725-b862-56401c2e6f56,TACO-4,44,"Milho, verde, cru",Cereais e derivados
+1422a674-4ae6-3fa5-8ec3-73eebfe5c1e2,TACO-4,45,"Milho, verde, enlatado, drenado",Cereais e derivados
+b30acdf1-7bec-3bb2-b760-165c53ab65cc,TACO-4,46,"Mingau tradicional, pó",Cereais e derivados
+c37ce8aa-3de3-3ca5-a7f5-bfa097f9595c,TACO-4,47,"Pamonha, barra para cozimento, pré-cozida",Cereais e derivados
+090643c5-646c-301a-be45-b2326af907e2,TACO-4,48,"Pão, aveia, forma",Cereais e derivados
+6313aec2-cb75-3a9a-9d6f-9119c6012cac,TACO-4,49,"Pão, de soja",Cereais e derivados
+bf11b09c-4caf-3378-9e1c-5b5206a21172,TACO-4,50,"Pão, glúten, forma",Cereais e derivados
+9b06b9ab-c157-3216-9f9f-2010846a5f50,TACO-4,51,"Pão, milho, forma",Cereais e derivados
+20f9e42c-1a8d-3875-be47-e559f0b0f408,TACO-4,52,"Pão, trigo, forma, integral",Cereais e derivados
+1ca826d6-bf5c-36bf-9b09-d17e404e87d4,TACO-4,53,"Pão, trigo, francês",Cereais e derivados
+5f527381-0dea-388b-a859-8eaf4c4ea5f3,TACO-4,54,"Pão, trigo, sovado",Cereais e derivados
+0d3eb853-dba3-3c97-8961-b204dfd3ca95,TACO-4,55,"Pastel, de carne, cru",Cereais e derivados
+cf5b925c-c2f7-3236-8e8c-1bcc984ebb5f,TACO-4,56,"Pastel, de carne, frito",Cereais e derivados
+eda4c0a8-95ba-3873-85b5-3ef63a478325,TACO-4,57,"Pastel, de queijo, cru",Cereais e derivados
+61488ae3-d58a-3216-9828-e7a1ba89792e,TACO-4,58,"Pastel, de queijo, frito",Cereais e derivados
+38d0adab-15ed-30c6-bda4-04ab408fa9dd,TACO-4,59,"Pastel, massa, crua",Cereais e derivados
+9c2a0d05-441c-34a3-b579-209b9e7b0a44,TACO-4,60,"Pastel, massa, frita",Cereais e derivados
+89fe5cca-219f-3290-869e-0638cf53a21c,TACO-4,61,"Pipoca, com óleo de soja, sem sal",Cereais e derivados
+b81f3e79-8873-38c2-971c-e506fb2fafae,TACO-4,62,"Polenta, pré-cozida",Cereais e derivados
+b2c03105-ae40-3e35-8c49-860efaaf92ad,TACO-4,63,"Torrada, pão francês",Cereais e derivados
+0697037c-af4f-3469-a376-1d287dd62f41,TACO-4,64,"Abóbora, cabotian, cozida","Verduras, hortaliças e derivados"
+fc4a2e25-1a59-3c35-9722-6dfb542b9884,TACO-4,65,"Abóbora, cabotian, crua","Verduras, hortaliças e derivados"
+1d1ab693-56ef-3711-a9d1-371c16677738,TACO-4,66,"Abóbora, menina brasileira, crua","Verduras, hortaliças e derivados"
+ae5b268c-f27e-39ed-9a98-c6d2297c7768,TACO-4,67,"Abóbora, moranga, crua","Verduras, hortaliças e derivados"
+9702e3bd-025e-3370-8cd3-734a78a92f58,TACO-4,68,"Abóbora, moranga, refogada","Verduras, hortaliças e derivados"
+b2121c98-7a40-3354-93fb-9384148732be,TACO-4,69,"Abóbora, pescoço, crua","Verduras, hortaliças e derivados"
+10731119-3c16-3164-b6a7-f96716a583b7,TACO-4,70,"Abobrinha, italiana, cozida","Verduras, hortaliças e derivados"
+177d88e5-23c3-34b4-b1e6-fa4fb4bee70e,TACO-4,71,"Abobrinha, italiana, crua","Verduras, hortaliças e derivados"
+ddbb7438-8fb0-34da-b0bf-4fc62734d2b1,TACO-4,72,"Abobrinha, italiana, refogada","Verduras, hortaliças e derivados"
+62039e8f-0dcc-3c96-a5d7-6f4c2e281dac,TACO-4,73,"Abobrinha, paulista, crua","Verduras, hortaliças e derivados"
+f78a8d9d-0cb1-3c8b-b981-c4bafeecbdf4,TACO-4,74,"Acelga, crua","Verduras, hortaliças e derivados"
+5a2d3dd8-36c6-37c9-be6c-72ac46e8bcfd,TACO-4,75,"Agrião, cru","Verduras, hortaliças e derivados"
+f9d750fc-12e2-384f-a172-ce7afb379bcb,TACO-4,76,"Aipo, cru","Verduras, hortaliças e derivados"
+4326b33f-a5ea-3814-9941-26f658e52fe8,TACO-4,77,"Alface, americana, crua","Verduras, hortaliças e derivados"
+a9d4b2c7-26c7-33f9-9d46-064d80192c10,TACO-4,78,"Alface, crespa, crua","Verduras, hortaliças e derivados"
+5cc4aadf-df0f-3b08-aa7f-5f63f7325de1,TACO-4,79,"Alface, lisa, crua","Verduras, hortaliças e derivados"
+5fbb3518-ede5-3714-8f98-7b4838d32239,TACO-4,80,"Alface, roxa, crua","Verduras, hortaliças e derivados"
+320a2649-ae9a-3b5a-907b-94efd5f17a40,TACO-4,81,"Alfavaca, crua","Verduras, hortaliças e derivados"
+043b7260-13d2-3077-b013-2feed1be8ae6,TACO-4,82,"Alho, cru","Verduras, hortaliças e derivados"
+05dcf75f-03db-3a0f-936a-1bde93bfae0c,TACO-4,83,"Alho-poró, cru","Verduras, hortaliças e derivados"
+ecb06cd6-0514-3850-9e27-78449ec6db2a,TACO-4,84,"Almeirão, cru","Verduras, hortaliças e derivados"
+f028a8e4-3401-3c21-8611-d9b7b04ca5ac,TACO-4,85,"Almeirão, refogado","Verduras, hortaliças e derivados"
+54e45045-f2d6-329c-8ed9-7db8d28b34ad,TACO-4,86,"Batata, baroa, cozida","Verduras, hortaliças e derivados"
+c7e1c010-b463-3843-833f-a78f54841de8,TACO-4,87,"Batata, baroa, crua","Verduras, hortaliças e derivados"
+8bdaa7b5-b632-3244-8a7c-ec96a5a62ec3,TACO-4,88,"Batata, doce, cozida","Verduras, hortaliças e derivados"
+d0d36aad-206d-393a-8ada-609afa0c1b97,TACO-4,89,"Batata, doce, crua","Verduras, hortaliças e derivados"
+5e893f55-1262-337d-b37a-fca78bd7818a,TACO-4,90,"Batata, frita, tipo chips, industrializada","Verduras, hortaliças e derivados"
+9ff593e7-99f2-38a8-aadb-651e09c9beea,TACO-4,91,"Batata, inglesa, cozida","Verduras, hortaliças e derivados"
+fbfbdb0a-585e-3c1e-84cb-dbe2bd1e8385,TACO-4,92,"Batata, inglesa, crua","Verduras, hortaliças e derivados"
+2795cbf1-9e0d-38e7-8c96-e04b5a8d03e9,TACO-4,93,"Batata, inglesa, frita","Verduras, hortaliças e derivados"
+913e9b5f-c372-3941-9c9c-2d2be28dac7f,TACO-4,94,"Batata, inglesa, sauté","Verduras, hortaliças e derivados"
+976445f2-71b8-360b-8178-3cc3c3bae85d,TACO-4,95,"Berinjela, cozida","Verduras, hortaliças e derivados"
+44a9d671-fe8d-3033-8da4-5b43b23ac8a8,TACO-4,96,"Berinjela, crua","Verduras, hortaliças e derivados"
+dab646bc-d966-39ba-b661-36c85e6fde87,TACO-4,97,"Beterraba, cozida","Verduras, hortaliças e derivados"
+7aba8ce9-ccb4-3345-912c-00b346cea27c,TACO-4,98,"Beterraba, crua","Verduras, hortaliças e derivados"
+f540411d-8654-39b1-a496-2fb3bbfe9555,TACO-4,99,"Biscoito, polvilho doce","Verduras, hortaliças e derivados"
+2b6147da-4a53-3702-a420-a855f0fa8b8b,TACO-4,100,"Brócolis, cozido","Verduras, hortaliças e derivados"
+fa17fe6f-1559-383c-bf6f-fceff9a41c3a,TACO-4,101,"Brócolis, cru","Verduras, hortaliças e derivados"
+021fdab6-fb09-3bf8-8045-13525f856f1c,TACO-4,102,"Cará, cozido","Verduras, hortaliças e derivados"
+82154402-6bfb-30d4-8cdf-ef8812d0896e,TACO-4,103,"Cará, cru","Verduras, hortaliças e derivados"
+3cb7a96a-7bfc-313c-8cbe-9722c47ce7dc,TACO-4,104,"Caruru, cru","Verduras, hortaliças e derivados"
+f597f690-485f-3319-a479-b097f9447e4d,TACO-4,105,"Catalonha, crua","Verduras, hortaliças e derivados"
+a2c77714-09ff-3fde-b78e-a744b829df67,TACO-4,106,"Catalonha, refogada","Verduras, hortaliças e derivados"
+60d11b4e-057a-37c9-b80d-99962be39666,TACO-4,107,"Cebola, crua","Verduras, hortaliças e derivados"
+3b1f7cdb-7e7e-30f4-b051-7773d3e44ba6,TACO-4,108,"Cebolinha, crua","Verduras, hortaliças e derivados"
+86942876-5ef6-3a90-beb9-d3318de04025,TACO-4,109,"Cenoura, cozida","Verduras, hortaliças e derivados"
+dc32d1c6-028e-3070-a0e0-2ef0c0b03eb2,TACO-4,110,"Cenoura, crua","Verduras, hortaliças e derivados"
+53ed7c1a-7a7d-3f9b-a816-a02f3b657c06,TACO-4,111,"Chicória, crua","Verduras, hortaliças e derivados"
+216b9939-96b7-3eb0-b9a4-c80c99a8039c,TACO-4,112,"Chuchu, cozido","Verduras, hortaliças e derivados"
+15a21a2b-bca3-3fcf-ae82-f421d8bd419a,TACO-4,113,"Chuchu, cru","Verduras, hortaliças e derivados"
+40331dba-e3ff-3c57-b607-cfe7d338e4fc,TACO-4,114,"Coentro, folhas desidratadas","Verduras, hortaliças e derivados"
+a0a4cdbd-44a7-37c1-8e44-636432c1a5e6,TACO-4,115,"Couve, manteiga, crua","Verduras, hortaliças e derivados"
+1eaf8c54-e00b-30b2-8201-42f3282444c0,TACO-4,116,"Couve, manteiga, refogada","Verduras, hortaliças e derivados"
+5af86bc7-fc62-3fe7-afac-7220fa3b73fe,TACO-4,117,"Couve-flor, crua","Verduras, hortaliças e derivados"
+453cd1de-0701-39da-bbe5-564d5545a91a,TACO-4,118,"Couve-flor, cozida","Verduras, hortaliças e derivados"
+c556e082-7a03-30f5-a754-00432c382c66,TACO-4,119,"Espinafre, Nova Zelândia, cru","Verduras, hortaliças e derivados"
+a6da7f3d-587d-3b8c-9fc9-df57c6de78a5,TACO-4,120,"Espinafre, Nova Zelândia, refogado","Verduras, hortaliças e derivados"
+bfbe5a9a-692b-3450-b26c-b5b63bbf44fe,TACO-4,121,"Farinha, de mandioca, crua","Verduras, hortaliças e derivados"
+30c6f795-dc27-3256-b629-3c2dd815ca48,TACO-4,122,"Farinha, de mandioca, torrada","Verduras, hortaliças e derivados"
+7acae2a5-a143-3f14-9764-eb49ff6e6ff5,TACO-4,123,"Farinha, de puba","Verduras, hortaliças e derivados"
+60d3649b-4555-38b7-8a3d-f52a33ffe2dd,TACO-4,124,"Fécula, de mandioca","Verduras, hortaliças e derivados"
+eb68f21c-4916-314f-926f-20803e83daa1,TACO-4,125,"Feijão, broto, cru","Verduras, hortaliças e derivados"
+bbdcc885-238d-3561-85c2-4690a418a70a,TACO-4,126,"Inhame, cru","Verduras, hortaliças e derivados"
+70d544aa-f2d2-3dde-9120-ec6e34ab505a,TACO-4,127,"Jiló, cru","Verduras, hortaliças e derivados"
+ac09bed8-abb4-39f8-a868-491a459769a1,TACO-4,128,"Jurubeba, crua","Verduras, hortaliças e derivados"
+bf360e94-fd6c-339b-b554-aca5ef294612,TACO-4,129,"Mandioca, cozida","Verduras, hortaliças e derivados"
+4132280d-fa88-348e-963f-65fef76a37cb,TACO-4,130,"Mandioca, crua","Verduras, hortaliças e derivados"
+04e4e598-f262-3701-be11-67552a57ae98,TACO-4,131,"Mandioca, farofa, temperada","Verduras, hortaliças e derivados"
+5cc52c4f-f2be-3c58-888c-265de828abbc,TACO-4,132,"Mandioca, frita","Verduras, hortaliças e derivados"
+77f6300c-71b3-3430-b211-7748594c7aa8,TACO-4,133,"Manjericão, cru","Verduras, hortaliças e derivados"
+9a60342d-d03c-375e-a446-ccaea84b4702,TACO-4,134,"Maxixe, cru","Verduras, hortaliças e derivados"
+519cd68e-2dcd-328e-a342-1a91e2a4149f,TACO-4,135,"Mostarda, folha, crua","Verduras, hortaliças e derivados"
+caf57bce-6426-3097-bf68-2bdf50c625a0,TACO-4,136,"Nhoque, batata, cozido","Verduras, hortaliças e derivados"
+84d715a3-09c5-3447-8b26-3f96a4cad9bf,TACO-4,137,"Nabo, cru","Verduras, hortaliças e derivados"
+113e2153-075e-321c-a9f0-67674bb12791,TACO-4,138,"Palmito, juçara, em conserva","Verduras, hortaliças e derivados"
+846c45b5-165e-3242-ac29-4d7908578b23,TACO-4,139,"Palmito, pupunha, em conserva","Verduras, hortaliças e derivados"
+460369e3-96ff-33ae-b5be-11845fa23b08,TACO-4,140,"Pão, de queijo, assado","Verduras, hortaliças e derivados"
+aab958c4-2503-3e5b-a0a4-c8bf10ac296e,TACO-4,141,"Pão, de queijo, cru","Verduras, hortaliças e derivados"
+bb3f915b-24a6-33ac-a461-91689cefa25b,TACO-4,142,"Pepino, cru","Verduras, hortaliças e derivados"
+cfc5ca2f-3baf-3040-ad43-059eff0926e2,TACO-4,143,"Pimentão, amarelo, cru","Verduras, hortaliças e derivados"
+cffe0ccb-716c-390b-bfb2-60046049aa12,TACO-4,144,"Pimentão, verde, cru","Verduras, hortaliças e derivados"
+16bfd956-2e48-32b1-95f9-39cc48114e2e,TACO-4,145,"Pimentão, vermelho, cru","Verduras, hortaliças e derivados"
+6bcdec5e-229b-3f86-800d-4d98fdaccc5e,TACO-4,146,"Polvilho, doce","Verduras, hortaliças e derivados"
+fb8d9f51-9cdf-396e-b0ee-d489179deb67,TACO-4,147,"Quiabo, cru","Verduras, hortaliças e derivados"
+7fb69d9a-a0de-3c56-a4cb-40786f3737ef,TACO-4,148,"Rabanete, cru","Verduras, hortaliças e derivados"
+25341ce7-086c-392b-a0e7-51d6c585c218,TACO-4,149,"Repolho, branco, cru","Verduras, hortaliças e derivados"
+ab47c799-bec5-37d8-939b-b4fb961ab744,TACO-4,150,"Repolho, roxo, cru","Verduras, hortaliças e derivados"
+af4381f2-5b59-387c-a930-3cf9899bd734,TACO-4,151,"Repolho, roxo, refogado","Verduras, hortaliças e derivados"
+aa7cdca4-8d47-3101-a072-af8079dd0ea5,TACO-4,152,"Rúcula, crua","Verduras, hortaliças e derivados"
+96fad7ac-28ce-3d6d-a5b4-5bda906bc2ec,TACO-4,153,"Salsa, crua","Verduras, hortaliças e derivados"
+4e616620-4e3f-3f80-9e03-f841febd74fd,TACO-4,154,"Seleta de legumes, enlatada","Verduras, hortaliças e derivados"
+a870a3cd-764f-3885-b710-7cd9d7ed08a7,TACO-4,155,"Serralha, crua","Verduras, hortaliças e derivados"
+046ed281-2abb-3603-bcb5-1e42d1321144,TACO-4,156,"Taioba, crua","Verduras, hortaliças e derivados"
+231ccd01-cca4-3a14-9b06-fa0812f29a19,TACO-4,157,"Tomate, com semente, cru","Verduras, hortaliças e derivados"
+238b7bfc-2a36-33d0-8e29-cd5f1470db5c,TACO-4,158,"Tomate, extrato","Verduras, hortaliças e derivados"
+5ad54dc0-a7fc-3e88-aae4-946904e4e7cf,TACO-4,159,"Tomate, molho industrializado","Verduras, hortaliças e derivados"
+1b75ff8f-5694-3042-a096-ff6837b78953,TACO-4,160,"Tomate, purê","Verduras, hortaliças e derivados"
+f9eb7202-8607-3759-9b48-60cc756cb90f,TACO-4,161,"Tomate, salada","Verduras, hortaliças e derivados"
+cdc59695-1ed1-3fce-b2a1-764520e1c704,TACO-4,162,"Vagem, crua","Verduras, hortaliças e derivados"
+bd088007-914c-3622-b270-b38c2aa288b3,TACO-4,163,"Abacate, cru",Frutas e derivados
+7fdb23f3-9a70-39f9-8d46-7ebab785f278,TACO-4,164,"Abacaxi, cru",Frutas e derivados
+2528740d-7c63-35aa-8a4a-72b42b9e8b27,TACO-4,165,"Abacaxi, polpa, congelada",Frutas e derivados
+624ff808-a068-339a-8636-596b53254ce7,TACO-4,166,"Abiu, cru",Frutas e derivados
+1fb3a976-b750-3e34-958d-8e50c4464bcb,TACO-4,167,"Açaí, polpa, com xarope de guaraná e glucose",Frutas e derivados
+223fc94e-db52-3d0d-8cc0-81c26539ecec,TACO-4,168,"Açaí, polpa, congelada",Frutas e derivados
+c59b24ca-2da8-3348-97af-e54f5e17dd33,TACO-4,169,"Acerola, crua",Frutas e derivados
+8a775936-082c-3379-80e7-bd88829ddb80,TACO-4,170,"Acerola, polpa, congelada",Frutas e derivados
+33b7d2cf-7ac8-39fa-ab88-0700eb0612b0,TACO-4,171,"Ameixa, calda, enlatada",Frutas e derivados
+41b00188-245b-32ac-bbcb-e0f24fe8d342,TACO-4,172,"Ameixa, crua",Frutas e derivados
+9c458a44-3d10-32ea-a8a1-4f043c41f0ce,TACO-4,173,"Ameixa, em calda, enlatada, drenada",Frutas e derivados
+451ead81-3b7d-3f00-924b-2a9f47753098,TACO-4,174,"Atemóia, crua",Frutas e derivados
+e909b943-2b2d-3e6d-ba74-ac074646f1d6,TACO-4,175,"Banana, da terra, crua",Frutas e derivados
+4aef762b-95a3-3c65-b7fe-1e2e7d63e6a4,TACO-4,176,"Banana, doce em barra",Frutas e derivados
+ab0aad20-11b5-3279-b3fc-8f7949e799d4,TACO-4,177,"Banana, figo, crua",Frutas e derivados
+5b34ab6c-4fd4-3db7-b417-5e3b5df4dad6,TACO-4,178,"Banana, maçã, crua",Frutas e derivados
+bd01e9ca-5a42-3c4a-826f-6b2f90d4b919,TACO-4,179,"Banana, nanica, crua",Frutas e derivados
+8e0fcabe-d45a-3dc9-894e-108a48d33b1d,TACO-4,180,"Banana, ouro, crua",Frutas e derivados
+4c72afa7-2d0e-3ad0-ac6d-f8fdcfe9da34,TACO-4,181,"Banana, pacova, crua",Frutas e derivados
+fe718dd0-652a-3ca8-91d9-d5d3d8025d7a,TACO-4,182,"Banana, prata, crua",Frutas e derivados
+2e9cb84b-6e22-3a53-9109-9b80b93efe2a,TACO-4,183,"Cacau, cru",Frutas e derivados
+84076d2d-59dc-3aa2-a851-26f67984f463,TACO-4,184,"Cajá-Manga, cru",Frutas e derivados
+00e35912-87f2-3dba-9c7b-4443b1090fc3,TACO-4,185,"Cajá, polpa, congelada",Frutas e derivados
+e3cc0bf3-0c79-3d4b-9d55-acd352edac5d,TACO-4,186,"Caju, cru",Frutas e derivados
+1ba88f18-fe66-3158-bf17-5646dea087f9,TACO-4,187,"Caju, polpa, congelada",Frutas e derivados
+d46be8be-87e3-3b5e-ab4e-037920973180,TACO-4,188,"Caju, suco concentrado, envasado",Frutas e derivados
+a454065c-850a-392c-9710-62057a8bc323,TACO-4,189,"Caqui, chocolate, cru",Frutas e derivados
+28d28d36-5759-30f4-9c06-a0129add3af2,TACO-4,190,"Carambola, crua",Frutas e derivados
+036910b0-9d26-3e7b-833f-8ab3cc5edd2d,TACO-4,191,"Ciriguela, crua",Frutas e derivados
+74cb7cfe-6477-3d26-b50d-24acab1178af,TACO-4,192,"Cupuaçu, cru",Frutas e derivados
+8ca4265e-95bb-3ef8-b3be-252c85771278,TACO-4,193,"Cupuaçu, polpa, congelada",Frutas e derivados
+9a1bc8e4-75a3-33ba-a519-ef372ffe06f4,TACO-4,194,"Figo, cru",Frutas e derivados
+228115e6-7d16-381d-a2a3-200cbeb6aee8,TACO-4,195,"Figo, enlatado, em calda",Frutas e derivados
+deee6a01-b5df-3e82-99f4-65ed9cbce4ae,TACO-4,196,"Fruta-pão, crua",Frutas e derivados
+23252278-174b-3f25-8907-c1b7d7bd0384,TACO-4,197,"Goiaba, branca, com casca, crua",Frutas e derivados
+e3fed6d0-95aa-3a15-8404-66f758d5da71,TACO-4,198,"Goiaba, doce em pasta",Frutas e derivados
+f647c929-9b97-3c75-8e82-e712dd6b05a9,TACO-4,199,"Goiaba, doce, cascão",Frutas e derivados
+40bf885b-703b-3790-89ba-80fa450db8c0,TACO-4,200,"Goiaba, vermelha, com casca, crua",Frutas e derivados
+00921588-0454-3c19-a09f-5aab8d1f23d7,TACO-4,201,"Graviola, crua",Frutas e derivados
+ed869b66-71f8-3544-8c5c-29aee4d1446a,TACO-4,202,"Graviola, polpa, congelada",Frutas e derivados
+d19a0736-a7d1-30ef-bf94-f069712c11db,TACO-4,203,"Jabuticaba, crua",Frutas e derivados
+0bc99009-02ff-3c7a-83a5-ce6992b8e03c,TACO-4,204,"Jaca, crua",Frutas e derivados
+4b22ec05-d36d-3a77-90ff-f3eace02fe19,TACO-4,205,"Jambo, cru",Frutas e derivados
+4b7b40d5-ea3b-3fc3-8a67-a1e695f5751a,TACO-4,206,"Jamelão, cru",Frutas e derivados
+89594e9d-bc55-3c02-9c45-0fd92c0114e6,TACO-4,207,"Kiwi, cru",Frutas e derivados
+9c915a09-e267-330c-9d49-addd4d7096b6,TACO-4,208,"Laranja, baía, crua",Frutas e derivados
+044a5898-8d96-3b1c-b6b7-b28593d13d86,TACO-4,209,"Laranja, baía, suco",Frutas e derivados
+aa5ed0f4-7fda-3ada-8a2a-d80996cf2a64,TACO-4,210,"Laranja, da terra, crua",Frutas e derivados
+b6185153-a75f-3b26-bfb5-2f4378f0f1a0,TACO-4,211,"Laranja, da terra, suco",Frutas e derivados
+4114e0c3-5da7-3f37-8ee5-0cd5e78185b4,TACO-4,212,"Laranja, lima, crua",Frutas e derivados
+d8d55392-9c3c-3367-a55c-9df0d471e6b0,TACO-4,213,"Laranja, lima, suco",Frutas e derivados
+5731bea7-428e-3361-91b7-a2da65a5c055,TACO-4,214,"Laranja, pêra, crua",Frutas e derivados
+6e4e2fc1-b724-31ad-9548-ef1e4e69396b,TACO-4,215,"Laranja, pêra, suco",Frutas e derivados
+f152c98c-92c8-3851-9646-4b12c4b4da22,TACO-4,216,"Laranja, valência, crua",Frutas e derivados
+fa526d1e-b4d7-3dd2-af73-8c51a38670e3,TACO-4,217,"Laranja, valência, suco",Frutas e derivados
+445da91e-1ba4-346e-94cc-33226c3d82dc,TACO-4,218,"Limão, cravo, suco",Frutas e derivados
+180ed735-5538-36fd-ada0-1d69f14d4e09,TACO-4,219,"Limão, galego, suco",Frutas e derivados
+2c0428e5-1d8a-3976-9c99-3dabe2f02a65,TACO-4,220,"Limão, tahiti, cru",Frutas e derivados
+5d2a7047-8863-364b-b6db-42d00cf597c8,TACO-4,221,"Maçã, Argentina, com casca, crua",Frutas e derivados
+817dd1b0-7680-3a73-ae05-e9dcbcc06632,TACO-4,222,"Maçã, Fuji, com casca, crua",Frutas e derivados
+642c9ffc-3aa5-3a5a-85c7-b4ca380aec8a,TACO-4,223,"Macaúba, crua",Frutas e derivados
+06e00ecc-8274-3e36-99ef-336eebe2bbd7,TACO-4,224,"Mamão, doce em calda, drenado",Frutas e derivados
+12a7cbde-bb5d-3e49-b177-36017364c6c9,TACO-4,225,"Mamão, Formosa, cru",Frutas e derivados
+6eb00c2c-901d-3deb-b9dd-2d62e48b01a6,TACO-4,226,"Mamão, Papaia, cru",Frutas e derivados
+19134628-fb36-3f60-982c-c0f2ee4a32b1,TACO-4,227,"Mamão verde, doce em calda, drenado",Frutas e derivados
+1c544dd6-1d4e-3f5b-ae7d-2e59af2946b4,TACO-4,228,"Manga, Haden, crua",Frutas e derivados
+d0e56fc6-edcc-30ac-8679-6490897076fe,TACO-4,229,"Manga, Palmer, crua",Frutas e derivados
+7d1de385-ae77-3041-bcff-16d0272fb682,TACO-4,230,"Manga, polpa, congelada",Frutas e derivados
+87de0620-3414-3b21-8759-9ddf2d548573,TACO-4,231,"Manga, Tommy Atkins, crua",Frutas e derivados
+a0d7e4cc-d921-348a-809b-3a0632dd479f,TACO-4,232,"Maracujá, cru",Frutas e derivados
+c960236f-96c3-31b6-8e28-3cf1e9094a9b,TACO-4,233,"Maracujá, polpa, congelada",Frutas e derivados
+289034dc-7b87-377c-9433-5e2a27ff0322,TACO-4,234,"Maracujá, suco concentrado, envasado",Frutas e derivados
+f7ecb289-1e98-3b88-930f-f8801b0739ac,TACO-4,235,"Melancia, crua",Frutas e derivados
+3c872ff0-0a78-361d-ad5b-5bbbe50110a9,TACO-4,236,"Melão, cru",Frutas e derivados
+86644d51-12d6-3e45-93a4-5f65dac44880,TACO-4,237,"Mexerica, Murcote, crua",Frutas e derivados
+7663d8fc-5cbb-3496-90f5-0105dd0e9ba7,TACO-4,238,"Mexerica, Rio, crua",Frutas e derivados
+dc0cd32e-a562-3440-b150-7b52f20e643c,TACO-4,239,"Morango, cru",Frutas e derivados
+d4c9acfb-1cf2-3947-9042-e1198c5bf485,TACO-4,240,"Nêspera, crua",Frutas e derivados
+ebf9013b-16c3-3293-878f-1e0c2dff303c,TACO-4,241,"Pequi, cru",Frutas e derivados
+3d0ca2fa-80d7-3c1a-a72f-f2522f5e48e8,TACO-4,242,"Pêra, Park, crua",Frutas e derivados
+f85788b0-6deb-3c6e-b28f-9029c811edf3,TACO-4,243,"Pêra, Williams, crua",Frutas e derivados
+f0d7569d-74fc-3fba-a4ef-901182c3ba2d,TACO-4,244,"Pêssego, Aurora, cru",Frutas e derivados
+a300a85e-f1f2-3378-8780-3ce2ede998e2,TACO-4,245,"Pêssego, enlatado, em calda",Frutas e derivados
+e0986393-7835-3163-8fde-06dcf9203695,TACO-4,246,"Pinha, crua",Frutas e derivados
+1a6e2f80-98cf-3885-9669-08471ce5ac36,TACO-4,247,"Pitanga, crua",Frutas e derivados
+9249ae3f-e23f-37b8-a84e-4154a824adb2,TACO-4,248,"Pitanga, polpa, congelada",Frutas e derivados
+5b94a120-6769-35c1-a534-90021ef85a99,TACO-4,249,"Romã, crua",Frutas e derivados
+b2ac599d-7a82-3567-8066-d38c0a00d7b6,TACO-4,250,"Tamarindo, cru",Frutas e derivados
+32419733-4db4-33f3-a833-d54c5e9ca2ef,TACO-4,251,"Tangerina, Poncã, crua",Frutas e derivados
+53c354dd-5640-33af-a341-48dbef885863,TACO-4,252,"Tangerina, Poncã, suco",Frutas e derivados
+a96e51af-fa8c-3cf9-89dd-9007bc0a9902,TACO-4,253,"Tucumã, cru",Frutas e derivados
+0e6d309c-0ae6-322b-ad51-f00e2fc3ae71,TACO-4,254,"Umbu, cru",Frutas e derivados
+d754b781-8c09-318d-b082-c55afcef2a33,TACO-4,255,"Umbu, polpa, congelada",Frutas e derivados
+4fa10276-eb35-3d68-a1d1-cac5657ee5ae,TACO-4,256,"Uva, Itália, crua",Frutas e derivados
+c1a53782-cf7a-3a04-9725-62e6e24af5cc,TACO-4,257,"Uva, Rubi, crua",Frutas e derivados
+4239469c-5622-3ace-b6a3-e8017c5dd121,TACO-4,258,"Uva, suco concentrado, envasado",Frutas e derivados
+5bf67d5c-8fb9-3f2a-bc24-56064d154284,TACO-4,259,"Azeite, de dendê",Gorduras e óleos
+b75218e3-aba2-3526-a159-4fc1657583dc,TACO-4,260,"Azeite, de oliva, extra virgem",Gorduras e óleos
+6c46664c-7b28-3135-b885-ba0a4eec2034,TACO-4,261,"Manteiga, com sal",Gorduras e óleos
+38636600-98c4-3166-bf4b-da1746efda44,TACO-4,262,"Manteiga, sem sal",Gorduras e óleos
+b86a114e-e5e2-331f-a78e-fd8e269a3ba1,TACO-4,263,"Margarina, com óleo hidrogenado, com sal (65% de lipídeos)",Gorduras e óleos
+a8b162d7-6336-3535-a363-3216dcffff72,TACO-4,264,"Margarina, com óleo hidrogenado, sem sal (80% de lipídeos)",Gorduras e óleos
+16f8c149-2ee6-33a2-a495-f943d03ecd59,TACO-4,265,"Margarina, com óleo interesterificado, com sal (65%de lipídeos)",Gorduras e óleos
+49f541be-fb97-3f19-b169-60c20225b639,TACO-4,266,"Margarina, com óleo interesterificado, sem sal (65% de lipídeos)",Gorduras e óleos
+eec30b7a-8d6f-349b-bcc7-89592b129974,TACO-4,267,"Óleo, de babaçu",Gorduras e óleos
+dfdfaff8-1ae4-35d6-8071-a4d08935711e,TACO-4,268,"Óleo, de canola",Gorduras e óleos
+1e64a7dc-b7c4-3bc1-9819-6f4081d94a67,TACO-4,269,"Óleo, de girassol",Gorduras e óleos
+9da69033-ea46-31f0-b5ba-dd40f791dbd9,TACO-4,270,"Óleo, de milho",Gorduras e óleos
+c4b61cae-2baf-3d38-9aac-646b7a27a732,TACO-4,271,"Óleo, de pequi",Gorduras e óleos
+cbc6bb9e-9001-381b-8ff7-45d3d197ea73,TACO-4,272,"Óleo, de soja",Gorduras e óleos
+4f9ece24-a8a2-3597-8f9b-d207df7f09b6,TACO-4,273,"Abadejo, filé, congelado, assado",Pescados e frutos do mar
+ff5ac3ca-46ed-37b8-b8ff-eacad55f28c0,TACO-4,274,"Abadejo, filé, congelado,cozido",Pescados e frutos do mar
+c7b03c16-5a7e-361e-8be0-3a40a94cba56,TACO-4,275,"Abadejo, filé, congelado, cru",Pescados e frutos do mar
+86fa5101-bae0-361c-ad0f-bc6802b4329b,TACO-4,276,"Abadejo, filé, congelado, grelhado",Pescados e frutos do mar
+fcff7a41-cc49-3036-9eed-8eb61bef7069,TACO-4,277,"Atum, conserva em óleo",Pescados e frutos do mar
+3baeb52c-b45f-36a0-b918-393e143bc8ce,TACO-4,278,"Atum, fresco, cru",Pescados e frutos do mar
+cf7de0ba-758d-3355-bed9-b2f0ef7e520c,TACO-4,279,"Bacalhau, salgado, cru",Pescados e frutos do mar
+cb1acaac-3dc7-3517-bb91-34c6a7754351,TACO-4,280,"Bacalhau, salgado, refogado",Pescados e frutos do mar
+67262c94-419c-3aec-aa2d-416d41e6c4a8,TACO-4,281,"Cação, posta, com farinha de trigo, frita",Pescados e frutos do mar
+4ae789e4-18ff-393f-91eb-ddf852f0d1e4,TACO-4,282,"Cação, posta, cozida",Pescados e frutos do mar
+8ca23a8b-c1d5-3c19-bf45-db74d81c4a6f,TACO-4,283,"Cação, posta, crua",Pescados e frutos do mar
+cba31038-8f52-3822-9073-54f2066d20b3,TACO-4,284,"Camarão, Rio Grande, grande, cozido",Pescados e frutos do mar
+2bb03b08-2025-3a24-9e3c-8cf70b096d5e,TACO-4,285,"Camarão, Rio Grande, grande, cru",Pescados e frutos do mar
+bac756a8-fd64-3212-ac0e-8bc1b85044bb,TACO-4,286,"Camarão, Sete Barbas, sem cabeça, com casca, frito",Pescados e frutos do mar
+00b93b90-3f8f-3ffa-9251-866aa675f4e5,TACO-4,287,"Caranguejo, cozido",Pescados e frutos do mar
+85d266c0-0783-3e27-a50d-db15badc830e,TACO-4,288,"Corimba, cru",Pescados e frutos do mar
+af2ae7d6-d8ca-356b-b938-50ed76a14ae0,TACO-4,289,"Corimbatá, assado",Pescados e frutos do mar
+7f8a3e17-8117-33b5-b258-9605079a75ab,TACO-4,290,"Corimbatá, cozido",Pescados e frutos do mar
+db43dd59-9260-39fd-b521-af272f7856b6,TACO-4,291,"Corvina de água doce, crua",Pescados e frutos do mar
+53a55b76-e4d6-36c3-9bb5-b89f463f42cb,TACO-4,292,"Corvina do mar, crua",Pescados e frutos do mar
+b25dd268-0dec-3079-a128-816dc2d34b0e,TACO-4,293,"Corvina grande, assada",Pescados e frutos do mar
+76cf7e17-8916-32b0-900c-bcbc043bd301,TACO-4,294,"Corvina grande, cozida",Pescados e frutos do mar
+dba9b823-333c-3d05-b736-534722e9a2ed,TACO-4,295,"Dourada de água doce, fresca",Pescados e frutos do mar
+018b23e1-cfc6-3407-bf10-99f7e50ca52b,TACO-4,296,"Lambari, congelado, cru",Pescados e frutos do mar
+79cd1d99-2885-317b-9722-ab8be1cad3f0,TACO-4,297,"Lambari, congelado, frito",Pescados e frutos do mar
+e90e39c3-f928-369e-96d4-aad85eabf8ff,TACO-4,298,"Lambari, fresco, cru",Pescados e frutos do mar
+96fb140b-e8f7-34e9-b666-6ed86fda0fb0,TACO-4,299,"Manjuba, com farinha de trigo, frita",Pescados e frutos do mar
+e8f19f93-9754-3f46-91ce-1e277de7199c,TACO-4,300,"Manjuba, frita",Pescados e frutos do mar
+c38e7090-5ae2-3509-b00e-198de31aba14,TACO-4,301,"Merluza, filé, assado",Pescados e frutos do mar
+a27f013f-e95a-3c7b-a50a-80f9348caeae,TACO-4,302,"Merluza, filé, cru",Pescados e frutos do mar
+b5a1fd72-97a5-3cb9-ad70-4a91c5e072ee,TACO-4,303,"Merluza, filé, frito",Pescados e frutos do mar
+db985662-6483-3b40-a564-2dce0bfe8bf8,TACO-4,304,"Pescada, branca, crua",Pescados e frutos do mar
+bd3a0afb-57b0-35df-85cd-8f5017224681,TACO-4,305,"Pescada, branca, frita",Pescados e frutos do mar
+0390a5d2-a594-306e-88f4-efcefa6ce708,TACO-4,306,"Pescada, filé, com farinha de trigo, frito",Pescados e frutos do mar
+cf6d4b84-4fff-35ac-bfb9-b54ec3ca7fa8,TACO-4,307,"Pescada, filé, cru",Pescados e frutos do mar
+2ef5b552-d7e9-33a8-b0df-aaf5bd1f4619,TACO-4,308,"Pescada, filé, frito",Pescados e frutos do mar
+fbdf1fa1-0bb6-3a0f-83c9-a31848409fa2,TACO-4,309,"Pescada, filé, molho escabeche",Pescados e frutos do mar
+2d83558e-724d-3512-8583-bfd36d8dc1cd,TACO-4,310,"Pescadinha, crua",Pescados e frutos do mar
+532df9d4-ec2a-3389-8c8e-998f7780c5d3,TACO-4,311,"Pintado, assado",Pescados e frutos do mar
+8d27a516-b672-3583-85e3-81842034633a,TACO-4,312,"Pintado, cru",Pescados e frutos do mar
+54291dec-0e3a-35fe-81e2-07edba5dc4fa,TACO-4,313,"Pintado, grelhado",Pescados e frutos do mar
+3764d994-5012-329a-98bc-e0a44d12b089,TACO-4,314,"Porquinho, cru",Pescados e frutos do mar
+632333be-8c82-37a7-8e49-271bac36ecd8,TACO-4,315,"Salmão, filé, com pele, fresco, grelhado",Pescados e frutos do mar
+7a29ea3c-9fa8-3d5e-a287-eec0c28e678a,TACO-4,316,"Salmão, sem pele, fresco, cru",Pescados e frutos do mar
+f6de721e-d8db-36b2-9bcb-2e1fff36d1bc,TACO-4,317,"Salmão, sem pele, fresco, grelhado",Pescados e frutos do mar
+ae15b0e5-203d-32d3-9cd0-730592662d7c,TACO-4,318,"Sardinha, assada",Pescados e frutos do mar
+c46c3e48-32f8-3801-ac58-5af279ac04d1,TACO-4,319,"Sardinha, conserva em óleo",Pescados e frutos do mar
+8a1f0297-f877-369e-b9ba-00d5844126d0,TACO-4,320,"Sardinha, frita",Pescados e frutos do mar
+97c26790-82d2-3444-9067-f66d2cf2b9a6,TACO-4,321,"Sardinha, inteira, crua",Pescados e frutos do mar
+f67208f9-8f6b-3fe4-886f-eb468ab95224,TACO-4,322,"Tucunaré, filé, congelado, cru",Pescados e frutos do mar
+4eef93d8-f485-38e7-b2f0-2a703ee5aeef,TACO-4,323,Apresuntado,Carnes e derivados
+7768d9b3-4a55-33bc-8965-1a37b0bdea0f,TACO-4,324,"Caldo de carne, tablete",Carnes e derivados
+632c549b-0183-3f05-bc18-676e59a5a6c9,TACO-4,325,"Caldo de galinha, tablete",Carnes e derivados
+58fc3ba2-c6ff-3db7-ad28-0e591460d7f8,TACO-4,326,"Carne, bovina, acém, moído, cozido",Carnes e derivados
+fd51e4b6-e965-334b-babb-8d7f9371f8b0,TACO-4,327,"Carne, bovina, acém, moído, cru",Carnes e derivados
+cfd54706-1e69-3a57-b276-4d0eeb238ab4,TACO-4,328,"Carne, bovina, acém, sem gordura, cozido",Carnes e derivados
+a1019614-ffd0-3e35-add1-09fe06be7e29,TACO-4,329,"Carne, bovina, acém, sem gordura, cru",Carnes e derivados
+f159ab62-c761-3919-a88e-8b56d958b550,TACO-4,330,"Carne, bovina, almôndegas, cruas",Carnes e derivados
+f044c95e-d9a7-324e-83e1-c7f865f2bfd8,TACO-4,331,"Carne, bovina, almôndegas, fritas",Carnes e derivados
+7c285a06-ec91-3391-9557-9673d7b3bf94,TACO-4,332,"Carne, bovina, bucho, cozido",Carnes e derivados
+11f3df66-d260-3e6a-8545-304048ee33cd,TACO-4,333,"Carne, bovina, bucho, cru",Carnes e derivados
+70a1aa95-75da-3ab3-acb3-31e59a6b72ca,TACO-4,334,"Carne, bovina, capa de contra-filé, com gordura, crua",Carnes e derivados
+4fa2b257-11fa-3a6a-8747-354ab014123f,TACO-4,335,"Carne, bovina, capa de contra-filé, com gordura, grelhada",Carnes e derivados
+902b66db-8638-3ca6-b533-4de85dd33b11,TACO-4,336,"Carne, bovina, capa de contra-filé, sem gordura, crua",Carnes e derivados
+631781d7-7d69-3ab2-a06b-2e56677986fe,TACO-4,337,"Carne, bovina, capa de contra-filé, sem gordura, grelhada",Carnes e derivados
+e08255ea-233a-31ba-a081-3c6a7009e635,TACO-4,338,"Carne, bovina, charque, cozido",Carnes e derivados
+66fa8448-8605-32f4-9d1a-2245e2c584dd,TACO-4,339,"Carne, bovina, charque, cru",Carnes e derivados
+c6378dc3-3737-321d-aa84-34adaf41443b,TACO-4,340,"Carne, bovina, contra-filé, à milanesa",Carnes e derivados
+5c1122c1-c744-3d1d-915e-7d7b7a6985c5,TACO-4,341,"Carne, bovina, contra-filé de costela, cru",Carnes e derivados
+2d483822-ee91-3ec4-b966-d6e394b04b7f,TACO-4,342,"Carne, bovina, contra-filé de costela, grelhado",Carnes e derivados
+9f97ba9f-478d-34de-9ac9-cffe9b831a45,TACO-4,343,"Carne, bovina, contra-filé, com gordura, cru",Carnes e derivados
+6004272b-0f97-3fb8-bba9-d51d1a6a658f,TACO-4,344,"Carne, bovina, contra-filé, com gordura, grelhado",Carnes e derivados
+9b846f76-8104-3405-8994-1b159a86dd94,TACO-4,345,"Carne, bovina, contra-filé, sem gordura, cru",Carnes e derivados
+c2ef852c-7621-322d-80e8-9082ca797c29,TACO-4,346,"Carne, bovina, contra-filé, sem gordura, grelhado",Carnes e derivados
+d695a122-b6a6-3434-920b-8270bb1b5dad,TACO-4,347,"Carne, bovina, costela, assada",Carnes e derivados
+30415cef-baa3-3922-9c70-d388b5ffcbb2,TACO-4,348,"Carne, bovina, costela, crua",Carnes e derivados
+ec9e526d-bc37-32a5-a997-e99039a1ff59,TACO-4,349,"Carne, bovina, coxão duro, sem gordura, cozido",Carnes e derivados
+873f3bba-3be7-3735-a46c-a5fa27070696,TACO-4,350,"Carne, bovina, coxão duro, sem gordura, cru",Carnes e derivados
+51aaa0a0-8e90-365b-a8ab-bf0dc43bbf5c,TACO-4,351,"Carne, bovina, coxão mole, sem gordura, cozido",Carnes e derivados
+d8f564f4-76b4-3b95-a568-23d460918f36,TACO-4,352,"Carne, bovina, coxão mole, sem gordura, cru",Carnes e derivados
+4054b848-825b-3445-a714-76d5b7bf963d,TACO-4,353,"Carne, bovina, cupim, assado",Carnes e derivados
+9c07da68-6aa9-323d-9edc-d3ad452e6b00,TACO-4,354,"Carne, bovina, cupim, cru",Carnes e derivados
+0dd2b3db-c382-3b3b-9976-526f55f1ef80,TACO-4,355,"Carne, bovina, fígado, cru",Carnes e derivados
+132e1af9-b838-313d-b49d-63489b0606b7,TACO-4,356,"Carne, bovina, fígado, grelhado",Carnes e derivados
+5e7ae21d-aa97-36b6-8fb0-a6bf9dd30453,TACO-4,357,"Carne, bovina, filé mingnon, sem gordura, cru",Carnes e derivados
+3f793ba6-8b5b-339d-ba40-34027a395062,TACO-4,358,"Carne, bovina, filé mingnon, sem gordura, grelhado",Carnes e derivados
+be7e40c9-cef7-333d-bc11-8030a4c3c67c,TACO-4,359,"Carne, bovina, flanco, sem gordura, cozido",Carnes e derivados
+9ee0035a-eb64-370f-ad2d-16fb985f3073,TACO-4,360,"Carne, bovina, flanco, sem gordura, cru",Carnes e derivados
+39d65a49-e079-38cf-ad27-ed75df436efa,TACO-4,361,"Carne, bovina, fraldinha, com gordura, cozida",Carnes e derivados
+98e8f764-14db-3f57-8865-6ee40cc0ea9a,TACO-4,362,"Carne, bovina, fraldinha, com gordura, crua",Carnes e derivados
+c3ce2d32-a57c-3b4f-b7f9-7d6ecda485a6,TACO-4,363,"Carne, bovina, lagarto, cozido",Carnes e derivados
+72946c99-8e75-321e-afb4-83dedc855110,TACO-4,364,"Carne, bovina, lagarto, cru",Carnes e derivados
+8b601856-3181-3b75-8747-dfabb73feb82,TACO-4,365,"Carne, bovina, língua, cozida",Carnes e derivados
+deed9bcc-9b0d-3777-8de2-71e62eb50413,TACO-4,366,"Carne, bovina, língua, crua",Carnes e derivados
+33b335e7-511e-352b-aebe-e4ec4527ae87,TACO-4,367,"Carne, bovina, maminha, crua",Carnes e derivados
+498cf869-dee8-397c-8427-22e984d4c997,TACO-4,368,"Carne, bovina, maminha, grelhada",Carnes e derivados
+d92a5f54-e079-31f8-91f5-21a7135e854b,TACO-4,369,"Carne, bovina, miolo de alcatra, sem gordura, cru",Carnes e derivados
+91141ab8-cec7-3ff8-b7b8-b38bc2920d24,TACO-4,370,"Carne, bovina, miolo de alcatra, sem gordura, grelhado",Carnes e derivados
+0a2bd96a-9be4-3c80-ae74-56f1a3fc45b9,TACO-4,371,"Carne, bovina, músculo, sem gordura, cozido",Carnes e derivados
+51f5fb95-0adf-3070-bf15-b70f1695f917,TACO-4,372,"Carne, bovina, músculo, sem gordura, cru",Carnes e derivados
+86cdc56b-72ad-333b-af4a-841efad3fea7,TACO-4,373,"Carne, bovina, paleta, com gordura, crua",Carnes e derivados
+6e67b505-497d-33f8-95a8-91af905cc962,TACO-4,374,"Carne, bovina, paleta, sem gordura, cozida",Carnes e derivados
+04c489e4-4eb2-3e43-8771-fdb7c0b4f5c2,TACO-4,375,"Carne, bovina, paleta, sem gordura, crua",Carnes e derivados
+5efe153d-00c1-3374-9716-f6df252838e0,TACO-4,376,"Carne, bovina, patinho, sem gordura, cru",Carnes e derivados
+5f29685d-db04-3465-a1df-969c3c785daf,TACO-4,377,"Carne, bovina, patinho, sem gordura, grelhado",Carnes e derivados
+1e3c0582-060a-3e56-9e8a-c70e4256af70,TACO-4,378,"Carne, bovina, peito, sem gordura, cozido",Carnes e derivados
+f0c9fa32-9bf2-3529-9d67-23721b8a2df5,TACO-4,379,"Carne, bovina, peito, sem gordura, cru",Carnes e derivados
+4755e426-019d-30ee-8177-34315dfefb34,TACO-4,380,"Carne, bovina, picanha, com gordura, crua",Carnes e derivados
+35fc9359-1e6c-3502-a7bc-8d602a531c5b,TACO-4,381,"Carne, bovina, picanha, com gordura, grelhada",Carnes e derivados
+8ab08383-0903-3615-9d0c-261bfacb9ee1,TACO-4,382,"Carne, bovina, picanha, sem gordura, crua",Carnes e derivados
+295b22ec-8ce6-3641-89c4-9d5fdff51a6d,TACO-4,383,"Carne, bovina, picanha, sem gordura, grelhada",Carnes e derivados
+20072d75-5687-313b-87a7-eabb7e787409,TACO-4,384,"Carne, bovina, seca, cozida",Carnes e derivados
+a2560ff9-ee81-3fbf-a101-054e93573b0c,TACO-4,385,"Carne, bovina, seca, crua",Carnes e derivados
+a847ec25-bd4a-3cfe-a054-d926eba5c8c7,TACO-4,386,"Coxinha de frango, frita",Carnes e derivados
+2f1b0858-1d39-3463-a1fd-3d093a2bfa9f,TACO-4,387,"Croquete, de carne, cru",Carnes e derivados
+8b304957-456a-3655-8c22-56794b7464b2,TACO-4,388,"Croquete, de carne, frito",Carnes e derivados
+29ef2ff7-1b5a-3b30-8a0b-1dab1ce736af,TACO-4,389,"Empada de frango, pré-cozida, assada",Carnes e derivados
+85a22582-400d-3ee6-8a14-e6bdcdcf7a97,TACO-4,390,"Empada, de frango, pré-cozida",Carnes e derivados
+c6060107-7940-33ba-9813-397700a4e9a9,TACO-4,391,"Frango, asa, com pele, crua",Carnes e derivados
+3a0cb04d-46be-37ec-9a89-8283faec7d47,TACO-4,392,"Frango, caipira, inteiro, com pele, cozido",Carnes e derivados
+48335689-acc1-3974-88ef-463acad35e8c,TACO-4,393,"Frango, caipira, inteiro, sem pele, cozido",Carnes e derivados
+d3ad9920-09b3-35e5-8bf2-368b59f2d980,TACO-4,394,"Frango, coração, cru",Carnes e derivados
+fa143ee1-4d18-3338-9356-7c434e800a6d,TACO-4,395,"Frango, coração, grelhado",Carnes e derivados
+7e8bf8a8-7c31-3f80-8e9a-1ec933fca8a4,TACO-4,396,"Frango, coxa, com pele, assada",Carnes e derivados
+15ffd028-b538-31aa-b736-b3bca8964b4d,TACO-4,397,"Frango, coxa, com pele, crua",Carnes e derivados
+d923ee37-b57f-30a4-8b88-9493b7cfddb9,TACO-4,398,"Frango, coxa, sem pele, cozida",Carnes e derivados
+e546b25f-a106-38e5-8911-9ac004d4ca90,TACO-4,399,"Frango, coxa, sem pele, crua",Carnes e derivados
+c55af08e-8f38-35c1-9fa9-d8fbff95854b,TACO-4,400,"Frango, fígado, cru",Carnes e derivados
+752c091d-283f-3402-8c7c-ab5f666c36af,TACO-4,401,"Frango, filé, à milanesa",Carnes e derivados
+94e0c817-f59d-3953-bd9c-e0068d4b48cc,TACO-4,402,"Frango, inteiro, com pele, cru",Carnes e derivados
+b00c7c8f-775b-3bd2-bda4-ecbbde51bcbb,TACO-4,403,"Frango, inteiro, sem pele, assado",Carnes e derivados
+4ef90b7b-ac0f-308d-86a2-0abc83f6c941,TACO-4,404,"Frango, inteiro, sem pele, cozido",Carnes e derivados
+54e13c16-e305-3279-877f-c2b5b4ae57ba,TACO-4,405,"Frango, inteiro, sem pele, cru",Carnes e derivados
+f4cc6f69-4add-3cd5-bcee-93d6c3538446,TACO-4,406,"Frango, peito, com pele, assado",Carnes e derivados
+a617db30-7620-3f0c-bd1a-483ae90212b8,TACO-4,407,"Frango, peito, com pele, cru",Carnes e derivados
+e26b1bed-e504-32f4-ba59-a2454b8f3062,TACO-4,408,"Frango, peito, sem pele, cozido",Carnes e derivados
+5ac233b3-f8eb-397e-a449-7b7f6f5515a2,TACO-4,409,"Frango, peito, sem pele, cru",Carnes e derivados
+ebebe20d-5f96-336e-adcc-f452a46301c5,TACO-4,410,"Frango, peito, sem pele, grelhado",Carnes e derivados
+b230003c-72ff-304a-91ca-c147ca367e3e,TACO-4,411,"Frango, sobrecoxa, com pele, assada",Carnes e derivados
+a63debd7-c53d-3ed6-89fc-3af5da30c1a5,TACO-4,412,"Frango, sobrecoxa, com pele, crua",Carnes e derivados
+f73f9efd-e332-32a4-9cd0-668fff47d068,TACO-4,413,"Frango, sobrecoxa, sem pele, assada",Carnes e derivados
+93cd089f-f2fa-3ddd-bd87-53abbba92fd3,TACO-4,414,"Frango, sobrecoxa, sem pele, crua",Carnes e derivados
+4784779d-4a1e-3c4a-8bdf-888028c99f92,TACO-4,415,"Hambúrguer, bovino, cru",Carnes e derivados
+17743dd8-2aa1-355a-932b-f93533a274f4,TACO-4,416,"Hambúrguer, bovino, frito",Carnes e derivados
+6c18cdbe-9e06-38ea-b6f3-478c27deafd9,TACO-4,417,"Hambúrguer, bovino, grelhado",Carnes e derivados
+e8c873c7-8b72-3c70-909b-3213280df746,TACO-4,418,"Lingüiça, frango, crua",Carnes e derivados
+593b43f5-121e-3fcf-ae77-966dbbf586b0,TACO-4,419,"Lingüiça, frango, frita",Carnes e derivados
+2342791d-6686-3029-a7ce-b68032e331ac,TACO-4,420,"Lingüiça, frango, grelhada",Carnes e derivados
+d1756eb2-fadd-353b-91cd-64d6db8024c2,TACO-4,421,"Lingüiça, porco, crua",Carnes e derivados
+e3d5342d-9be6-3ea7-8e48-56de26de3565,TACO-4,422,"Lingüiça, porco, frita",Carnes e derivados
+72b1aaf1-4853-32de-8567-d6d448b3004d,TACO-4,423,"Lingüiça, porco, grelhada",Carnes e derivados
+f8d03140-68c2-3db2-ac72-3888a1cdfc71,TACO-4,424,Mortadela,Carnes e derivados
+9808471c-7f2e-38cd-9027-7e3492978166,TACO-4,425,"Peru, congelado, assado",Carnes e derivados
+be08e4bd-e0d2-3a23-a55b-94d0829ba019,TACO-4,426,"Peru, congelado, cru",Carnes e derivados
+d2f23e1a-c866-3863-924f-342e4e0bf8e0,TACO-4,427,"Porco, bisteca, crua",Carnes e derivados
+d44d977e-9703-381c-81b7-4972f6ce9d51,TACO-4,428,"Porco, bisteca, frita",Carnes e derivados
+614cc545-ddd9-3666-9a33-dae0bff56909,TACO-4,429,"Porco, bisteca, grelhada",Carnes e derivados
+1ec1646e-754d-3512-80f1-0f786b2ad55c,TACO-4,430,"Porco, costela, assada",Carnes e derivados
+c99a7998-30b8-300d-af5f-c89e7f168d97,TACO-4,431,"Porco, costela, crua",Carnes e derivados
+367270ba-78ae-3221-a2df-37faa60e60ab,TACO-4,432,"Porco, lombo, assado",Carnes e derivados
+34c33aa4-64ff-317a-b399-4bffd18d7c73,TACO-4,433,"Porco, lombo, cru",Carnes e derivados
+2bb42c14-d12b-3a95-b280-ba88c09c223f,TACO-4,434,"Porco, orelha, salgada, crua",Carnes e derivados
+bf1ac951-c54a-3dfc-b568-0db80a0cfef5,TACO-4,435,"Porco, pernil, assado",Carnes e derivados
+feeeb881-fc88-3081-97e1-6ef09a49d3e4,TACO-4,436,"Porco, pernil, cru",Carnes e derivados
+f8d02f14-3943-3b70-ba7f-fdcd4fde93af,TACO-4,437,"Porco, rabo, salgado, cru",Carnes e derivados
+3a1838a7-8ad5-3ddb-94f8-cc71696caade,TACO-4,438,"Presunto, com capa de gordura",Carnes e derivados
+bb89c8f1-0f36-3b55-8954-f806f497bfa2,TACO-4,439,"Presunto, sem capa de gordura",Carnes e derivados
+4ce9832c-e60e-319c-9d7e-9109545ee6e0,TACO-4,440,"Quibe, assado",Carnes e derivados
+289d10b9-696d-39d9-82ec-8dc0dee63029,TACO-4,441,"Quibe, cru",Carnes e derivados
+7c8d3d7d-3e28-36ae-bc73-f2ef4e3cf757,TACO-4,442,"Quibe, frito",Carnes e derivados
+88fbd840-2032-3f7d-9f7a-2ff758b78846,TACO-4,443,Salame,Carnes e derivados
+049f3132-86bd-3abb-970b-e1d6a67a09d9,TACO-4,444,"Toucinho, cru",Carnes e derivados
+22eaae08-c5ee-3015-bf9f-aa41f188eb7a,TACO-4,445,"Toucinho, frito",Carnes e derivados
+7f825f8d-c448-3f62-aaa6-6b6ef4f2959e,TACO-4,446,"Bebida láctea, pêssego",Leite e derivados
+6e337794-a3f0-3afc-b727-017cfc7af3f3,TACO-4,447,Creme de Leite,Leite e derivados
+bff414b5-3f13-3778-a84e-95e3a6ed7d38,TACO-4,448,"Iogurte, natural",Leite e derivados
+bbd469a6-2279-3706-b09a-dcc2e33633e5,TACO-4,449,"Iogurte, natural, desnatado",Leite e derivados
+d6117a1c-eae0-3f4d-8b7b-a0666bae67ca,TACO-4,450,"Iogurte, sabor abacaxi",Leite e derivados
+a0599de7-d18b-3afd-b65a-dc2c3b16601b,TACO-4,451,"Iogurte, sabor morango",Leite e derivados
+d247895d-b2fa-350a-895e-464a5a5b9a19,TACO-4,452,"Iogurte, sabor pêssego",Leite e derivados
+c65d1af3-df6b-32c9-b8e6-e55401bd0618,TACO-4,453,"Leite, condensado",Leite e derivados
+2f47a35b-fe94-3e45-8ae1-325f2e4e7389,TACO-4,454,"Leite, de cabra",Leite e derivados
+ff8cacd2-67c1-3271-8b40-768345abeb54,TACO-4,455,"Leite, de vaca, achocolatado",Leite e derivados
+d5e3913d-c725-3f55-8f2b-f876314da843,TACO-4,456,"Leite, de vaca, desnatado, pó",Leite e derivados
+8758dbdf-9c5f-3348-afc4-80ced026dcf7,TACO-4,457,"Leite, de vaca, desnatado, UHT",Leite e derivados
+1264171f-d755-3706-9a8a-497434db4737,TACO-4,458,"Leite, de vaca, integral",Leite e derivados
+e6001cbb-f251-3db1-8106-199cc91cd9fd,TACO-4,459,"Leite, de vaca, integral, pó",Leite e derivados
+4f56b9a8-f29f-3541-acfe-14ae26a23598,TACO-4,460,"Leite, fermentado",Leite e derivados
+c076f73c-c5af-3fe7-87f5-0b8d27dfda1f,TACO-4,461,"Queijo, minas, frescal",Leite e derivados
+35ac9156-620f-3690-a9ba-2b4513ff2cb3,TACO-4,462,"Queijo, minas, meia cura",Leite e derivados
+297c0827-d936-31f6-95c4-8d50f7bd6e8e,TACO-4,463,"Queijo, mozarela",Leite e derivados
+00d15b44-1666-31e5-ba75-5ea58a6f0615,TACO-4,464,"Queijo, parmesão",Leite e derivados
+4a02e8ab-c761-3d10-86c5-fd17b7ca2225,TACO-4,465,"Queijo, pasteurizado",Leite e derivados
+9dd90cb7-1347-33b1-bba0-213a514d7f6f,TACO-4,466,"Queijo, petit suisse, morango",Leite e derivados
+f3e4d0c1-c8a4-3a57-b8cd-c3267a8499e7,TACO-4,467,"Queijo, prato",Leite e derivados
+426ea321-ef96-3a22-b769-916979ce9f94,TACO-4,468,"Queijo, requeijão, cremoso",Leite e derivados
+92f01ed8-9921-33e0-b158-4ac55c93d8fc,TACO-4,469,"Queijo, ricota",Leite e derivados
+39a8d131-0220-3863-817b-dbb805cc2f70,TACO-4,470,"Bebida isotônica, sabores variados",Bebidas (alcoólicas e não alcoólicas)
+a59d8cfa-8bc6-32ee-be0c-64771b2ab44e,TACO-4,471,"Café, infusão 10%",Bebidas (alcoólicas e não alcoólicas)
+8955ca92-9b3a-39fa-85d5-1e080d7b7f49,TACO-4,472,"Cana, aguardente 1",Bebidas (alcoólicas e não alcoólicas)
+f9a47ca7-61aa-3aec-aac8-c7ba13739c26,TACO-4,473,"Cana, caldo de",Bebidas (alcoólicas e não alcoólicas)
+f0ecb511-e2a1-37ee-82e8-5594b702f1f6,TACO-4,474,"Cerveja, pilsen 2",Bebidas (alcoólicas e não alcoólicas)
+c1dca813-69c6-3648-bb39-30d467cee15f,TACO-4,475,"Chá, erva-doce, infusão 5%",Bebidas (alcoólicas e não alcoólicas)
+d273868f-fca9-349a-820a-ec03979c5a82,TACO-4,476,"Chá, mate, infusão 5%",Bebidas (alcoólicas e não alcoólicas)
+73b019e2-9016-3456-bc92-5356ae5a78df,TACO-4,477,"Chá, preto, infusão 5%",Bebidas (alcoólicas e não alcoólicas)
+8835b6f9-d026-3846-9576-74a682f3d97d,TACO-4,478,"Coco, água de",Bebidas (alcoólicas e não alcoólicas)
+616f6b7f-f246-39eb-877a-c296c69b92bb,TACO-4,479,"Refrigerante, tipo água tônica",Bebidas (alcoólicas e não alcoólicas)
+1049a60a-ce57-3741-bdde-8a90a7a60a75,TACO-4,480,"Refrigerante, tipo cola",Bebidas (alcoólicas e não alcoólicas)
+6ab9d109-d7f7-3b0d-887e-fa157404f5b4,TACO-4,481,"Refrigerante, tipo guaraná",Bebidas (alcoólicas e não alcoólicas)
+4f096881-30e1-3742-a482-df65f02070c8,TACO-4,482,"Refrigerante, tipo laranja",Bebidas (alcoólicas e não alcoólicas)
+1a55f51c-77fe-3636-9c63-1d411d190458,TACO-4,483,"Refrigerante, tipo limão",Bebidas (alcoólicas e não alcoólicas)
+c74f38e6-530b-32f6-a48b-f2a4bfb39162,TACO-4,484,"Omelete, de queijo",Ovos e derivados
+221e03d9-8587-377e-8432-628f7456165f,TACO-4,485,"Ovo, de codorna, inteiro, cru",Ovos e derivados
+d459cdbf-02eb-3035-8be2-300ba8817890,TACO-4,486,"Ovo, de galinha, clara, cozida/10minutos",Ovos e derivados
+91af7fda-2124-3bd2-8c5e-e6ee95a66fca,TACO-4,487,"Ovo, de galinha, gema, cozida/10minutos",Ovos e derivados
+fe010290-a6c7-3de5-af13-9c33afd27109,TACO-4,488,"Ovo, de galinha, inteiro, cozido/10minutos",Ovos e derivados
+0a066f9c-9255-36eb-997f-d729274eaef1,TACO-4,489,"Ovo, de galinha, inteiro, cru",Ovos e derivados
+98725658-a477-3e21-a178-815ff30dd3a7,TACO-4,490,"Ovo, de galinha, inteiro, frito",Ovos e derivados
+42b2664d-954b-3c0c-a71d-6573f23e9a58,TACO-4,491,"Achocolatado, pó",Produtos açucarados
+65522fe6-85d8-3b9d-871f-35b57d1961b1,TACO-4,492,"Açúcar, cristal",Produtos açucarados
+f1ad3266-5c8f-3db0-a64c-49241c2b87c4,TACO-4,493,"Açúcar, mascavo",Produtos açucarados
+3cb8e385-8cf7-3217-bd0c-002a91243957,TACO-4,494,"Açúcar, refinado",Produtos açucarados
+b8ab1fe0-3914-347f-a618-ce57e67a1b32,TACO-4,495,"Chocolate, ao leite",Produtos açucarados
+b3757a05-c810-38f0-95fd-b4e0c3ffbfcc,TACO-4,496,"Chocolate, ao leite, com castanha do Pará",Produtos açucarados
+ae5c963b-c1b7-39ab-a74e-6bc88919bd30,TACO-4,497,"Chocolate, ao leite, dietético",Produtos açucarados
+bfecac57-d907-32f1-b9e2-d9e488a0e44f,TACO-4,498,"Chocolate, meio amargo",Produtos açucarados
+e16901a9-30f9-3390-b33d-768b0ffa5be6,TACO-4,499,Cocada branca,Produtos açucarados
+baed1deb-e75e-3a0f-b839-6118c4e8e1bb,TACO-4,500,"Doce, de abóbora, cremoso",Produtos açucarados
+7443d937-378f-3d33-a626-ed9139345666,TACO-4,501,"Doce, de leite, cremoso",Produtos açucarados
+679cc126-08e8-3526-94cc-9a97c78c34f1,TACO-4,502,"Geléia, mocotó, natural",Produtos açucarados
+cd636d76-68a3-3985-b238-20e215887201,TACO-4,503,Glicose de milho,Produtos açucarados
+7c7141f7-c0c5-3828-a3fd-751631faa476,TACO-4,504,Maria mole,Produtos açucarados
+73b841ab-a3ac-3cb8-9ed1-0649a808d2f9,TACO-4,505,"Maria mole, coco queimado",Produtos açucarados
+f395adce-e724-3265-b957-6c4427411635,TACO-4,506,Marmelada,Produtos açucarados
+988d569b-c50e-3e41-83c0-5e700272ff1b,TACO-4,507,"Mel, de abelha",Produtos açucarados
+b3341847-e9e8-3198-b63f-912fe8b05147,TACO-4,508,Melado,Produtos açucarados
+3f96fc6a-854c-34cc-be5e-b7f713241ff1,TACO-4,509,Quindim,Produtos açucarados
+c87e7888-60d2-3658-938d-afa90d4652f0,TACO-4,510,Rapadura,Produtos açucarados
+3665f742-d67f-3588-bde4-bc0f3de0076e,TACO-4,511,"Café, pó, torrado",Miscelâneas
+7e84124c-97ee-3afe-a6b6-c9501736fa28,TACO-4,512,"Capuccino, pó",Miscelâneas
+18b91eb6-9d5c-3901-8432-01b8472d1825,TACO-4,513,"Fermento em pó, químico",Miscelâneas
+f8c03ff8-aff0-3ddf-b792-423731058d94,TACO-4,514,"Fermento, biológico, levedura, tablete",Miscelâneas
+004a7bd7-0795-36a5-8751-42f8a4ab28b6,TACO-4,515,"Gelatina, sabores variados, pó",Miscelâneas
+4883a0b2-7cae-3f47-93c6-14ee285e041e,TACO-4,516,"Sal, dietético",Miscelâneas
+13f645a9-2454-3e8f-8005-573846ac77d4,TACO-4,517,"Sal, grosso",Miscelâneas
+96ebd088-e344-3bb2-96aa-c19a56371c35,TACO-4,518,Shoyu,Miscelâneas
+36f73381-5c57-3541-a4e5-918494c9f406,TACO-4,519,Tempero a base de sal,Miscelâneas
+a0615f5f-eb32-383b-8ce4-f5318b7a2af6,TACO-4,520,"Azeitona, preta, conserva",Outros alimentos industrializados
+dade5cdb-7bc0-3dc6-a5eb-7779f54a4094,TACO-4,521,"Azeitona, verde, conserva",Outros alimentos industrializados
+843736d4-e093-3913-8739-00554caa1dd9,TACO-4,522,"Chantilly, spray, com gordura vegetal",Outros alimentos industrializados
+30da0d3c-09a2-3b63-ab11-94edadfa8532,TACO-4,523,"Leite, de coco",Outros alimentos industrializados
+af6ebe94-a8a2-386d-a470-4350c9da1832,TACO-4,524,"Maionese, tradicional com ovos",Outros alimentos industrializados
+b80290d5-871e-36b2-81d0-f825f596b4b7,TACO-4,525,Acarajé,Alimentos preparados
+2a7148b6-d3b9-3d76-ab40-3b5efbe279d7,TACO-4,526,Arroz carreteiro,Alimentos preparados
+a50fbf17-2db9-387e-bf63-8fbfb6a4588a,TACO-4,527,"Baião de dois, arroz e feijão-de-corda",Alimentos preparados
+8ba39aa4-b83a-38cd-86af-c07593e1a48b,TACO-4,528,Barreado,Alimentos preparados
+8f7a9ce5-e6fc-3366-ab37-5d578367ff0f,TACO-4,529,"Bife à cavalo, com contra filé",Alimentos preparados
+5f80194b-fac2-3780-8dbb-b10f38500441,TACO-4,530,Bolinho de arroz,Alimentos preparados
+c8f9407d-ac70-3e04-93b5-d8a582ae128e,TACO-4,531,Camarão à baiana,Alimentos preparados
+4546d59b-a4bc-3854-93c2-c61a78602169,TACO-4,532,"Charuto, de repolho",Alimentos preparados
+dd77195a-8708-3f93-b756-ee14ff19a528,TACO-4,533,"Cuscuz, de milho, cozido com sal",Alimentos preparados
+6efb0cff-f78f-3fcf-8189-b636b188a790,TACO-4,534,"Cuscuz, paulista",Alimentos preparados
+6e8cb5f4-e121-334d-b7fd-ef70586a68d3,TACO-4,535,"Cuxá, molho",Alimentos preparados
+3fe8d1e9-8c11-38cb-b75c-3fb9a3593f7c,TACO-4,536,Dobradinha,Alimentos preparados
+86cb3fb2-b664-33ec-b0d8-3298c6bfbfa9,TACO-4,537,Estrogonofe de carne,Alimentos preparados
+dea80a5f-cd7f-36fd-86be-d7959415e1e0,TACO-4,538,Estrogonofe de frango,Alimentos preparados
+2106810f-41de-3d6d-b989-fb50e5602229,TACO-4,539,Feijão tropeiro mineiro,Alimentos preparados
+c95d9a88-9317-3abb-a332-b58a984256ad,TACO-4,540,L,Alimentos preparados
+db6ea22c-68a7-3a51-b816-b165ca7b42ee,TACO-4,541,"Frango, com açafrão",Alimentos preparados
+7e9a9aa4-d1cc-3244-93a9-191c6c4cc83a,TACO-4,542,"Macarrão, molho bolognesa",Alimentos preparados
+304bb435-31d0-379d-85f5-399090274a6e,TACO-4,543,Maniçoba,Alimentos preparados
+2f1e09a1-a92e-339b-8b0c-a6a650e006c8,TACO-4,544,Quibebe,Alimentos preparados
+f210d005-376d-3955-94b3-bbbdfd037230,TACO-4,545,"Salada, de legumes, com maionese",Alimentos preparados
+2bdb3cf3-bdc8-350c-8a25-ff9826d34142,TACO-4,546,"Salada, de legumes, cozida no vapor",Alimentos preparados
+fca1114f-db62-3cff-8989-385d64a2729c,TACO-4,547,"Salpicão, de frango",Alimentos preparados
+bbdd1248-a238-3bd2-b564-aaa293c099d7,TACO-4,548,Sarapatel,Alimentos preparados
+1ff25ce2-6eee-3231-8e45-fd18cdb2756a,TACO-4,549,Tabule,Alimentos preparados
+b94eb5e1-dcf6-3852-9783-88dab8c3bb56,TACO-4,550,Tacacá,Alimentos preparados
+54621055-dc16-3e4c-bc43-065e31b1edff,TACO-4,551,"Tapioca, com manteiga",Alimentos preparados
+116dabbb-c349-3588-a5fd-ac611a3b3414,TACO-4,552,"Tucupi, com pimenta-de-cheiro",Alimentos preparados
+74ef898c-d443-3f5f-a0f0-4f7bd41d90eb,TACO-4,553,Vaca atolada,Alimentos preparados
+dc82e3a0-d195-341c-92c1-6022802efb64,TACO-4,554,Vatapá,Alimentos preparados
+01a2d29f-b7cc-3d42-aadc-1a4094a1da87,TACO-4,555,Virado à paulista,Alimentos preparados
+f1dd278a-ca25-3af7-be28-23e52cb89236,TACO-4,556,Yakisoba,Alimentos preparados
+2705edbc-a81b-3cba-b41a-a835ae3cc330,TACO-4,557,"Amendoim, grão, cru",Leguminosas e derivados
+f12dd518-12c3-34a7-834f-6a72c704c505,TACO-4,558,"Amendoim, torrado, salgado",Leguminosas e derivados
+63952ab7-3c96-37cb-8a16-72400460af8b,TACO-4,559,"Ervilha, em vagem",Leguminosas e derivados
+7cade79b-f2e0-3dca-88cb-e01ad413a335,TACO-4,560,"Ervilha, enlatada, drenada",Leguminosas e derivados
+04d9f2c7-4d58-3277-87e3-2a737d8d1e23,TACO-4,561,"Feijão, carioca, cozido",Leguminosas e derivados
+9cb0c234-9431-394b-b84e-cac04b222640,TACO-4,562,"Feijão, carioca, cru",Leguminosas e derivados
+721f573f-abd8-3e85-8c14-58047cbb5f17,TACO-4,563,"Feijão, fradinho, cozido",Leguminosas e derivados
+eb3ed802-3bae-3e81-9146-d998787b6162,TACO-4,564,"Feijão, fradinho, cru",Leguminosas e derivados
+44ec99ce-7686-358a-937b-d6abf2f27ef0,TACO-4,565,"Feijão, jalo, cozido",Leguminosas e derivados
+e481e370-b50c-308c-ac31-bc959fa95bdf,TACO-4,566,"Feijão, jalo, cru",Leguminosas e derivados
+8f1898f9-fcc0-3b66-878d-0f79aa62e066,TACO-4,567,"Feijão, preto, cozido",Leguminosas e derivados
+b861283a-7498-3b7d-9af4-ba8c37ea45b5,TACO-4,568,"Feijão, preto, cru",Leguminosas e derivados
+9a7e58cb-ba95-3850-818c-e111152eeaa8,TACO-4,569,"Feijão, rajado, cozido",Leguminosas e derivados
+d98859ff-ad7b-3275-b786-2f183b74be33,TACO-4,570,"Feijão, rajado, cru",Leguminosas e derivados
+2dc71b01-e45b-32dd-af62-3512cceeb65d,TACO-4,571,"Feijão, rosinha, cozido",Leguminosas e derivados
+7d8d4371-73ee-35e6-b442-67c4c678dee1,TACO-4,572,"Feijão, rosinha, cru",Leguminosas e derivados
+15e9ebd9-ae37-30d2-9f22-12d6e39db666,TACO-4,573,"Feijão, roxo, cozido",Leguminosas e derivados
+3b861ba0-80ea-31ec-bdaf-ac5425f670d7,TACO-4,574,"Feijão, roxo, cru",Leguminosas e derivados
+d6a68d86-d1bf-3ec8-9983-027850a6bf6c,TACO-4,575,"Grão-de-bico, cru",Leguminosas e derivados
+9b992184-a1c5-3e43-9122-9fc877250816,TACO-4,576,"Guandu, cru",Leguminosas e derivados
+b3ca7802-9523-3574-ace2-4c511f031bb3,TACO-4,577,"Lentilha, cozida",Leguminosas e derivados
+5f62623d-1d72-30f3-b007-ecbbff0c6d63,TACO-4,578,"Lentilha, crua",Leguminosas e derivados
+0ed20a52-37fe-3ecc-bf31-dcef0f1025fe,TACO-4,579,"Paçoca, amendoim",Leguminosas e derivados
+2f189a3a-58c1-32f6-b1fd-f1f63335ae96,TACO-4,580,"Pé-de-moleque, amendoim",Leguminosas e derivados
+4b679688-16f3-39cc-8a07-b041f0ba0452,TACO-4,581,"Soja, farinha",Leguminosas e derivados
+ecdf8017-91c0-3390-93e0-0c0fd93c07f8,TACO-4,582,"Soja, extrato solúvel, natural, fluido",Leguminosas e derivados
+1a7704ba-d7f5-3a23-aff9-af98f4a75a7b,TACO-4,583,"Soja, extrato solúvel, pó",Leguminosas e derivados
+81488f52-a175-3fe3-8e97-7bcaa1e90d63,TACO-4,584,"Soja, queijo (tofu)",Leguminosas e derivados
+a0c8303a-e81f-3d06-9b92-9a396398dd0d,TACO-4,585,"Tremoço, cru",Leguminosas e derivados
+6ff4fdf9-20f5-3863-ad80-5e25cfb60ca6,TACO-4,586,"Tremoço, em conserva",Leguminosas e derivados
+76171e24-e339-3602-983c-447be46b9f83,TACO-4,587,"Amêndoa, torrada, salgada",Nozes e sementes
+0f48a412-a430-3cb3-90b7-cded2659ad2c,TACO-4,588,"Castanha-de-caju, torrada, salgada",Nozes e sementes
+407f68ea-0ae3-3b61-a6ee-9dc5fb7d690d,TACO-4,589,"Castanha-do-Brasil, crua",Nozes e sementes
+964e626b-6f91-309f-a849-00a00645fdd9,TACO-4,590,"Coco, cru",Nozes e sementes
+d3ef5261-ce43-3eb2-b6ba-8246b4fd7384,TACO-4,592,"Farinha, de mesocarpo de babaçu, crua",Nozes e sementes
+018ac05f-ef99-3719-8822-c8743f4e8ba5,TACO-4,593,"Gergelim, semente",Nozes e sementes
+a21d0448-1bde-3dfc-9a89-db716670bd01,TACO-4,594,"Linhaça, semente",Nozes e sementes
+25ec5060-e999-39d7-b936-dc1ca4f2de27,TACO-4,595,"Pinhão, cozido",Nozes e sementes
+61a4f442-05a8-3222-9afc-e37b4a6abf60,TACO-4,596,"Pupunha, cozida",Nozes e sementes
+313cd93c-cec8-37db-b77f-1bbf471656dd,TACO-4,597,"Noz, crua",Nozes e sementes

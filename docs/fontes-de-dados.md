@@ -25,11 +25,31 @@ Citação a exibir na tela "Fontes" do app:
 > NÚCLEO DE ESTUDOS E PESQUISAS EM ALIMENTAÇÃO — NEPA/UNICAMP. Tabela brasileira de
 > composição de alimentos — TACO. 4. ed. rev. e ampl. Campinas: NEPA-UNICAMP, 2011. 161 p.
 
-Observações para o gerador do catálogo:
+Cópias guardadas no repositório: `data/fontes/taco/taco-4a-edicao-2011.pdf` e
+`data/fontes/taco/taco-4a-edicao-2011.xlsx` (mesmos SHA-256 acima).
 
-- "Tr" (traço) vira `qualifier = TRACE`; célula em branco ("análises não solicitadas") vira
-  nutriente ausente (desconhecido), nunca zero.
-- A planilha tem três abas: composição geral, ácidos graxos e aminoácidos. O MVP usa a primeira.
+### Como o catálogo é gerado
+
+`tools/catalog-builder` lê a aba "CMVCol taco3" da planilha e grava em `data/catalog/`:
+`nutrients.csv`, `foods.csv` e `food_nutrients.csv`. Resultado em 20/10/2026: 596 alimentos,
+15 categorias, 12.561 valores (1.786 traços).
+
+| Situação na planilha | Tratamento |
+|---|---|
+| Número | Arredondado para 4 casas decimais (a planilha tem precisão total; a tabela impressa é arredondada) |
+| "Tr" | Traço (`TRACE`) |
+| Vazio ("análises não solicitadas"), "NA" (não aplicável), "*" (em reavaliação) | Desconhecido: o nutriente não entra |
+| Alimento sem nenhum valor conhecido | Fica de fora: nº 591 "Coco, verde, cru" (todo "*") |
+| Carboidrato negativo (por diferença) | Zero, como na tabela impressa: nº 288, 322, 337 e 400 (entre −0,045 e −0,007 na planilha; "0,0" no PDF) |
+| Texto inválido | Interrompe a geração, exceto a célula listada abaixo |
+| Célula AA do nº 373 "Carne, bovina, paleta, com gordura, crua" contém ",0,02" | Piridoxina tratada como desconhecida (não foi possível confirmar o valor no PDF) |
+
+Colunas não usadas: energia em kJ (duplica a kcal; o INFOODS recomenda guardar só uma) e
+vitamina A em RAE (sem tagname INFOODS). Abas de ácidos graxos e aminoácidos ficam para depois.
+
+O cabeçalho (nome e unidade de cada coluna) é conferido a cada geração; se a planilha mudar,
+a geração falha em vez de trocar nutrientes. Códigos de nutriente conferidos no corpus oficial
+de tagnames INFOODS (pacote `@infoods/tagnames` 1.0.1).
 
 ## IBGE — medidas caseiras (porções padrão)
 

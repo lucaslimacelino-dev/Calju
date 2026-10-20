@@ -48,7 +48,8 @@ Detalhes, modelo de dados, protocolo de sincronização e decisões de seguranç
 Calju/
 ├── android/   app Android
 ├── backend/   API Spring Boot
-├── tools/     ferramentas auxiliares, como o gerador do catálogo (Fase 3+)
+├── tools/     catalog-builder: gera o catálogo a partir da TACO
+├── data/      fontes oficiais (data/fontes) e catálogo gerado (data/catalog)
 └── docs/      arquitetura, decisões, fontes de dados e autoria
 ```
 
@@ -79,6 +80,16 @@ cd backend
 ```
 
 Verificação: `http://localhost:8080/actuator/health` deve responder `{"status":"UP", ...}`.
+
+### Catálogo de alimentos
+
+Gerado a partir da planilha oficial da TACO (ver [docs/fontes-de-dados.md](docs/fontes-de-dados.md)):
+
+```powershell
+cd tools\catalog-builder
+.\mvnw test package
+java -cp target\classes io.github.lucaslimacelino_dev.calju.catalog.Main ..\..\data\fontes\taco\taco-4a-edicao-2011.xlsx ..\..\data\catalog
+```
 
 ### App Android
 
