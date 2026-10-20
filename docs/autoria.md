@@ -58,3 +58,6 @@ objetiva que os sustente.
 - `tools/catalog-builder` e testes escritos pelo assistente. Tratamento das anomalias da
   planilha (carboidrato negativo, célula inválida) definido pelo assistente com base na
   tabela impressa e registrado em `docs/fontes-de-dados.md`.
+- Uso dos pesos do IBGE com citação (opção 2) e importação do catálogo por CSV (opção A):
+  decisões do autor entre opções apresentadas pelo assistente. Curadoria das 50 porções,
+  banco Room, importador, busca e testes escritos pelo assistente.

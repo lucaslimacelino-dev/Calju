@@ -132,8 +132,11 @@ nutrition_goals    (id uuid, owner_user_id, effective_from DATE, kcal, protein_g
 
 ## 4. Offline e sincronização
 
-- Catálogo oficial pré-instalado (SQLite gerado por `tools/catalog-builder`, carregado
-  com `Room.createFromAsset`).
+- Catálogo oficial embutido no APK como CSV (gerado por `tools/catalog-builder` em
+  `data/catalog/`) e importado para o Room na primeira abertura (`CatalogImporter`; reimporta
+  quando `CATALOG_VERSION` aumenta). Escolhido no lugar de `Room.createFromAsset` para não
+  acoplar o gerador ao esquema interno do Room (decisão de 20/10/2026).
+- O app não declara a permissão `INTERNET` enquanto não houver conta/sincronização.
 - **UUID gerado no aparelho**: mesmo identificador local e remoto.
 
 | Coluna | Onde | Papel |
@@ -384,7 +387,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 |---|---|---|
 | 2 (concluída) | README, .gitignore, docker-compose, backend com Flyway V1 + health, app Android com tema e 3 abas | `mvn test` verde; app abre no emulador |
 | 3 (concluída) | `domain/`: modelos, NutritionCalculator, FoodInputParser, porção padrão | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas; regras do texto |
-| 4a | Room, catálogo pré-instalado, campo de registro com sugestões, tela de quantidade | Testes de DAO; busca em modo avião; "arroz 150" preenche 150 g |
+| 4a | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
 | 4b | Diário com snapshot, edição, remoção, desfazer | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
