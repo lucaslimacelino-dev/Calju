@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/diaryFragment">
+
+    <fragment
+        android:id="@+id/diaryFragment"
+        android:name="io.github.lucaslimacelino_dev.calju.ui.diary.DiaryFragment"
+        android:label="@string/tab_diary" />
+
+    <fragment
+        android:id="@+id/mealsFragment"
+        android:name="io.github.lucaslimacelino_dev.calju.ui.meals.MealsFragment"
+        android:label="@string/tab_meals" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="io.github.lucaslimacelino_dev.calju.ui.history.HistoryFragment"
+        android:label="@string/tab_history" />
+
+</navigation>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">CaLju</string>
+
+    <string name="tab_diary">Diário</string>
+    <string name="tab_meals">Refeições</string>
+    <string name="tab_history">Histórico</string>
+
+    <string name="diary_empty">Seus registros do dia aparecerão aqui.</string>
+    <string name="meals_empty">Suas refeições salvas aparecerão aqui.</string>
+    <string name="history_empty">Seu histórico aparecerá aqui.</string>
+</resources>

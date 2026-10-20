@@ -15,8 +15,9 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | Fase | Descrição | Situação |
 |---|---|---|
 | 1 | Arquitetura e planejamento | Concluída |
-| 2 | Ambiente e estrutura inicial | Em andamento |
-| 3–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
+| 2 | Ambiente e estrutura inicial | Concluída |
+| 3 | Domínio e calculadora nutricional | Próxima |
+| 4–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
 
@@ -44,7 +45,7 @@ Detalhes, modelo de dados, protocolo de sincronização e decisões de seguranç
 
 ```
 Calju/
-├── android/   app Android (a criar na Fase 2)
+├── android/   app Android
 ├── backend/   API Spring Boot
 ├── tools/     ferramentas auxiliares, como o gerador do catálogo (Fase 3+)
 └── docs/      arquitetura, decisões, fontes de dados e autoria
@@ -56,6 +57,7 @@ Calju/
 
 - JDK 17
 - Docker Desktop (Docker Compose v2)
+- Android SDK (somente para o app)
 
 O Maven não precisa estar instalado: o projeto usa o Maven Wrapper (`mvnw`).
 
@@ -79,7 +81,14 @@ Verificação: `http://localhost:8080/actuator/health` deve responder `{"status"
 
 ### App Android
 
-Instruções serão adicionadas quando o projeto Android for criado.
+Requer o Android SDK (instalado pelo Android Studio Quail 4 ou mais recente). No Android
+Studio, abra a pasta `android/`. Pela linha de comando:
+
+```powershell
+cd android
+.\gradlew assembleDebug                # gera app/build/outputs/apk/debug/app-debug.apk
+.\gradlew connectedDebugAndroidTest    # testes de interface (emulador ligado)
+```
 
 ## Segurança
 

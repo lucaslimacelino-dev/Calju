@@ -19,7 +19,7 @@ O aparelho é a fonte primária dos dados; o backend é opcional.
 
 | Camada | Escolha | Justificativa |
 |---|---|---|
-| Android | Java (nível 17), minSdk 26, targetSdk 36 | targetSdk 36 exigido pela Play desde 31/08/2026 |
+| Android | Java (nível 17), minSdk 26, targetSdk 36, compileSdk 37; AGP 9.4.1, Gradle 9.6.1 | targetSdk 36 exigido pela Play desde 31/08/2026; compileSdk só define a API usada na compilação |
 | UI | Single-Activity + Fragments + Navigation + Material 3 (XML + ViewBinding) | Jetpack Compose exige Kotlin; Views são o caminho moderno em Java |
 | Estado | MVVM: ViewModel + LiveData | UI atualiza automaticamente quando o Room muda |
 | Persistência local | Room (SQLite) | Oficial, consultas verificadas em compilação |
