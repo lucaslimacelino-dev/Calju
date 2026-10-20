@@ -57,9 +57,11 @@ de tagnames INFOODS (pacote `@infoods/tagnames` 1.0.1).
 |---|---|
 | Título | Pesquisa de Orçamentos Familiares 2008-2009: Tabela de Medidas Referidas para os Alimentos Consumidos no Brasil |
 | Edição | IBGE, Rio de Janeiro, 2011. ISBN 978-85-240-4196-9 |
-| Arquivo | https://biblioteca.ibge.gov.br/visualizacao/livros/liv50000.pdf |
-| Uso no app | Peso em gramas de "1 unidade" e outras medidas, para registrar sem digitar gramas |
-| Situação | **Pendente: aguardando confirmação do IBGE** |
+| Publicação (PDF) | https://biblioteca.ibge.gov.br/visualizacao/livros/liv50000.pdf |
+| Dados usados | `tabelamedidas_bd.zip` (planilha `tabelamedidas_bd.xls`, aba "Tab_Medidas Caseiras") em https://ftp.ibge.gov.br/Orcamentos_Familiares/Pesquisa_de_Orcamentos_Familiares_2008_2009/Tabela_de_Medidas_Referidas_para_os_Alimentos_Consumidos_no_Brasil/ |
+| SHA-256 do zip baixado em 20/10/2026 | `3d0ff06acf0b55c22a621f57e6fb218d4505af204ed2be1571bfbe02fbab17c9` |
+| Uso no app | Peso em gramas de "1 unidade" de 50 alimentos, para registrar sem digitar gramas |
+| Situação | **Em uso com citação da fonte** (decisão do autor em 20/10/2026, sem confirmação formal do IBGE) |
 
 O que foi encontrado:
 
@@ -68,5 +70,28 @@ O que foi encontrado:
 - Fontes secundárias (respostas antigas do atendimento do IBGE e da CGU) indicam que a
   reprodução é aceita com citação da fonte, mas não substituem uma posição oficial.
 
-Recomendação (aguardando aprovação do autor): pedir confirmação ao IBGE antes de embutir os
-pesos no app. Até a resposta, o app funciona com porções criadas pelo usuário.
+Decisão do autor: usar os pesos citando a fonte, aceitando o risco de não haver confirmação
+formal. Se o IBGE vier a restringir o uso, basta esvaziar `porcoes-unidade.csv` e regenerar o
+catálogo; o app continua funcionando com porções criadas pelo usuário.
+
+Citação a exibir na tela "Fontes" do app:
+
+> IBGE. Pesquisa de orçamentos familiares 2008-2009: tabela de medidas referidas para os
+> alimentos consumidos no Brasil. Rio de Janeiro: IBGE, 2011.
+
+O próprio IBGE compilou cada peso a partir de fontes de referência (aba "Código e Fonte de
+Referência" da planilha), por exemplo Pinheiro et al. (2004), Philippi (2008) e Fisberg e Villar
+(2002). A coluna `ibge_reference_source` da curadoria guarda esse código.
+
+### Curadoria (`data/fontes/ibge/porcoes-unidade.csv`)
+
+Cópia do arquivo original em `data/fontes/ibge/tabelamedidas_bd.zip`. A curadoria liga 50
+alimentos da TACO a linhas da tabela do IBGE em que a medida é "UNIDADE":
+
+- referência do IBGE com variedade (ex.: "Banana prata - unidade") vale só para essa variedade
+  na TACO; outras bananas ficam sem porção padrão;
+- referência genérica (ex.: "Laranja - unidade média") vale para as variedades cruas da TACO;
+- o preparo segue o da TACO quando o IBGE distingue (ovo cru e cozido 45 g, ovo frito 50 g);
+- gramas copiados por script diretamente da planilha, nunca digitados; cada linha guarda o
+  número da linha no Excel (`ibge_excel_row`) para conferência;
+- o gerador do catálogo confere número e nome de cada alimento na TACO e falha se divergirem.

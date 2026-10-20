@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Uso: java -cp target/classes io.github.lucaslimacelino_dev.calju.catalog.Main
- * &lt;planilha-taco.xlsx&gt; &lt;pasta-de-saída&gt;
+ * &lt;planilha-taco.xlsx&gt; &lt;porcoes-ibge.csv&gt; &lt;pasta-de-saída&gt;
  */
 public final class Main {
 
@@ -17,23 +17,35 @@ public final class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            System.err.println("Uso: Main <planilha-taco.xlsx> <pasta-de-saída>");
+        if (args.length != 3) {
+            System.err.println("Uso: Main <planilha-taco.xlsx> <porcoes-ibge.csv> <pasta-de-saída>");
             System.exit(2);
         }
-        Path input = Path.of(args[0]);
-        Path output = Path.of(args[1]);
+        Path tacoFile = Path.of(args[0]);
+        Path portionsFile = Path.of(args[1]);
+        Path output = Path.of(args[2]);
 
-        Map<Integer, Map<String, String>> rows = XlsxReader.readSheet(input, TacoParser.SHEET_NAME);
+        Map<Integer, Map<String, String>> rows = XlsxReader.readSheet(tacoFile, TacoParser.SHEET_NAME);
         List<CatalogFood> foods = TacoParser.parse(rows);
+        List<Portion> portions = IbgePortions.link(CsvReader.read(portionsFile), foods);
 
         Files.createDirectories(output);
         writeNutrients(output.resolve("nutrients.csv"));
         writeFoods(output.resolve("foods.csv"), foods);
         int values = writeFoodNutrients(output.resolve("food_nutrients.csv"), foods);
+        writePortions(output.resolve("food_portions.csv"), portions);
 
-        System.out.printf("Alimentos: %d | Valores de nutrientes: %d | Saída: %s%n",
-                foods.size(), values, output.toAbsolutePath());
+        System.out.printf("Alimentos: %d | Valores de nutrientes: %d | Porções: %d | Saída: %s%n",
+                foods.size(), values, portions.size(), output.toAbsolutePath());
+    }
+
+    private static void writePortions(Path file, List<Portion> portions) throws IOException {
+        List<List<String>> rows = new ArrayList<>();
+        for (Portion portion : portions) {
+            rows.add(List.of(portion.foodId().toString(), portion.label(), portion.grams().toPlainString(),
+                    portion.sourceId()));
+        }
+        CsvWriter.write(file, List.of("food_id", "label", "grams", "source_id"), rows);
     }
 
     private static void writeNutrients(Path file) throws IOException {

@@ -1,0 +1,51 @@
+taco_number,taco_name,label,grams,ibge_excel_row,ibge_food_code,ibge_food,ibge_preparation,ibge_reference,ibge_reference_source
+53,"Pão, trigo, francês",1 unidade,50,8588,8000105,PAO DE SAL,NAO SE APLICA,Pão francês - unidade,1
+82,"Alho, cru",1 unidade,4.4,2792,6706201,ALHO,NAO SE APLICA,Alho - unidade,14
+89,"Batata, doce, crua",1 unidade média,355,387,6400401,BATATA DOCE,CRU(A),Batata doce cozida - unidade média,1
+92,"Batata, inglesa, crua",1 unidade média,140,364,6400101,BATATA INGLESA,NAO SE APLICA,Batata inglesa cozida - unidade média,1
+96,"Berinjela, crua",1 unidade grande,200,2701,6705401,BERINJELA,NAO SE APLICA,Berinjela - unidade grande,9
+107,"Cebola, crua",1 unidade média,70,2724,6705701,CEBOLA,CRU(A),Cebola - unidade média,1
+110,"Cenoura, crua",1 unidade média,120,824,6401201,CENOURA,CRU(A),Cenoura crua - unidade média,1
+113,"Chuchu, cru",1 unidade média,230,2364,6704101,CHUCHU,CRU(A),Chuchu cozido - unidade média,1
+127,"Jiló, cru",1 unidade média,26,2427,6704201,JILO,CRU(A),Jiló cozido - unidade média,1
+140,"Pão, de queijo, assado",1 unidade média,20,8624,8000801,PAO DE QUEIJO,NAO SE APLICA,Pão de queijo - unidade média,1
+142,"Pepino, cru",1 unidade média,100,2353,6704001,PEPINO,NAO SE APLICA,Pepino - unidade média,1
+143,"Pimentão, amarelo, cru",1 unidade média,55,2552,6704501,PIMENTAO,NAO SE APLICA,Pimentão - unidade média,1
+144,"Pimentão, verde, cru",1 unidade média,55,2552,6704501,PIMENTAO,NAO SE APLICA,Pimentão - unidade média,1
+145,"Pimentão, vermelho, cru",1 unidade média,55,2552,6704501,PIMENTAO,NAO SE APLICA,Pimentão - unidade média,1
+147,"Quiabo, cru",1 unidade,18,2557,6705001,QUIABO,CRU(A),Quiabo - unidade,14
+157,"Tomate, com semente, cru",1 unidade média,100,2613,6705101,TOMATE,NAO SE APLICA,Tomate - unidade média,1
+172,"Ameixa, crua",1 unidade média,42,3155,6804301,AMEIXA,NAO SE APLICA,Ameixa preta fresca - unidade média,1
+175,"Banana, da terra, crua",1 unidade grande,100,2826,6801017,PACOVA,NAO SE APLICA,Banana-da-terra - unidade grande,1
+181,"Banana, pacova, crua",1 unidade grande,100,2826,6801017,PACOVA,NAO SE APLICA,Banana-da-terra - unidade grande,1
+182,"Banana, prata, crua",1 unidade,75,2837,6801101,"BANANA (OURO, PRATA, D´AGUA, DA TERRA, ETC)",CRU(A),Banana prata - unidade,3
+186,"Caju, cru",1 unidade média,90,3163,6804401,CAJU,NAO SE APLICA,Caju - unidade média,1
+189,"Caqui, chocolate, cru",1 unidade média,110,3004,6802801,CAQUI,NAO SE APLICA,Caqui - unidade média,1
+190,"Carambola, crua",1 unidade média,75,3201,6804801,CARAMBOLA,NAO SE APLICA,Carambola - unidade média,1
+194,"Figo, cru",1 unidade média,55,3009,6802901,FIGO,NAO SE APLICA,Figo - unidade média,1
+197,"Goiaba, branca, com casca, crua",1 unidade média,170,3143,6804201,GOIABA,NAO SE APLICA,Goiaba - unidade média,1
+200,"Goiaba, vermelha, com casca, crua",1 unidade média,170,3143,6804201,GOIABA,NAO SE APLICA,Goiaba - unidade média,1
+205,"Jambo, cru",1 unidade média,40,3236,6805301,JAMBO,NAO SE APLICA,Jambo - unidade média,1
+208,"Laranja, baía, crua",1 unidade média,180,2918,6801801,"LARANJA (PERA, SELETA, LIMA, DA TERRA, ETC)",NAO SE APLICA,Laranja - unidade média,1
+210,"Laranja, da terra, crua",1 unidade média,180,2918,6801801,"LARANJA (PERA, SELETA, LIMA, DA TERRA, ETC)",NAO SE APLICA,Laranja - unidade média,1
+212,"Laranja, lima, crua",1 unidade média,180,2922,6801901,LIMA,NAO SE APLICA,Laranja - unidade média,1
+214,"Laranja, pêra, crua",1 unidade média,180,2918,6801801,"LARANJA (PERA, SELETA, LIMA, DA TERRA, ETC)",NAO SE APLICA,Laranja - unidade média,1
+216,"Laranja, valência, crua",1 unidade média,180,2918,6801801,"LARANJA (PERA, SELETA, LIMA, DA TERRA, ETC)",NAO SE APLICA,Laranja - unidade média,1
+220,"Limão, tahiti, cru",1 unidade,84,2934,6802001,"LIMAO (COMUM, GALEGO, ETC)",NAO SE APLICA,Limão - unidade,2
+221,"Maçã, Argentina, com casca, crua",1 unidade média,150,3017,6803001,MACA,NAO SE APLICA,Maçã - unidade média,1
+222,"Maçã, Fuji, com casca, crua",1 unidade média,150,3017,6803001,MACA,NAO SE APLICA,Maçã - unidade média,1
+232,"Maracujá, cru",1 unidade média,45,3060,6803301,MARACUJA,NAO SE APLICA,Maracujá - unidade média,1
+237,"Mexerica, Murcote, crua",1 unidade média,135,2948,6802202,MEXERICA,NAO SE APLICA,Tangerina - unidade média,1
+238,"Mexerica, Rio, crua",1 unidade média,135,2948,6802202,MEXERICA,NAO SE APLICA,Tangerina - unidade média,1
+239,"Morango, cru",1 unidade média,12,3231,6805201,MORANGO,NAO SE APLICA,Morango - unidade média,1
+240,"Nêspera, crua",1 unidade média,27,3252,6805801,NESPERA,NAO SE APLICA,Nespera - unidade média,1
+242,"Pêra, Park, crua",1 unidade média,130,3082,6803601,PERA,NAO SE APLICA,Pêra - unidade média,1
+243,"Pêra, Williams, crua",1 unidade média,130,3082,6803601,PERA,NAO SE APLICA,Pêra - unidade média,1
+244,"Pêssego, Aurora, cru",1 unidade média,60,3090,6803701,PESSEGO,NAO SE APLICA,Pêssego - unidade média,1
+247,"Pitanga, crua",1 unidade,10,3299,6806801,PITANGA,NAO SE APLICA,Pitanga - unidade,9
+251,"Tangerina, Poncã, crua",1 unidade média,135,2943,6802201,TANGERINA,NAO SE APLICA,Tangerina - unidade média,1
+254,"Umbu, cru",1 unidade grande,33.33,3318,6807101,UMBU,NAO SE APLICA,Umbu - unidade grande,9
+485,"Ovo, de codorna, inteiro, cru",1 unidade,10,7888,7803501,OVO DE CODORNA,CRU(A),Ovo de codorna - unidade,1
+488,"Ovo, de galinha, inteiro, cozido/10minutos",1 unidade média,45,7846,7803301,OVO DE GALINHA,CROZIDO(A),Ovo de galinha cozido - unidade média,1
+489,"Ovo, de galinha, inteiro, cru",1 unidade média,45,7836,7803301,OVO DE GALINHA,CRU(A),Ovo de galinha cozido - unidade média,1
+490,"Ovo, de galinha, inteiro, frito",1 unidade média,50,7859,7803301,OVO DE GALINHA,FRITO(A),Ovo de galinha frito - unidade média,1
