@@ -6,7 +6,7 @@ Lucas Lima Celino.
 
 ## Ferramenta utilizada
 
-Assistente de programação baseado em IA generativa (modelo de linguagem), usado por meio
+Assistente de programação baseado em IA generativa (Opus5.5), usado por meio
 de extensão do editor VS Code, com acesso à pasta do projeto.
 
 ## Divisão de responsabilidades
@@ -42,3 +42,11 @@ objetiva que os sustente.
 - App Android: estrutura inicial escrita pelo assistente; Gradle Wrapper gerado pela
   distribuição oficial do Gradle. Ícones da barra inferior baseados nos Material Icons
   (Google, Apache License 2.0).
+- Identidade visual: paletas e protótipos de tela propostos pelo assistente; escolha da
+  paleta "castanha e caju", da tela inicial (v3), do registro de um alimento por vez, do
+  painel animado e das porções padrão para frutas e alimentos de tamanho padrão feita pelo autor.
+
+### Fase 3 — Domínio e calculadora
+
+- Pacote `domain` (modelos, `NutritionCalculator`, `FoodInputParser`) e testes JUnit escritos
+  pelo assistente a partir das regras definidas no planejamento e pelo autor.

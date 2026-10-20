@@ -124,8 +124,10 @@ nutrition_goals    (id uuid, owner_user_id, effective_from DATE, kcal, protein_g
 - TACO (4ª ed., NEPA/UNICAMP) como base inicial; TBCA e USDA FoodData Central como
   complementos. **Conferir termos de uso antes de embutir qualquer tabela** (Fase 3) e
   registrar em `docs/fontes-de-dados.md`.
-- Medidas caseiras não são inventadas: no MVP, porções definidas pelo usuário e
-  identificadas como tal.
+- Medidas caseiras não são inventadas. Porções padrão (ex.: "1 banana média") vêm da
+  Tabela de Medidas Referidas para os Alimentos Consumidos no Brasil (IBGE, POF 2008-2009),
+  com fonte registrada (`source = REFERENCE`); o usuário pode criar as próprias (`USER`).
+  Conferir os termos de uso da tabela na Fase 4a.
 
 ## 4. Offline e sincronização
 
@@ -275,8 +277,12 @@ Diário | Histórico | Perfil                  barra inferior
 
 1. O usuário digita no campo fixo, por exemplo `arroz 150`.
 2. Sugestões aparecem a cada letra, buscadas no catálogo local (offline).
-3. Um número no texto é interpretado como gramas. Sem número, o app pede a quantidade
-   depois da escolha do alimento.
+3. Regras do texto (implementadas em `FoodInputParser`):
+   - número depois do nome, ou com "g": gramas (`arroz 150`, `150 g de arroz`);
+   - número antes do nome: unidades da porção padrão (`2 bananas`, `1,5 banana`);
+   - só o nome: 1 porção padrão, se o alimento tiver uma (`banana`);
+   - sem porção padrão e sem gramas: o app pergunta a quantidade.
+   O peso calculado aparece antes de confirmar, sempre editável.
 4. A ocasião (café, almoço, jantar, lanche) é sugerida pelo horário e pode ser trocada.
 5. "Adicionar" registra o item; o painel anima até os novos totais; snackbar com "Desfazer".
 6. Tocar num registro abre a edição (quantidade, ocasião, remoção).
@@ -338,7 +344,7 @@ O backend é organizado por funcionalidade, com as camadas dentro de cada pacote
 | Risco | Mitigação |
 |---|---|
 | Licença das tabelas nutricionais | Conferir termos antes de embutir; atribuição em "Sobre" |
-| Pesos de medidas caseiras inventados | Porções definidas pelo usuário, identificadas como tal |
+| Pesos de medidas caseiras inventados | Porções padrão só da tabela do IBGE, com fonte; demais definidas pelo usuário |
 | Erros de arredondamento | `BigDecimal`, arredondar só na exibição, testes de casos-limite |
 | Sincronização "come" o projeto | Só na Fase 7; UUID e versão no esquema desde o início |
 | Autenticação feita à mão | Só componentes do Spring Security; testes de IDOR |
@@ -376,7 +382,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | Fase | Entrega | Verificação |
 |---|---|---|
 | 2 (concluída) | README, .gitignore, docker-compose, backend com Flyway V1 + health, app Android com tema e 3 abas | `mvn test` verde; app abre no emulador |
-| 3 | `domain/`: modelos, NutritionCalculator | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas |
+| 3 (concluída) | `domain/`: modelos, NutritionCalculator, FoodInputParser, porção padrão | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas; regras do texto |
 | 4a | Room, catálogo pré-instalado, campo de registro com sugestões, tela de quantidade | Testes de DAO; busca em modo avião; "arroz 150" preenche 150 g |
 | 4b | Diário com snapshot, edição, remoção, desfazer | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
@@ -411,3 +417,4 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 - INPI perguntas frequentes: https://www.gov.br/inpi/pt-br/servicos/perguntas-frequentes/programas-de-computador
 - Verificação de desenvolvedor Android: https://developer.android.com/developer-verification/guides
 - Compatibilidade AGP/Android Studio: https://developer.android.com/build/releases/about-agp
+- IBGE, medidas referidas (POF 2008-2009): https://www.ibge.gov.br/home/estatistica/populacao/condicaodevida/pof/2008_2009_medidas/default.shtm

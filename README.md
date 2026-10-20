@@ -16,8 +16,9 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 |---|---|---|
 | 1 | Arquitetura e planejamento | Concluída |
 | 2 | Ambiente e estrutura inicial | Concluída |
-| 3 | Domínio e calculadora nutricional | Próxima |
-| 4–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
+| 3 | Domínio e calculadora nutricional | Concluída |
+| 4 | Catálogo, diário e refeições no app | Próxima |
+| 5–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
 
@@ -86,6 +87,7 @@ Studio, abra a pasta `android/`. Pela linha de comando:
 
 ```powershell
 cd android
+.\gradlew testDebugUnitTest            # testes do domínio (sem emulador)
 .\gradlew assembleDebug                # gera app/build/outputs/apk/debug/app-debug.apk
 .\gradlew connectedDebugAndroidTest    # testes de interface (emulador ligado)
 ```
