@@ -1,35 +1,22 @@
-# =============================================================================
-# CaLju — atributos de arquivos para o Git
-# Define como o Git trata quebras de linha e arquivos binários, de forma igual
-# em qualquer máquina (Windows, Linux, macOS, Docker, CI), independentemente da
-# configuração core.autocrlf de cada pessoa.
-# =============================================================================
-
-# Padrão: o Git detecta se o arquivo é texto. Arquivos de texto são guardados
-# no repositório com LF e convertidos para o padrão do sistema ao fazer checkout.
 * text=auto
 
-# Scripts executados em Linux/macOS/Docker: sempre LF, também no Windows.
-# Com CRLF, o shell falha com erros como "/bin/sh^M: bad interpreter".
 *.sh    text eol=lf
 gradlew text eol=lf
 mvnw    text eol=lf
 
-# Scripts do Windows: sempre CRLF (o cmd.exe pode se comportar mal com LF).
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
-# Binários: nunca converter quebras de linha nem tentar mostrar diferenças de texto.
-*.jar      binary
-*.png      binary
-*.jpg      binary
-*.jpeg     binary
-*.gif      binary
-*.webp     binary
-*.ico      binary
-*.ttf      binary
-*.otf      binary
-*.pdf      binary
-*.zip      binary
-*.sqlite   binary
-*.db       binary
+*.jar    binary
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.webp   binary
+*.ico    binary
+*.ttf    binary
+*.otf    binary
+*.pdf    binary
+*.zip    binary
+*.sqlite binary
+*.db     binary
