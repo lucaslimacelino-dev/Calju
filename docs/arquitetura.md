@@ -26,7 +26,7 @@ O aparelho é a fonte primária dos dados; o backend é opcional.
 | Rede (Fase 5+) | Retrofit + OkHttp + Gson | Padrão consolidado |
 | Sync em segundo plano | WorkManager | Restrição de rede, backoff, economia de bateria |
 | DI | Manual (`AppContainer`) | Sem Hilt/Dagger: menos mágica, mais didático |
-| Backend | Java 25 LTS + Spring Boot 4.1.x | LTS e linha suportada (conferir patch na Fase 2) |
+| Backend | Java 17 LTS + Spring Boot 4.1.1 | Java 17 em vez de 25: o computador de desenvolvimento usa o 17 em outro projeto (decisão de 20/10/2026); Spring Boot 4.1 aceita Java 17 a 26 |
 | Banco remoto | PostgreSQL + Flyway | Esquema versionado |
 | Testes backend | JUnit 5 + Spring Boot Test + Testcontainers | Testes contra PostgreSQL real |
 | Infra | Docker Compose + Caddy (TLS automático) em uma VPS | Sem Kubernetes/microsserviços |
@@ -315,7 +315,7 @@ O backend é organizado por funcionalidade, com as camadas dentro de cada pacote
 | Mudanças de requisitos da Play | Revisão nas fontes oficiais na Fase 9 |
 | Entrega de e-mails | Provedor SMTP transacional; SPF/DKIM |
 | Autoria com uso de IA | `docs/autoria.md`, commits feitos pelo autor, sem percentuais inventados |
-| applicationId permanente | Decidir antes da Fase 2 |
+| applicationId permanente | Definido: `io.github.lucaslimacelino_dev.calju` |
 
 ## 9. Escopo do MVP
 

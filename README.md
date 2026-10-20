@@ -34,7 +34,7 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | Parte | Tecnologias |
 |---|---|
 | App Android (`android/`) | Java, Views/XML + Material 3, MVVM, Room, WorkManager |
-| Backend (`backend/`) | Java, Spring Boot, Maven, PostgreSQL, Flyway |
+| Backend (`backend/`) | Java 17, Spring Boot 4.1, Maven, PostgreSQL 18, Flyway |
 | Infraestrutura | Docker Compose |
 
 Detalhes, modelo de dados, protocolo de sincronização e decisões de segurança estão em
@@ -45,15 +45,41 @@ Detalhes, modelo de dados, protocolo de sincronização e decisões de seguranç
 ```
 Calju/
 ├── android/   app Android (a criar na Fase 2)
-├── backend/   API Spring Boot (a criar na Fase 2)
+├── backend/   API Spring Boot
 ├── tools/     ferramentas auxiliares, como o gerador do catálogo (Fase 3+)
 └── docs/      arquitetura, decisões, fontes de dados e autoria
 ```
 
 ## Como executar
 
-As instruções de compilação e execução serão adicionadas aqui à medida que o backend e
-o app Android forem criados, junto com as versões exatas de cada ferramenta necessária.
+### Pré-requisitos
+
+- JDK 17
+- Docker Desktop (Docker Compose v2)
+
+O Maven não precisa estar instalado: o projeto usa o Maven Wrapper (`mvnw`).
+
+### Banco de dados de desenvolvimento
+
+```powershell
+Copy-Item .env.example .env   # depois defina POSTGRES_PASSWORD no .env
+docker compose up -d
+docker compose ps             # aguarde o estado "healthy"
+```
+
+### Backend
+
+```powershell
+cd backend
+.\mvnw test               # testes (usam Testcontainers; o Docker precisa estar rodando)
+.\mvnw spring-boot:run    # sobe a API em http://localhost:8080
+```
+
+Verificação: `http://localhost:8080/actuator/health` deve responder `{"status":"UP", ...}`.
+
+### App Android
+
+Instruções serão adicionadas quando o projeto Android for criado.
 
 ## Segurança
 

@@ -1,0 +1,1 @@
+-- Migração inicial: estabelece o histórico do Flyway. As tabelas entram a partir da Fase 5.
