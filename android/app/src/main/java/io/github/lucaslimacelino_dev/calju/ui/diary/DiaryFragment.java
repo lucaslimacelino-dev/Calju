@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
@@ -30,6 +32,7 @@ import java.util.function.Function;
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.databinding.FragmentDiaryBinding;
+import io.github.lucaslimacelino_dev.calju.databinding.ItemSavedMealBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.ViewMacroCardBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
@@ -68,13 +71,21 @@ public class DiaryFragment extends Fragment {
 
         suggestionAdapter = new SuggestionAdapter(viewModel::select);
         binding.suggestions.setAdapter(suggestionAdapter);
-        entryAdapter = new EntryAdapter(viewModel::edit);
+        entryAdapter = new EntryAdapter(this::onEntryClicked);
         binding.entries.setAdapter(entryAdapter);
 
         viewModel.dayState().observe(getViewLifecycleOwner(), this::showDay);
         viewModel.date().observe(getViewLifecycleOwner(), this::showDate);
         viewModel.suggestions().observe(getViewLifecycleOwner(), this::showSuggestions);
         viewModel.events().observe(getViewLifecycleOwner(), this::showEvent);
+        viewModel.mealSummaries().observe(getViewLifecycleOwner(), meals ->
+                showMeals(meals, Boolean.TRUE.equals(viewModel.mealsExpanded().getValue())));
+        viewModel.mealsExpanded().observe(getViewLifecycleOwner(), expanded -> {
+            List<MealSummary> meals = viewModel.mealSummaries().getValue();
+            showMeals(meals != null ? meals : Collections.emptyList(), Boolean.TRUE.equals(expanded));
+        });
+        binding.mealsHeader.setOnClickListener(v -> viewModel.toggleMeals());
+        binding.newMeal.setOnClickListener(v -> openMealEditor(MealEditorSheet.newMeal()));
         viewModel.selected().observe(getViewLifecycleOwner(), selected -> {
             if (selected != null && getChildFragmentManager().findFragmentByTag(QuantityInputSheet.TAG) == null) {
                 hideKeyboard();
@@ -205,18 +216,79 @@ public class DiaryFragment extends Fragment {
             return;
         }
         String message;
-        if (event.type() == DiaryEvent.Type.ADDED) {
-            binding.foodInput.setText("");
-            viewModel.clearSuggestions();
-            hideKeyboard();
-            message = getString(R.string.event_added, getString(Occasions.label(event.occasion())).toLowerCase(PT_BR));
-        } else {
-            message = getString(R.string.event_removed);
+        switch (event.type()) {
+            case ADDED:
+                binding.foodInput.setText("");
+                viewModel.clearSuggestions();
+                hideKeyboard();
+                message = getString(R.string.event_added,
+                        getString(Occasions.label(event.occasion())).toLowerCase(PT_BR));
+                break;
+            case MEAL_SAVED:
+                message = getString(R.string.event_meal_saved, event.name());
+                break;
+            case MEAL_DUPLICATED:
+                message = getString(R.string.event_meal_duplicated, event.name());
+                break;
+            case MEAL_DELETED:
+                message = getString(R.string.event_meal_deleted, event.name());
+                break;
+            default:
+                message = getString(R.string.event_removed);
+                break;
         }
         // O CoordinatorLayout da área de conteúdo posiciona o aviso logo acima do campo.
-        Snackbar.make(binding.contentArea, message, Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, v -> viewModel.undo(event))
-                .show();
+        Snackbar snackbar = Snackbar.make(binding.contentArea, message, Snackbar.LENGTH_LONG);
+        if (event.canUndo()) {
+            snackbar.setAction(R.string.undo, v -> viewModel.undo(event));
+        }
+        snackbar.show();
+    }
+
+    private void onEntryClicked(EntryRow row) {
+        if (row.isSingleItem()) {
+            viewModel.edit(row);
+        } else if (getChildFragmentManager().findFragmentByTag(MealEditorSheet.TAG) == null) {
+            MealEditorSheet.editEntry(row.entryId()).show(getChildFragmentManager(), MealEditorSheet.TAG);
+        }
+    }
+
+    private void openMealEditor(MealEditorSheet sheet) {
+        if (getChildFragmentManager().findFragmentByTag(MealEditorSheet.TAG) == null) {
+            sheet.show(getChildFragmentManager(), MealEditorSheet.TAG);
+        }
+    }
+
+    /** Seção "Refeições prontas": cabeçalho sempre visível; lista só quando aberta. */
+    private void showMeals(List<MealSummary> meals, boolean expanded) {
+        String count = getResources().getQuantityString(R.plurals.meals_count, meals.size(), meals.size());
+        binding.mealsCount.setText(getString(expanded ? R.string.meals_count_open : R.string.meals_count_closed, count));
+        binding.mealsHeader.setContentDescription(getString(expanded ? R.string.meals_collapse : R.string.meals_expand));
+        binding.mealsList.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        binding.newMeal.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        binding.mealsList.removeAllViews();
+        if (!expanded) {
+            return;
+        }
+        if (meals.isEmpty()) {
+            TextView empty = new TextView(requireContext());
+            empty.setText(R.string.meals_empty);
+            empty.setTextColor(binding.mealsCount.getCurrentTextColor());
+            int padding = getResources().getDimensionPixelSize(R.dimen.meals_empty_padding);
+            empty.setPadding(padding, 0, padding, padding / 2);
+            binding.mealsList.addView(empty);
+            return;
+        }
+        for (MealSummary meal : meals) {
+            ItemSavedMealBinding row = ItemSavedMealBinding.inflate(getLayoutInflater(), binding.mealsList, true);
+            row.name.setText(meal.name());
+            row.detail.setText(meal.kcal() == null ? meal.itemsText()
+                    : getString(R.string.meal_summary, meal.itemsText(), Formats.amount(meal.kcal(), NutrientUnit.KCAL)));
+            row.edit.setContentDescription(getString(R.string.meal_edit, meal.name()));
+            row.edit.setOnClickListener(v -> openMealEditor(MealEditorSheet.editMeal(meal.mealId())));
+            row.add.setContentDescription(getString(R.string.meal_add_today, meal.name()));
+            row.add.setOnClickListener(v -> viewModel.addMealAsIs(meal.mealId()));
+        }
     }
 
     private void selectFirstSuggestion() {

@@ -9,7 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 /**
- * Versão 2: tabelas do diário. Versão 3: metas. As migrações são geradas pelo Room comparando
+ * Versão 2: tabelas do diário. Versão 3: metas. Versão 4: refeições salvas.
+ * As migrações são geradas pelo Room comparando
  * os esquemas exportados em app/schemas.
  */
 @Database(
@@ -22,10 +23,16 @@ import androidx.room.TypeConverters;
                 LogEntryEntity.class,
                 LogItemEntity.class,
                 LogItemNutrientEntity.class,
-                NutritionGoalEntity.class
+                NutritionGoalEntity.class,
+                MealEntity.class,
+                MealItemEntity.class
         },
-        version = 3,
-        autoMigrations = {@AutoMigration(from = 1, to = 2), @AutoMigration(from = 2, to = 3)})
+        version = 4,
+        autoMigrations = {
+                @AutoMigration(from = 1, to = 2),
+                @AutoMigration(from = 2, to = 3),
+                @AutoMigration(from = 3, to = 4)
+        })
 @TypeConverters(Converters.class)
 public abstract class CaljuDatabase extends RoomDatabase {
 
@@ -36,6 +43,8 @@ public abstract class CaljuDatabase extends RoomDatabase {
     public abstract DiaryDao diaryDao();
 
     public abstract GoalDao goalDao();
+
+    public abstract MealDao mealDao();
 
     public static CaljuDatabase create(Context context) {
         return Room.databaseBuilder(context.getApplicationContext(), CaljuDatabase.class, FILE_NAME).build();

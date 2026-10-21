@@ -19,8 +19,9 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 3 | Domínio e calculadora nutricional | Concluída |
 | 4a | Catálogo, busca e campo de registro | Concluída |
 | 4b | Diário com registro, edição, remoção e painel do dia | Concluída |
-| 4c | Metas e refeições salvas | Em andamento (metas concluídas) |
-| 5–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
+| 4c | Metas e refeições salvas | Concluída |
+| 5 | API REST do backend | Próxima |
+| 6–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
 

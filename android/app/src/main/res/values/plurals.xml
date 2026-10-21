@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="entry_items">
+        <item quantity="one">%1$d item · %2$s</item>
+        <item quantity="other">%1$d itens · %2$s</item>
+    </plurals>
+    <plurals name="meals_count">
+        <item quantity="one">%d salva</item>
+        <item quantity="other">%d salvas</item>
+    </plurals>
+</resources>

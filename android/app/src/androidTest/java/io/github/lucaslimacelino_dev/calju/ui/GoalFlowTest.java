@@ -10,15 +10,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-import android.os.SystemClock;
-import android.view.View;
-
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,40 +39,25 @@ public class GoalFlowTest {
         });
     }
 
-    private static void waitUntilDisplayed(Matcher<View> matcher) {
-        long deadline = SystemClock.uptimeMillis() + 10_000;
-        while (true) {
-            try {
-                onView(matcher).check(matches(isDisplayed()));
-                return;
-            } catch (NoMatchingViewException | AssertionError e) {
-                if (SystemClock.uptimeMillis() > deadline) {
-                    throw e;
-                }
-                SystemClock.sleep(100);
-            }
-        }
-    }
-
     @Test
     public void semMetaODiarioOfereceDefinirMeta() {
-        waitUntilDisplayed(withId(R.id.define_goal));
+        Waits.untilDisplayed(withId(R.id.define_goal));
         onView(withText(R.string.kcal_consumed)).check(matches(isDisplayed()));
     }
 
     @Test
     public void definirMetaNoPerfilMostraKcalRestantesNoDiario() {
-        waitUntilDisplayed(withId(R.id.define_goal));
+        Waits.untilDisplayed(withId(R.id.define_goal));
         onView(withId(R.id.define_goal)).perform(click());
 
-        waitUntilDisplayed(withId(R.id.kcal));
+        Waits.untilDisplayed(withId(R.id.kcal));
         onView(withId(R.id.kcal)).perform(replaceText("2000"));
         onView(withId(R.id.protein)).perform(replaceText("100"));
         onView(withId(R.id.save_goals)).perform(scrollTo(), click());
-        waitUntilDisplayed(withText(R.string.goals_saved));
+        Waits.untilDisplayed(withText(R.string.goals_saved));
 
         onView(withId(R.id.diaryFragment)).perform(click());
-        waitUntilDisplayed(withText("kcal restantes · meta 2.000"));
+        Waits.untilDisplayed(withText("kcal restantes · meta 2.000"));
         onView(allOf(withId(R.id.kcal_value), withText("2.000"))).check(matches(isDisplayed()));
         onView(withText("de 100 g")).check(matches(isDisplayed()));
     }
@@ -85,7 +65,7 @@ public class GoalFlowTest {
     @Test
     public void metaSemCaloriasMostraErro() {
         onView(withId(R.id.profileFragment)).perform(click());
-        waitUntilDisplayed(withId(R.id.save_goals));
+        Waits.untilDisplayed(withId(R.id.save_goals));
 
         onView(withId(R.id.save_goals)).perform(scrollTo(), click());
 

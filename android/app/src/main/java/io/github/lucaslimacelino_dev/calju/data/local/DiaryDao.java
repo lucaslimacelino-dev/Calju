@@ -33,6 +33,10 @@ public interface DiaryDao {
     @Query("SELECT * FROM log_entries WHERE log_date = :date AND deleted_at IS NULL ORDER BY created_at")
     List<EntryWithItems> day(LocalDate date);
 
+    @Transaction
+    @Query("SELECT * FROM log_entries WHERE id = :entryId")
+    EntryWithItems entry(String entryId);
+
     @Query("UPDATE log_items SET quantity_g = :grams WHERE id = :itemId")
     int updateItemQuantity(String itemId, BigDecimal grams);
 
@@ -52,4 +56,14 @@ public interface DiaryDao {
 
     @Query("SELECT entry_id FROM log_items WHERE id = :itemId")
     String entryIdOf(String itemId);
+
+    @Query("SELECT id FROM log_items WHERE entry_id = :entryId")
+    List<String> itemIdsOf(String entryId);
+
+    @Query("UPDATE log_items SET quantity_g = :grams, position = :position WHERE id = :itemId")
+    int updateItem(String itemId, BigDecimal grams, int position);
+
+    /** Os nutrientes copiados do item são apagados junto (chave estrangeira com CASCADE). */
+    @Query("DELETE FROM log_items WHERE id = :itemId")
+    int deleteItem(String itemId);
 }

@@ -20,7 +20,7 @@ import io.github.lucaslimacelino_dev.calju.databinding.ItemLogEntryBinding;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 
-/** Cartões dos registros do dia: "ALMOÇO · 12:40", alimento, gramas e kcal. */
+/** Cartões dos registros do dia: "ALMOÇO · 12:40", nome (ou refeição), gramas e kcal. */
 public class EntryAdapter extends ListAdapter<EntryRow, EntryAdapter.ViewHolder> {
 
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
@@ -48,8 +48,11 @@ public class EntryAdapter extends ListAdapter<EntryRow, EntryAdapter.ViewHolder>
         holder.binding.kcal.setText(row.kcal() == null
                 ? context.getString(R.string.value_unknown)
                 : context.getString(R.string.entry_kcal, Formats.amount(row.kcal(), NutrientUnit.KCAL)));
-        holder.binding.foodName.setText(row.foodName());
-        holder.binding.grams.setText(Formats.grams(row.grams()));
+        holder.binding.foodName.setText(row.title());
+        String grams = Formats.grams(row.totalGrams());
+        holder.binding.grams.setText(row.isSingleItem() ? grams
+                : context.getResources().getQuantityString(R.plurals.entry_items, row.itemCount(),
+                row.itemCount(), grams));
         holder.binding.getRoot().setOnClickListener(v -> onClick.accept(row));
     }
 
@@ -65,13 +68,14 @@ public class EntryAdapter extends ListAdapter<EntryRow, EntryAdapter.ViewHolder>
     private static final DiffUtil.ItemCallback<EntryRow> DIFF = new DiffUtil.ItemCallback<EntryRow>() {
         @Override
         public boolean areItemsTheSame(@NonNull EntryRow a, @NonNull EntryRow b) {
-            return a.itemId().equals(b.itemId());
+            return a.entryId().equals(b.entryId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull EntryRow a, @NonNull EntryRow b) {
-            return a.occasion().equals(b.occasion()) && a.grams().compareTo(b.grams()) == 0
-                    && Objects.equals(a.kcal(), b.kcal()) && a.foodName().equals(b.foodName());
+            return a.occasion().equals(b.occasion()) && a.totalGrams().compareTo(b.totalGrams()) == 0
+                    && a.itemCount() == b.itemCount() && Objects.equals(a.kcal(), b.kcal())
+                    && a.title().equals(b.title());
         }
     };
 }

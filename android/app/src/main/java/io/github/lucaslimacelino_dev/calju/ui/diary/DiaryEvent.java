@@ -8,17 +8,19 @@ import io.github.lucaslimacelino_dev.calju.domain.Occasion;
  */
 public final class DiaryEvent {
 
-    public enum Type { ADDED, REMOVED }
+    public enum Type { ADDED, REMOVED, MEAL_SAVED, MEAL_DUPLICATED, MEAL_DELETED }
 
     private final Type type;
-    private final String entryId;
+    private final String id;
     private final Occasion occasion;
+    private final String name;
     private boolean consumed;
 
-    public DiaryEvent(Type type, String entryId, Occasion occasion) {
+    public DiaryEvent(Type type, String id, Occasion occasion, String name) {
         this.type = type;
-        this.entryId = entryId;
+        this.id = id;
         this.occasion = occasion;
+        this.name = name;
     }
 
     /** Retorna verdadeiro só na primeira chamada. */
@@ -34,11 +36,20 @@ public final class DiaryEvent {
         return type;
     }
 
-    public String entryId() {
-        return entryId;
+    /** Id do registro do diário (ADDED, REMOVED) ou da refeição salva (MEAL_*). */
+    public String id() {
+        return id;
     }
 
     public Occasion occasion() {
         return occasion;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public boolean canUndo() {
+        return type == Type.ADDED || type == Type.REMOVED || type == Type.MEAL_DELETED;
     }
 }

@@ -64,6 +64,26 @@ public class DayStateBuilderTest {
     }
 
     @Test
+    public void lancamentoComVariosItensViraUmCartaoComTotais() {
+        EntryWithItems meal = entry("m", Occasion.LUNCH, 1, "150", "100", null);
+        meal.entry.title = "Marmita";
+        EntryWithItems second = entry("x", Occasion.LUNCH, 1, "50", "200", null);
+        second.items.get(0).item.position = 1;
+        meal.items = Arrays.asList(meal.items.get(0), second.items.get(0));
+
+        DayState state = build(Collections.singletonList(meal));
+
+        assertEquals(1, state.entries().size());
+        EntryRow row = state.entries().get(0);
+        assertEquals("Marmita", row.title());
+        assertEquals(2, row.itemCount());
+        assertFalse(row.isSingleItem());
+        assertEquals(0, new BigDecimal("200").compareTo(row.totalGrams()));
+        assertEquals(0, new BigDecimal("250").compareTo(row.kcal()));
+        assertNull(row.itemId());
+    }
+
+    @Test
     public void semMetaVigenteAMetaFicaNula() {
         assertNull(build(Collections.emptyList()).goal());
     }

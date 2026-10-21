@@ -392,7 +392,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 3 (concluída) | `domain/`: modelos, NutritionCalculator, FoodInputParser, porção padrão | JUnit: 165 × 150 g = 247,5; zero, negativo, nulo, ausente, traço, somas; regras do texto |
 | 4a (concluída) | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
 | 4b (concluída) | Diário com snapshot, edição, remoção, desfazer, painel do dia, micronutrientes | Alterar alimento não altera registro antigo; persiste após reiniciar |
-| 4c (metas concluídas; refeições salvas em andamento) | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
+| 4c (concluída) | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |

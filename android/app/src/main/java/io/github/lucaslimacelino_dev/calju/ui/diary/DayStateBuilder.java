@@ -1,8 +1,8 @@
 package io.github.lucaslimacelino_dev.calju.ui.diary;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,14 +25,25 @@ public final class DayStateBuilder {
         List<Intake> intakes = new ArrayList<>();
         List<EntryRow> rows = new ArrayList<>();
         for (EntryWithItems entry : entries) {
-            for (ItemWithNutrients item : entry.items) {
-                Intake intake = DiaryRepository.toIntake(item);
-                intakes.add(intake);
-                NutrientTotal kcal = NutritionCalculator.total(Collections.singletonList(intake), Nutrients.ENERGY);
-                rows.add(new EntryRow(entry.entry.id, item.item.id, entry.entry.occasion, entry.entry.createdAt,
-                        item.item.foodNameSnap, item.item.quantityG, kcal.complete() ? kcal.amount() : null,
-                        intake.food()));
+            if (entry.items.isEmpty()) {
+                continue;
             }
+            List<ItemWithNutrients> items = new ArrayList<>(entry.items);
+            items.sort(Comparator.comparingInt(item -> item.item.position));
+            List<Intake> entryIntakes = new ArrayList<>();
+            BigDecimal grams = BigDecimal.ZERO;
+            for (ItemWithNutrients item : items) {
+                Intake intake = DiaryRepository.toIntake(item);
+                entryIntakes.add(intake);
+                grams = grams.add(intake.grams());
+            }
+            intakes.addAll(entryIntakes);
+            NutrientTotal kcal = NutritionCalculator.total(entryIntakes, Nutrients.ENERGY);
+            boolean single = items.size() == 1;
+            String title = entry.entry.title != null ? entry.entry.title : items.get(0).item.foodNameSnap;
+            rows.add(new EntryRow(entry.entry.id, entry.entry.occasion, entry.entry.createdAt, title, items.size(),
+                    grams, kcal.complete() ? kcal.amount() : null,
+                    single ? items.get(0).item.id : null, single ? entryIntakes.get(0).food() : null));
         }
         rows.sort(Comparator.comparing(EntryRow::occasion).thenComparingLong(EntryRow::createdAt));
         return new DayState(date,

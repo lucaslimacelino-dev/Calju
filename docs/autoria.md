@@ -75,3 +75,6 @@ objetiva que os sustente.
 - Metas com vigência, aba Perfil (metas, fontes dos dados, sobre), painel com kcal restantes
   e barras dos macros, migração do banco para a versão 3 e testes escritos pelo assistente.
   Abas Diário | Histórico | Perfil: recomendação do assistente aplicada no planejamento.
+- Refeições salvas (tabelas, migração para a versão 4, repositório, edição de registros com
+  vários itens, editor em três modos, seção "Refeições prontas" no Diário) e testes escritos
+  pelo assistente, seguindo as regras do planejamento (molde × fato histórico) e a tela v3.

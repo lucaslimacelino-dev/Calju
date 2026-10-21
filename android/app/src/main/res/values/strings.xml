@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">CaLju</string>
 
     <string name="tab_diary">Diário</string>
@@ -20,7 +20,7 @@
 
     <string name="sources_title">Fontes dos dados</string>
     <string name="sources_taco">Composição dos alimentos: NÚCLEO DE ESTUDOS E PESQUISAS EM ALIMENTAÇÃO — NEPA/UNICAMP. Tabela brasileira de composição de alimentos — TACO. 4. ed. rev. e ampl. Campinas: NEPA-UNICAMP, 2011.</string>
-    <string name="sources_ibge">Peso das porções (ex.: 1 banana): IBGE. Pesquisa de orçamentos familiares 2008-2009: tabela de medidas referidas para os alimentos consumidos no Brasil. Rio de Janeiro: IBGE, 2011.</string>
+    <string name="sources_ibge" tools:ignore="TypographyDashes">Peso das porções (ex.: 1 banana): IBGE. Pesquisa de orçamentos familiares 2008-2009: tabela de medidas referidas para os alimentos consumidos no Brasil. Rio de Janeiro: IBGE, 2011.</string>
     <string name="sources_icons">Ícones: Material Icons (Google), licença Apache 2.0.</string>
     <string name="about_title">Sobre</string>
     <string name="about_version">CaLju, versão %1$s</string>
@@ -75,7 +75,36 @@
     <string name="micronutrients_title">Nutrientes do dia</string>
     <string name="micronutrients_legend">\"≥\" indica que algum alimento não tem esse valor medido; \"—\", que nenhum tem.</string>
 
+    <string name="meals_title">★ Refeições prontas</string>
+    <string name="meals_empty">Nenhuma refeição salva ainda.</string>
+    <string name="meals_count_open">%1$s  ▴</string>
+    <string name="meals_count_closed">%1$s  ▾</string>
+    <string name="meals_new">Nova refeição</string>
+    <string name="meals_expand">Mostrar refeições prontas</string>
+    <string name="meals_collapse">Ocultar refeições prontas</string>
+    <string name="meal_add_today">Adicionar %1$s ao dia</string>
+    <string name="meal_edit">Editar %1$s</string>
+    <string name="meal_summary">%1$s · %2$s kcal</string>
+    <string name="meal_new_title">Nova refeição</string>
+    <string name="meal_edit_title">Editar refeição</string>
+    <string name="meal_name">Nome da refeição</string>
+    <string name="meal_name_required">Dê um nome à refeição</string>
+    <string name="meal_items_required">Inclua pelo menos um alimento</string>
+    <string name="meal_include_food">Incluir alimento</string>
+    <string name="meal_remove_item">Remover %1$s</string>
+    <string name="meal_total">Total: %1$s kcal</string>
+    <string name="meal_save">Salvar refeição</string>
+    <string name="meal_add_today_button">Adicionar hoje</string>
+    <string name="meal_duplicate">Duplicar</string>
+    <string name="meal_delete">Excluir refeição</string>
+    <string name="meal_copy_name">%1$s (cópia)</string>
+    <string name="meal_adjust_hint">Os ajustes valem só para este registro, a menos que você toque em \"Salvar refeição\".</string>
+    <string name="entry_edit_save">Salvar</string>
+
     <string name="event_added">Adicionado: %1$s</string>
+    <string name="event_meal_saved">Refeição salva: %1$s</string>
+    <string name="event_meal_duplicated">Cópia criada: %1$s</string>
+    <string name="event_meal_deleted">Refeição excluída: %1$s</string>
     <string name="event_removed">Registro removido</string>
     <string name="undo">Desfazer</string>
 </resources>
