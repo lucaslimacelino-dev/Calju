@@ -19,6 +19,7 @@ import io.github.lucaslimacelino_dev.calju.data.local.ItemWithNutrients;
 import io.github.lucaslimacelino_dev.calju.data.local.LogEntryEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.LogItemEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.LogItemNutrientEntity;
+import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 
@@ -47,9 +48,29 @@ public class DayStateBuilderTest {
         return entry;
     }
 
+    private static DayState build(List<EntryWithItems> entries) {
+        return DayStateBuilder.build(DAY, entries, Collections.emptyList());
+    }
+
+    @Test
+    public void usaAMetaVigenteNoDia() {
+        List<Goal> goals = Arrays.asList(
+                new Goal(DAY.minusDays(5), new BigDecimal("1000"), null, null, null),
+                new Goal(DAY.plusDays(1), new BigDecimal("3000"), null, null, null));
+
+        DayState state = DayStateBuilder.build(DAY, Collections.emptyList(), goals);
+
+        assertEquals(0, new BigDecimal("1000").compareTo(state.goal().kcal()));
+    }
+
+    @Test
+    public void semMetaVigenteAMetaFicaNula() {
+        assertNull(build(Collections.emptyList()).goal());
+    }
+
     @Test
     public void somaOsTotaisDoDia() {
-        DayState state = DayStateBuilder.build(DAY, Arrays.asList(
+        DayState state = build(Arrays.asList(
                 entry("a", Occasion.LUNCH, 2, "150", "165", "10"),
                 entry("b", Occasion.BREAKFAST, 1, "50", "100", "20")));
 
@@ -60,7 +81,7 @@ public class DayStateBuilderTest {
 
     @Test
     public void cartoesSeguemAOrdemDasOcasioesEDepoisOHorario() {
-        DayState state = DayStateBuilder.build(DAY, Arrays.asList(
+        DayState state = build(Arrays.asList(
                 entry("jantar", Occasion.DINNER, 1, "10", "1", null),
                 entry("almoco-2", Occasion.LUNCH, 3, "10", "1", null),
                 entry("cafe", Occasion.BREAKFAST, 5, "10", "1", null),
@@ -75,7 +96,7 @@ public class DayStateBuilderTest {
 
     @Test
     public void energiaDesconhecidaDeixaTotalIncompletoEOCartaoSemKcal() {
-        DayState state = DayStateBuilder.build(DAY, Arrays.asList(
+        DayState state = build(Arrays.asList(
                 entry("a", Occasion.LUNCH, 1, "100", "200", null),
                 entry("b", Occasion.LUNCH, 2, "100", null, null)));
 
@@ -86,7 +107,7 @@ public class DayStateBuilderTest {
 
     @Test
     public void diaVazio() {
-        DayState state = DayStateBuilder.build(DAY, Collections.emptyList());
+        DayState state = build(Collections.emptyList());
 
         assertEquals(0, BigDecimal.ZERO.compareTo(state.kcal().amount()));
         assertTrue(state.entries().isEmpty());

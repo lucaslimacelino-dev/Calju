@@ -29,8 +29,8 @@ public class MainActivityTest {
 
     @Test
     public void navegaEntreAsAbas() {
-        onView(withId(R.id.mealsFragment)).perform(click());
-        onView(withText(R.string.meals_empty)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileFragment)).perform(click());
+        onView(withText(R.string.goals_title)).check(matches(isDisplayed()));
 
         onView(withId(R.id.historyFragment)).perform(click());
         onView(withText(R.string.history_empty)).check(matches(isDisplayed()));

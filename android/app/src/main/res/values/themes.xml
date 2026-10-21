@@ -22,6 +22,9 @@
         <item name="colorOutlineVariant">@color/outline</item>
         <item name="colorError">@color/error</item>
         <item name="colorOnError">@color/on_error</item>
+        <!-- Textos sem cor própria usam os tons da paleta, não os neutros padrão do Material. -->
+        <item name="android:textColorPrimary">@color/on_surface</item>
+        <item name="android:textColorSecondary">@color/on_surface_variant</item>
         <!-- Cores "invertidas": avisos (Snackbar) escuros sobre o tema claro e vice-versa. -->
         <item name="colorSurfaceInverse">@color/inverse_surface</item>
         <item name="colorOnSurfaceInverse">@color/inverse_on_surface</item>

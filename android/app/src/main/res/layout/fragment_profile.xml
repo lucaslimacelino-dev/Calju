@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.CaLju.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityHeading="true"
+                    android:text="@string/goals_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/goals_help"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/kcal_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:hint="@string/goals_kcal"
+                    app:suffixText="kcal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/kcal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789.,"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/protein_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/goals_protein"
+                    app:suffixText="g">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/protein"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789.,"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/carbohydrate_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/goals_carbohydrate"
+                    app:suffixText="g">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/carbohydrate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789.,"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fat_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/goals_fat"
+                    app:suffixText="g">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/fat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789.,"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/save_goals"
+                    style="@style/Widget.CaLju.PrimaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/goals_save" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.CaLju.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityHeading="true"
+                    android:text="@string/sources_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/sources_taco"
+                    android:textAppearance="?attr/textAppearanceBodySmall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/sources_ibge"
+                    android:textAppearance="?attr/textAppearanceBodySmall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/sources_icons"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.CaLju.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityHeading="true"
+                    android:text="@string/about_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

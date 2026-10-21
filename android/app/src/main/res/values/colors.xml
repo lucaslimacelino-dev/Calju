@@ -14,6 +14,7 @@
     <color name="outline">#E6DDD4</color>
     <color name="error">#B3261E</color>
     <color name="on_error">#FFFFFF</color>
+    <color name="macro_carbohydrate">#E9A93A</color>
     <color name="inverse_surface">#3A2F28</color>
     <color name="inverse_on_surface">#F7EEE8</color>
     <color name="inverse_primary">#E8BE9C</color>

@@ -2,6 +2,7 @@ package io.github.lucaslimacelino_dev.calju.ui.diary;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -19,11 +20,14 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.lucaslimacelino_dev.calju.AppContainer;
+import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodSearchRow;
 import io.github.lucaslimacelino_dev.calju.data.local.NutrientEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
+import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
+import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.FoodInput;
 import io.github.lucaslimacelino_dev.calju.domain.FoodInputParser;
 import io.github.lucaslimacelino_dev.calju.domain.Intake;
@@ -54,16 +58,38 @@ public class DiaryViewModel extends ViewModel {
     /** Cada busca recebe um número; resultados de buscas antigas são descartados. */
     private final AtomicInteger searchGeneration = new AtomicInteger();
 
-    public DiaryViewModel(CatalogRepository catalog, DiaryRepository diary, Executor executor, Clock clock) {
+    public DiaryViewModel(CatalogRepository catalog, DiaryRepository diary, GoalRepository goals,
+                          Executor executor, Clock clock) {
         this.catalog = catalog;
         this.diary = diary;
         this.executor = executor;
         this.clock = clock;
         this.date = new MutableLiveData<>(LocalDate.now(clock));
-        // Quando a data muda, passa a observar outro dia; quando o banco muda, recalcula o estado.
-        this.dayState = Transformations.switchMap(date, day ->
-                Transformations.map(diary.observeDay(day), entries -> DayStateBuilder.build(day, entries)));
+        LiveData<DayEntries> entries = Transformations.switchMap(date, day ->
+                Transformations.map(diary.observeDay(day), list -> new DayEntries(day, list)));
+        this.dayState = combine(entries, goals.observeAll());
         executor.execute(() -> nutrients.postValue(catalog.nutrients()));
+    }
+
+    /** Registros junto com a data a que pertencem (a data muda antes de os registros chegarem). */
+    private record DayEntries(LocalDate date, List<EntryWithItems> entries) {
+    }
+
+    /**
+     * Junta duas fontes que mudam independentemente: os registros do dia (que trocam quando a
+     * data muda) e as metas. Qualquer mudança em uma delas recalcula o estado do dia.
+     */
+    private static LiveData<DayState> combine(LiveData<DayEntries> entries, LiveData<List<Goal>> goals) {
+        MediatorLiveData<DayState> state = new MediatorLiveData<>();
+        Runnable rebuild = () -> {
+            DayEntries day = entries.getValue();
+            if (day != null && goals.getValue() != null) {
+                state.setValue(DayStateBuilder.build(day.date(), day.entries(), goals.getValue()));
+            }
+        };
+        state.addSource(entries, value -> rebuild.run());
+        state.addSource(goals, value -> rebuild.run());
+        return state;
     }
 
     public LiveData<DayState> dayState() {
@@ -206,7 +232,7 @@ public class DiaryViewModel extends ViewModel {
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new DiaryViewModel(container.catalogRepository, container.diaryRepository,
-                        container.databaseExecutor, container.clock);
+                        container.goalRepository, container.databaseExecutor, container.clock);
             }
         };
     }

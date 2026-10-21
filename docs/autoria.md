@@ -69,3 +69,9 @@ objetiva que os sustente.
 - Tabelas do diário (com snapshot dos nutrientes), migração do banco, repositório, painel do
   dia com números animados, edição, remoção com desfazer, navegação por data, painel de
   micronutrientes e testes escritos pelo assistente, seguindo o planejamento e a tela v3.
+
+### Fase 4c — Metas e refeições salvas
+
+- Metas com vigência, aba Perfil (metas, fontes dos dados, sobre), painel com kcal restantes
+  e barras dos macros, migração do banco para a versão 3 e testes escritos pelo assistente.
+  Abas Diário | Histórico | Perfil: recomendação do assistente aplicada no planejamento.

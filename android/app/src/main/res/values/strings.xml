@@ -3,11 +3,29 @@
     <string name="app_name" translatable="false">CaLju</string>
 
     <string name="tab_diary">Diário</string>
-    <string name="tab_meals">Refeições</string>
     <string name="tab_history">Histórico</string>
+    <string name="tab_profile">Perfil</string>
+
+    <string name="goals_title">Metas diárias</string>
+    <string name="goals_help">Valem a partir de hoje. Os dias anteriores continuam comparados com a meta que valia na época.</string>
+    <string name="goals_kcal">Calorias</string>
+    <string name="goals_protein">Proteína (opcional)</string>
+    <string name="goals_carbohydrate">Carboidrato (opcional)</string>
+    <string name="goals_fat">Gordura (opcional)</string>
+    <string name="goals_save">Salvar metas</string>
+    <string name="goals_saved">Metas salvas</string>
+    <string name="goals_kcal_required">Informe a meta de calorias</string>
+    <string name="goals_invalid">Use um número maior que zero ou deixe em branco</string>
+    <string name="goals_define">Definir meta</string>
+
+    <string name="sources_title">Fontes dos dados</string>
+    <string name="sources_taco">Composição dos alimentos: NÚCLEO DE ESTUDOS E PESQUISAS EM ALIMENTAÇÃO — NEPA/UNICAMP. Tabela brasileira de composição de alimentos — TACO. 4. ed. rev. e ampl. Campinas: NEPA-UNICAMP, 2011.</string>
+    <string name="sources_ibge">Peso das porções (ex.: 1 banana): IBGE. Pesquisa de orçamentos familiares 2008-2009: tabela de medidas referidas para os alimentos consumidos no Brasil. Rio de Janeiro: IBGE, 2011.</string>
+    <string name="sources_icons">Ícones: Material Icons (Google), licença Apache 2.0.</string>
+    <string name="about_title">Sobre</string>
+    <string name="about_version">CaLju, versão %1$s</string>
 
     <string name="diary_empty">Nenhum registro neste dia. Digite abaixo o que você comeu.</string>
-    <string name="meals_empty">Suas refeições salvas aparecerão aqui.</string>
     <string name="history_empty">Seu histórico aparecerá aqui.</string>
 
     <string name="food_input_hint">O que você comeu?</string>
@@ -40,6 +58,11 @@
     <string name="day_next">Próximo dia</string>
     <string name="kcal_consumed">kcal consumidas</string>
     <string name="kcal_ring_description">%1$s kcal consumidas</string>
+    <string name="kcal_ring_description_goal">%1$s de %2$s kcal consumidas</string>
+    <string name="kcal_remaining">kcal restantes · meta %1$s</string>
+    <string name="kcal_over">kcal acima da meta de %1$s</string>
+    <string name="macro_goal">de %1$s g</string>
+    <string name="value_at_most">≤ %1$s</string>
     <string name="macro_protein">Proteína</string>
     <string name="macro_carbohydrate">Carboidrato</string>
     <string name="macro_fat">Gordura</string>

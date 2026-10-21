@@ -38,14 +38,16 @@ public class DiaryInputTest {
     public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
 
     /**
-     * Começa cada teste com o diário vazio (o catálogo continua). A transação do Room faz o
-     * banco avisar a tela da mudança; um execSQL solto não avisaria.
+     * Começa cada teste com diário e metas vazios (o catálogo continua). A transação do Room faz
+     * o banco avisar a tela da mudança; um execSQL solto não avisaria.
      */
     @Before
-    public void clearDiary() {
+    public void clearData() {
         CaLjuApp app = ApplicationProvider.getApplicationContext();
-        app.container().database.runInTransaction(() -> app.container().database.getOpenHelper()
-                .getWritableDatabase().execSQL("DELETE FROM log_entries"));
+        app.container().database.runInTransaction(() -> {
+            app.container().database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM log_entries");
+            app.container().database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM nutrition_goals");
+        });
     }
 
     /** Busca e banco rodam fora da thread da tela; espera até 10 s pela condição. */

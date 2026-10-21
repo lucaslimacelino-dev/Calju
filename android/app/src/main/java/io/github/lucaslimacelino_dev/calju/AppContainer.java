@@ -10,6 +10,7 @@ import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
 import io.github.lucaslimacelino_dev.calju.data.local.CatalogImporter;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
+import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
 
 /** Injeção de dependências manual: cria e guarda os objetos compartilhados pelo app. */
 public class AppContainer {
@@ -19,6 +20,7 @@ public class AppContainer {
     public final CatalogImporter catalogImporter;
     public final CatalogRepository catalogRepository;
     public final DiaryRepository diaryRepository;
+    public final GoalRepository goalRepository;
     public final Clock clock = Clock.systemDefaultZone();
 
     public AppContainer(Context context) {
@@ -26,5 +28,6 @@ public class AppContainer {
         catalogImporter = new CatalogImporter(database, context.getAssets());
         catalogRepository = new CatalogRepository(database.catalogDao());
         diaryRepository = new DiaryRepository(database, clock);
+        goalRepository = new GoalRepository(database, clock);
     }
 }

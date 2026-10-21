@@ -25,16 +25,16 @@ import java.time.LocalDate;
 import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
 
 /**
- * Simula quem tem o app antigo: cria o banco da versão 1 com o SQL exportado pelo Room
- * (app/schemas/.../1.json) e abre com o app atual. O Room migra e valida a estrutura ao abrir;
- * qualquer diferença faz a abertura falhar.
+ * Simula quem tem o app antigo: cria o banco de uma versão anterior com o SQL exportado pelo
+ * Room (app/schemas/.../N.json) e abre com o app atual. O Room migra e valida a estrutura ao
+ * abrir; qualquer diferença faz a abertura falhar.
  */
 @RunWith(AndroidJUnit4.class)
 public class MigrationTest {
 
     private static final String DB = "migration-test.db";
-    private static final String SCHEMA_V1 =
-            "io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase/1.json";
+    private static final String SCHEMAS = "io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase/";
+    private static final int CURRENT_VERSION = 3;
 
     private Context context;
 
@@ -49,17 +49,21 @@ public class MigrationTest {
         context.deleteDatabase(DB);
     }
 
-    private void createVersion1() throws Exception {
+    private static JSONObject schema(int version) throws Exception {
         Context testContext = InstrumentationRegistry.getInstrumentation().getContext();
-        JSONObject database;
-        try (InputStream in = testContext.getAssets().open(SCHEMA_V1)) {
+        try (InputStream in = testContext.getAssets().open(SCHEMAS + version + ".json")) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             for (int read; (read = in.read(buffer)) != -1; ) {
                 bytes.write(buffer, 0, read);
             }
-            database = new JSONObject(bytes.toString(StandardCharsets.UTF_8.name())).getJSONObject("database");
+            return new JSONObject(bytes.toString(StandardCharsets.UTF_8.name())).getJSONObject("database");
         }
+    }
+
+    /** Cria o banco exatamente como o app da versão informada criaria, com um alimento. */
+    private void createVersion(int version) throws Exception {
+        JSONObject database = schema(version);
         try (SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(context.getDatabasePath(DB), null)) {
             JSONArray entities = database.getJSONArray("entities");
             for (int i = 0; i < entities.length(); i++) {
@@ -81,17 +85,27 @@ public class MigrationTest {
         }
     }
 
-    @Test
-    public void versao1Para2MantemOCatalogoECriaAsTabelasDoDiario() throws Exception {
-        createVersion1();
+    private void assertMigratesToCurrent(int fromVersion) throws Exception {
+        createVersion(fromVersion);
 
         CaljuDatabase migrated = Room.databaseBuilder(context, CaljuDatabase.class, DB).build();
         try {
             assertEquals("Alimento A", migrated.catalogDao().food("f1").name);
             assertTrue(migrated.diaryDao().day(LocalDate.of(2026, 10, 20)).isEmpty());
-            assertEquals(2, migrated.getOpenHelper().getReadableDatabase().getVersion());
+            assertTrue(migrated.goalDao().all().isEmpty());
+            assertEquals(CURRENT_VERSION, migrated.getOpenHelper().getReadableDatabase().getVersion());
         } finally {
             migrated.close();
         }
+    }
+
+    @Test
+    public void daVersao1ParaAAtual() throws Exception {
+        assertMigratesToCurrent(1);
+    }
+
+    @Test
+    public void daVersao2ParaAAtual() throws Exception {
+        assertMigratesToCurrent(2);
     }
 }

@@ -1,6 +1,5 @@
 package io.github.lucaslimacelino_dev.calju.ui.diary;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +9,7 @@ import java.util.List;
 import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.ItemWithNutrients;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
+import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.Intake;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
@@ -21,7 +21,7 @@ public final class DayStateBuilder {
     private DayStateBuilder() {
     }
 
-    public static DayState build(LocalDate date, List<EntryWithItems> entries) {
+    public static DayState build(LocalDate date, List<EntryWithItems> entries, List<Goal> goals) {
         List<Intake> intakes = new ArrayList<>();
         List<EntryRow> rows = new ArrayList<>();
         for (EntryWithItems entry : entries) {
@@ -40,11 +40,6 @@ public final class DayStateBuilder {
                 NutritionCalculator.total(intakes, Nutrients.PROTEIN),
                 NutritionCalculator.total(intakes, Nutrients.CARBOHYDRATE),
                 NutritionCalculator.total(intakes, Nutrients.FAT),
-                rows, intakes);
-    }
-
-    public static DayState empty(LocalDate date) {
-        NutrientTotal zero = new NutrientTotal(BigDecimal.ZERO, true);
-        return new DayState(date, zero, zero, zero, zero, Collections.emptyList(), Collections.emptyList());
+                rows, intakes, Goal.forDate(goals, date).orElse(null));
     }
 }
