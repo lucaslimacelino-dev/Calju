@@ -393,6 +393,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 4a (concluída) | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
 | 4b (concluída) | Diário com snapshot, edição, remoção, desfazer, painel do dia, micronutrientes | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c (concluída) | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
+| 4d | Histórico, "Salvar como refeição" e alimentos personalizados (antecipados antes do backend por decisão do autor em 21/10/2026, para o app ficar completo para uso próprio) | Histórico com totais e meta do dia; molde criado a partir de registro; alimento do usuário aparece na busca |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |

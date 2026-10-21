@@ -18,6 +18,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import org.hamcrest.Matcher;
@@ -32,6 +33,7 @@ import io.github.lucaslimacelino_dev.calju.MainActivity;
 import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.data.local.MealItemEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.ItemDraft;
+import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 
 @RunWith(AndroidJUnit4.class)
 public class MealFlowTest {
@@ -146,5 +148,22 @@ public class MealFlowTest {
         onView(withId(R.id.primary_button)).perform(scrollTo(), click());
 
         Waits.untilPresent(inEntries(withText("2 itens · 150 g")));
+    }
+
+    @Test
+    public void salvarRegistroComoRefeicaoCriaUmMoldeIgual() {
+        String arroz = container.catalogRepository.search("arroz tipo 1 cozido", 1).get(0).id;
+        String feijao = container.catalogRepository.search("feijao carioca cozido", 1).get(0).id;
+        container.diaryRepository.addItems(LocalDate.now(container.clock),
+                Occasion.LUNCH, "Almoço de hoje", null,
+                Arrays.asList(ItemDraft.of(arroz, new BigDecimal("120")), ItemDraft.of(feijao, new BigDecimal("80"))));
+
+        tapWhenFree(inEntries(withText("Almoço de hoje")));
+        Waits.untilDisplayed(withText(R.string.entry_save_as_meal));
+        onView(withText(R.string.entry_save_as_meal)).perform(scrollTo(), click());
+
+        Waits.untilDisplayed(withText("Refeição salva: Almoço de hoje"));
+        assertEquals(1, container.mealRepository.all().size());
+        assertEquals(2, container.mealRepository.all().get(0).items.size());
     }
 }

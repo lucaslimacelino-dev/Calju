@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -147,6 +148,9 @@ public class MealEditorSheet extends BottomSheetDialogFragment {
             case ENTRY:
                 binding.primaryButton.setText(R.string.entry_edit_save);
                 binding.primaryButton.setOnClickListener(v -> saveEntry());
+                binding.secondaryButton.setVisibility(View.VISIBLE);
+                binding.secondaryButton.setText(R.string.entry_save_as_meal);
+                binding.secondaryButton.setOnClickListener(v -> saveEntryAsMeal());
                 binding.deleteButton.setText(R.string.quantity_remove);
                 binding.deleteButton.setOnClickListener(v -> {
                     diary.removeEntry(id, occasion());
@@ -229,6 +233,26 @@ public class MealEditorSheet extends BottomSheetDialogFragment {
             diary.updateEntry(id, occasion(), items);
             dismiss();
         }
+    }
+
+    /**
+     * Cria um molde com os alimentos e as gramas atuais do registro. O registro não muda;
+     * o nome vem do título do registro e pode ser trocado depois pelo lápis da refeição.
+     */
+    private void saveEntryAsMeal() {
+        List<ItemDraft> items = validItems();
+        if (items == null) {
+            return;
+        }
+        List<ItemDraft> mealItems = new ArrayList<>();
+        for (ItemDraft item : items) {
+            if (item.foodId() != null) {
+                mealItems.add(ItemDraft.of(item.foodId(), item.grams()));
+            }
+        }
+        String mealName = name().isEmpty() ? String.valueOf(binding.title.getText()) : name();
+        diary.saveMeal(null, mealName, mealItems);
+        dismiss();
     }
 
     private String name() {

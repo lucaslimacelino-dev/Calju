@@ -23,7 +23,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -37,14 +36,14 @@ import io.github.lucaslimacelino_dev.calju.databinding.ViewMacroCardBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
+import io.github.lucaslimacelino_dev.calju.ui.DateRequest;
+import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.components.NumberAnimator;
 
 public class DiaryFragment extends Fragment {
 
     private static final Locale PT_BR = Locale.forLanguageTag("pt-BR");
-    private static final DateTimeFormatter WEEKDAY = DateTimeFormatter.ofPattern("EEEE", PT_BR);
-    private static final DateTimeFormatter FULL_DATE = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", PT_BR);
 
     private FragmentDiaryBinding binding;
     private DiaryViewModel viewModel;
@@ -76,6 +75,13 @@ public class DiaryFragment extends Fragment {
 
         viewModel.dayState().observe(getViewLifecycleOwner(), this::showDay);
         viewModel.date().observe(getViewLifecycleOwner(), this::showDate);
+        DateRequest dateRequest = new ViewModelProvider(requireActivity()).get(DateRequest.class);
+        dateRequest.requested().observe(getViewLifecycleOwner(), date -> {
+            if (date != null) {
+                viewModel.showDate(date);
+                dateRequest.consumed();
+            }
+        });
         viewModel.suggestions().observe(getViewLifecycleOwner(), this::showSuggestions);
         viewModel.events().observe(getViewLifecycleOwner(), this::showEvent);
         viewModel.mealSummaries().observe(getViewLifecycleOwner(), meals ->
@@ -133,16 +139,8 @@ public class DiaryFragment extends Fragment {
 
     private void showDate(LocalDate date) {
         LocalDate today = viewModel.today();
-        String title;
-        if (date.equals(today)) {
-            title = getString(R.string.day_today);
-        } else if (date.equals(today.minusDays(1))) {
-            title = getString(R.string.day_yesterday);
-        } else {
-            title = capitalize(WEEKDAY.format(date));
-        }
-        binding.dayTitle.setText(title);
-        binding.daySubtitle.setText(FULL_DATE.format(date));
+        binding.dayTitle.setText(Dates.title(requireContext(), date, today));
+        binding.daySubtitle.setText(Dates.full(date));
         binding.nextDay.setEnabled(date.isBefore(today));
     }
 
@@ -305,10 +303,6 @@ public class DiaryFragment extends Fragment {
         binding.foodInput.clearFocus();
         WindowCompat.getInsetsController(requireActivity().getWindow(), binding.getRoot())
                 .hide(WindowInsetsCompat.Type.ime());
-    }
-
-    private static String capitalize(String text) {
-        return text.isEmpty() ? text : text.substring(0, 1).toUpperCase(PT_BR) + text.substring(1);
     }
 
     @Override

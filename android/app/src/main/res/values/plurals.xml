@@ -4,6 +4,10 @@
         <item quantity="one">%1$d item · %2$s</item>
         <item quantity="other">%1$d itens · %2$s</item>
     </plurals>
+    <plurals name="history_average_caption">
+        <item quantity="one">Com base em %d dia com registro (hoje não entra).</item>
+        <item quantity="other">Com base em %d dias com registro (hoje não entra).</item>
+    </plurals>
     <plurals name="meals_count">
         <item quantity="one">%d salva</item>
         <item quantity="other">%d salvas</item>

@@ -33,6 +33,11 @@ public interface DiaryDao {
     @Query("SELECT * FROM log_entries WHERE log_date = :date AND deleted_at IS NULL ORDER BY created_at")
     List<EntryWithItems> day(LocalDate date);
 
+    /** Datas ISO (2026-10-21) em texto ordenam como datas, por isso o BETWEEN funciona. */
+    @Transaction
+    @Query("SELECT * FROM log_entries WHERE log_date BETWEEN :from AND :to AND deleted_at IS NULL")
+    LiveData<List<EntryWithItems>> observeRange(LocalDate from, LocalDate to);
+
     @Transaction
     @Query("SELECT * FROM log_entries WHERE id = :entryId")
     EntryWithItems entry(String entryId);

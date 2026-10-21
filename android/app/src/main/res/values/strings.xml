@@ -26,7 +26,14 @@
     <string name="about_version">CaLju, versão %1$s</string>
 
     <string name="diary_empty">Nenhum registro neste dia. Digite abaixo o que você comeu.</string>
-    <string name="history_empty">Seu histórico aparecerá aqui.</string>
+    <string name="history_empty">Os dias com registro aparecerão aqui.</string>
+    <string name="history_average_title">Média dos últimos 7 dias</string>
+    <string name="history_average_value">%1$s kcal por dia</string>
+    <string name="history_no_average">Sem registros nos últimos 7 dias (sem contar hoje).</string>
+    <string name="history_kcal">%1$s kcal</string>
+    <string name="history_kcal_goal">%1$s de %2$s kcal</string>
+    <string name="history_macros">Proteína %1$s g · Carbo %2$s g · Gordura %3$s g</string>
+    <string name="history_open_day">Abrir %1$s no diário</string>
 
     <string name="food_input_hint">O que você comeu?</string>
     <string name="food_input_send">Escolher o primeiro alimento sugerido</string>
@@ -100,6 +107,7 @@
     <string name="meal_copy_name">%1$s (cópia)</string>
     <string name="meal_adjust_hint">Os ajustes valem só para este registro, a menos que você toque em \"Salvar refeição\".</string>
     <string name="entry_edit_save">Salvar</string>
+    <string name="entry_save_as_meal">Salvar como refeição</string>
 
     <string name="event_added">Adicionado: %1$s</string>
     <string name="event_meal_saved">Refeição salva: %1$s</string>

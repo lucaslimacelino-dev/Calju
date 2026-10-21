@@ -78,3 +78,10 @@ objetiva que os sustente.
 - Refeições salvas (tabelas, migração para a versão 4, repositório, edição de registros com
   vários itens, editor em três modos, seção "Refeições prontas" no Diário) e testes escritos
   pelo assistente, seguindo as regras do planejamento (molde × fato histórico) e a tela v3.
+
+### Fase 4d — Completar o app antes do backend
+
+- Antecipação da fase (Histórico, "Salvar como refeição", alimentos personalizados antes do
+  backend): opção recomendada pelo assistente e escolhida pelo autor.
+- Histórico (dias com totais, meta do dia, média semanal, abrir o dia no Diário) e
+  "Salvar como refeição" escritos e testados pelo assistente.

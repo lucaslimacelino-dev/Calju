@@ -135,6 +135,13 @@ public class DiaryViewModel extends ViewModel {
         date.setValue(currentDate().minusDays(1));
     }
 
+    /** Abre um dia específico (ex.: vindo do Histórico); dias futuros são ignorados. */
+    public void showDate(LocalDate day) {
+        if (!day.isAfter(today())) {
+            date.setValue(day);
+        }
+    }
+
     public void nextDay() {
         if (currentDate().isBefore(today())) {
             date.setValue(currentDate().plusDays(1));

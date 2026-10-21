@@ -54,6 +54,10 @@ public class DiaryRepository {
         return diary.observeDay(date);
     }
 
+    public LiveData<List<EntryWithItems>> observeRange(LocalDate from, LocalDate to) {
+        return diary.observeRange(from, to);
+    }
+
     @WorkerThread
     public List<EntryWithItems> day(LocalDate date) {
         return diary.day(date);

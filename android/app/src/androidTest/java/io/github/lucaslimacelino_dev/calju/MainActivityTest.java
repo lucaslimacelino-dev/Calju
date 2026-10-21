@@ -33,7 +33,7 @@ public class MainActivityTest {
         onView(withText(R.string.goals_title)).check(matches(isDisplayed()));
 
         onView(withId(R.id.historyFragment)).perform(click());
-        onView(withText(R.string.history_empty)).check(matches(isDisplayed()));
+        onView(withText(R.string.history_average_title)).check(matches(isDisplayed()));
 
         onView(withId(R.id.diaryFragment)).perform(click());
         onView(withId(R.id.food_input)).check(matches(isDisplayed()));
