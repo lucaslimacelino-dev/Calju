@@ -28,7 +28,7 @@ public class AppContainer {
     public AppContainer(Context context) {
         database = CaljuDatabase.create(context);
         catalogImporter = new CatalogImporter(database, context.getAssets());
-        catalogRepository = new CatalogRepository(database.catalogDao());
+        catalogRepository = new CatalogRepository(database, clock);
         diaryRepository = new DiaryRepository(database, clock);
         goalRepository = new GoalRepository(database, clock);
         mealRepository = new MealRepository(database, clock);

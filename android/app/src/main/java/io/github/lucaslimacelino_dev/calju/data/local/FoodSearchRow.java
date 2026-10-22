@@ -21,18 +21,22 @@ public class FoodSearchRow {
     public String category;
 
     @Nullable
+    public String brand;
+
+    @Nullable
     public String portionLabel;
 
     @Nullable
     public BigDecimal portionGrams;
 
     public FoodSearchRow(@NonNull String id, @NonNull String name, @NonNull String searchName,
-                         @Nullable String category, @Nullable String portionLabel,
+                         @Nullable String category, @Nullable String brand, @Nullable String portionLabel,
                          @Nullable BigDecimal portionGrams) {
         this.id = id;
         this.name = name;
         this.searchName = searchName;
         this.category = category;
+        this.brand = brand;
         this.portionLabel = portionLabel;
         this.portionGrams = portionGrams;
     }

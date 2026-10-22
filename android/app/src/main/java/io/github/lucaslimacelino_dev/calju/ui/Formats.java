@@ -33,12 +33,22 @@ public final class Formats {
 
     /** Converte o texto digitado ("37,5" ou "37.5") em número; nulo se inválido ou não positivo. */
     public static BigDecimal parsePositive(String text) {
+        BigDecimal value = parse(text);
+        return value != null && value.signum() > 0 ? value : null;
+    }
+
+    /** Como {@link #parsePositive}, mas aceita zero (valores de rótulo podem ser 0). */
+    public static BigDecimal parseNonNegative(String text) {
+        BigDecimal value = parse(text);
+        return value != null && value.signum() >= 0 ? value : null;
+    }
+
+    private static BigDecimal parse(String text) {
         if (text == null) {
             return null;
         }
         try {
-            BigDecimal value = new BigDecimal(text.trim().replace(',', '.'));
-            return value.signum() > 0 ? value : null;
+            return new BigDecimal(text.trim().replace(',', '.'));
         } catch (NumberFormatException e) {
             return null;
         }

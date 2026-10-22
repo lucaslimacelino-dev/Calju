@@ -17,13 +17,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import io.github.lucaslimacelino_dev.calju.BuildConfig;
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.databinding.FragmentProfileBinding;
+import io.github.lucaslimacelino_dev.calju.databinding.ItemCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
+import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
+import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
 public class ProfileFragment extends Fragment {
 
@@ -51,12 +55,51 @@ public class ProfileFragment extends Fragment {
         viewModel.saved().observe(getViewLifecycleOwner(), saved -> {
             if (Boolean.TRUE.equals(saved)) {
                 viewModel.savedMessageShown();
-                Snackbar.make(binding.getRoot(), R.string.goals_saved, Snackbar.LENGTH_SHORT)
-                        .setAnchorView(requireActivity().findViewById(R.id.bottom_navigation))
-                        .show();
+                message(getString(R.string.goals_saved)).show();
             }
         });
         binding.saveGoals.setOnClickListener(v -> save());
+
+        viewModel.customFoods().observe(getViewLifecycleOwner(), this::showFoods);
+        binding.newFood.setOnClickListener(v -> openFood(CustomFoodSheet.newFood("")));
+        getChildFragmentManager().setFragmentResultListener(CustomFoodSheet.RESULT_KEY, getViewLifecycleOwner(),
+                (key, result) -> {
+                    String name = result.getString(CustomFoodSheet.RESULT_NAME);
+                    if (result.getBoolean(CustomFoodSheet.RESULT_DELETED)) {
+                        String foodId = result.getString(CustomFoodSheet.RESULT_FOOD_ID);
+                        message(getString(R.string.food_deleted, name))
+                                .setAction(R.string.undo, v -> viewModel.restoreFood(foodId))
+                                .show();
+                    } else {
+                        message(getString(R.string.food_saved, name)).show();
+                    }
+                });
+    }
+
+    private Snackbar message(String text) {
+        return Snackbar.make(binding.getRoot(), text, Snackbar.LENGTH_LONG)
+                .setAnchorView(requireActivity().findViewById(R.id.bottom_navigation));
+    }
+
+    private void openFood(CustomFoodSheet sheet) {
+        if (getChildFragmentManager().findFragmentByTag(CustomFoodSheet.TAG) == null) {
+            sheet.show(getChildFragmentManager(), CustomFoodSheet.TAG);
+        }
+    }
+
+    private void showFoods(List<ProfileViewModel.FoodSummary> foods) {
+        binding.myFoodsEmpty.setVisibility(foods.isEmpty() ? View.VISIBLE : View.GONE);
+        binding.myFoodsList.removeAllViews();
+        for (ProfileViewModel.FoodSummary food : foods) {
+            ItemCustomFoodBinding row = ItemCustomFoodBinding.inflate(getLayoutInflater(), binding.myFoodsList, true);
+            row.name.setText(food.name());
+            String kcal = food.kcalPer100g() == null ? getString(R.string.value_unknown)
+                    : Formats.amount(food.kcalPer100g(), NutrientUnit.KCAL);
+            row.detail.setText(food.brand() == null ? getString(R.string.my_food_detail, kcal)
+                    : getString(R.string.my_food_detail_brand, food.brand(), kcal));
+            row.edit.setContentDescription(getString(R.string.my_food_edit, food.name()));
+            row.edit.setOnClickListener(v -> openFood(CustomFoodSheet.edit(food.id())));
+        }
     }
 
     /** Preenche os campos uma vez com a meta atual, sem apagar o que o usuário já digitou. */

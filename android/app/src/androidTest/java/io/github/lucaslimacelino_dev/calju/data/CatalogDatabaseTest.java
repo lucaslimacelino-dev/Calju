@@ -12,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.util.List;
 
 import org.junit.After;
@@ -41,7 +42,7 @@ public class CatalogDatabaseTest {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         database = Room.inMemoryDatabaseBuilder(context, CaljuDatabase.class).build();
         importer = new CatalogImporter(database, context.getAssets());
-        repository = new CatalogRepository(database.catalogDao());
+        repository = new CatalogRepository(database, Clock.systemDefaultZone());
         assertTrue(importer.importIfNeeded());
     }
 

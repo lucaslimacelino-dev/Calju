@@ -326,6 +326,26 @@ Vários alimentos numa única frase e interpretação por IA ficam para depois d
   sem alterar o molde).
 - "+ Nova refeição" cria uma do zero.
 
+### Alimentos personalizados
+
+- Para produtos de embalagem que não estão na TACO. Entradas: "Criar alimento \"…\"" no
+  cartão de sugestões (aparece sempre que há texto digitado, mesmo sem resultados) e
+  "Meus alimentos" no Perfil (criar, editar, excluir com "Desfazer").
+- O usuário digita a tabela nutricional como está na embalagem, **por 100 g** ou **por
+  porção** (com o peso da porção); o app converte para 100 g (`NutritionLabel`, 4 casas).
+- Obrigatórios: nome, valor energético, proteínas, carboidratos e gorduras totais. Fibra e
+  sódio são opcionais; vazio = desconhecido, nunca zero. Marca e porção são opcionais; a
+  porção vira a porção padrão do alimento (`USER`), permitindo "2 unidades" no campo.
+- Validação: valores não negativos; proteínas + carboidratos + gorduras não podem passar do
+  peso de referência (folga de 1 g para o arredondamento dos rótulos).
+- Criado a partir do Diário, o alimento abre direto na tela de quantidade.
+- Editar muda moldes de refeição (que apontam para o alimento atual), nunca registros já
+  feitos (snapshot). Excluir é lógico (`deleted_at`): some da busca e da lista.
+- Localmente, `foods` ganhou `brand`, `is_custom`, `updated_at`, `deleted_at`, `version` e
+  `sync_state` (banco v5); `owner_user_id` fica para o servidor (Fase 5+).
+- Unidade de referência só em gramas por enquanto; produtos rotulados em ml são digitados
+  como se 1 ml = 1 g (limitação conhecida).
+
 ### Navegação
 
 - Barra inferior: **Diário, Histórico, Perfil**.
@@ -416,7 +436,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 4a (concluída) | Room, importação do catálogo, busca, campo de registro com sugestões, tela de quantidade | Testes de DAO e importação; app sem permissão de internet; "arroz 150" preenche 150 g |
 | 4b (concluída) | Diário com snapshot, edição, remoção, desfazer, painel do dia, micronutrientes | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c (concluída) | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
-| 4d | Histórico, "Salvar como refeição" e alimentos personalizados (antecipados antes do backend por decisão do autor em 21/10/2026, para o app ficar completo para uso próprio) | Histórico com totais e meta do dia; molde criado a partir de registro; alimento do usuário aparece na busca |
+| 4d (concluída) | Histórico, "Salvar como refeição" e alimentos personalizados (antecipados antes do backend por decisão do autor em 21/10/2026, para o app ficar completo para uso próprio) | Histórico com totais e meta do dia; molde criado a partir de registro; alimento do usuário aparece na busca |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |

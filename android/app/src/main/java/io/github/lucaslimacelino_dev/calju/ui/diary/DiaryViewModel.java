@@ -186,6 +186,18 @@ public class DiaryViewModel extends ViewModel {
                 catalog.food(suggestion.foodId()), suggestion.grams(), occasion, null, null)));
     }
 
+    /** Abre a tela de quantidade para um alimento recém-criado, já com a porção dele, se houver. */
+    public void selectFood(String foodId) {
+        Occasion occasion = occasionForNewEntry();
+        executor.execute(() -> {
+            Food food = catalog.food(foodId);
+            if (food != null) {
+                BigDecimal grams = food.portion().isPresent() ? food.portion().get().grams() : null;
+                selected.postValue(new SelectedFood(foodId, food, grams, occasion, null, null));
+            }
+        });
+    }
+
     /** Abre a tela de quantidade para um registro de um único item. */
     public void edit(EntryRow row) {
         selected.setValue(new SelectedFood(null, row.snapshot(), row.totalGrams(), row.occasion(), row.itemId(),

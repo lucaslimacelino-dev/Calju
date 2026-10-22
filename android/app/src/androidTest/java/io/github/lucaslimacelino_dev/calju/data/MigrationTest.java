@@ -1,6 +1,8 @@
 package io.github.lucaslimacelino_dev.calju.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
@@ -23,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
+import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
 
 /**
  * Simula quem tem o app antigo: cria o banco de uma versão anterior com o SQL exportado pelo
@@ -34,7 +37,7 @@ public class MigrationTest {
 
     private static final String DB = "migration-test.db";
     private static final String SCHEMAS = "io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase/";
-    private static final int CURRENT_VERSION = 4;
+    private static final int CURRENT_VERSION = 5;
 
     private Context context;
 
@@ -90,7 +93,11 @@ public class MigrationTest {
 
         CaljuDatabase migrated = Room.databaseBuilder(context, CaljuDatabase.class, DB).build();
         try {
-            assertEquals("Alimento A", migrated.catalogDao().food("f1").name);
+            FoodEntity food = migrated.catalogDao().food("f1");
+            assertEquals("Alimento A", food.name);
+            assertFalse(food.custom);
+            assertNull(food.deletedAt);
+            assertEquals(1, food.version);
             assertTrue(migrated.diaryDao().day(LocalDate.of(2026, 10, 20)).isEmpty());
             assertTrue(migrated.goalDao().all().isEmpty());
             assertTrue(migrated.mealDao().all().isEmpty());
@@ -113,5 +120,10 @@ public class MigrationTest {
     @Test
     public void daVersao3ParaAAtual() throws Exception {
         assertMigratesToCurrent(3);
+    }
+
+    @Test
+    public void daVersao4ParaAAtual() throws Exception {
+        assertMigratesToCurrent(4);
     }
 }

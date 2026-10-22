@@ -89,3 +89,6 @@ objetiva que os sustente.
   mantido): pedido de estilo e escolha do layout híbrido feitos pelo autor entre opções
   apresentadas pelo assistente; implementação, cores, medição de contraste e testes pelo
   assistente.
+- Alimentos personalizados (banco v5, conversão do rótulo para 100 g, validação, cadastro pelo
+  Diário e pelo Perfil) e testes escritos pelo assistente, seguindo o desenho proposto pelo
+  assistente e aprovado pelo autor (valores digitados como estão na embalagem).

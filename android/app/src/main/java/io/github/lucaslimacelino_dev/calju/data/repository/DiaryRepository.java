@@ -138,7 +138,7 @@ public class DiaryRepository {
         for (FoodNutrientEntity value : catalog.nutrientsOf(draft.foodId())) {
             snapshot.add(new LogItemNutrientEntity(itemId, value.nutrientCode, value.amountPer100g, value.qualifier));
         }
-        diary.insertItem(new LogItemEntity(itemId, entryId, draft.foodId(), food.name, null, food.sourceId,
+        diary.insertItem(new LogItemEntity(itemId, entryId, draft.foodId(), food.name, food.brand, food.sourceId,
                 draft.grams(), portion == null ? null : portion.label, position));
         diary.insertItemNutrients(snapshot);
     }

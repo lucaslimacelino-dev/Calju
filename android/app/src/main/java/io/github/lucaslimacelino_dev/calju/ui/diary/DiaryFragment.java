@@ -42,11 +42,13 @@ import io.github.lucaslimacelino_dev.calju.databinding.ViewMacroCardBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
+import io.github.lucaslimacelino_dev.calju.domain.FoodInputParser;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.ui.DateRequest;
 import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.components.NumberAnimator;
+import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
 public class DiaryFragment extends Fragment {
 
@@ -132,6 +134,7 @@ public class DiaryFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 viewModel.onTextChanged(s.toString());
+                showCreateOption();
             }
         });
         binding.foodInput.setOnEditorActionListener((v, actionId, event) -> {
@@ -147,6 +150,22 @@ public class DiaryFragment extends Fragment {
             return true;
         });
         binding.sendButton.setOnClickListener(v -> selectFirstSuggestion());
+        binding.createFood.setOnClickListener(v -> {
+            hideKeyboard();
+            if (getChildFragmentManager().findFragmentByTag(CustomFoodSheet.TAG) == null) {
+                CustomFoodSheet.newFood(capitalize(typedQuery()))
+                        .show(getChildFragmentManager(), CustomFoodSheet.TAG);
+            }
+        });
+        // Alimento criado aqui: limpa o campo e já abre a tela de quantidade com ele.
+        getChildFragmentManager().setFragmentResultListener(CustomFoodSheet.RESULT_KEY, getViewLifecycleOwner(),
+                (key, result) -> {
+                    if (result.getBoolean(CustomFoodSheet.RESULT_CREATED)) {
+                        binding.foodInput.setText("");
+                        viewModel.clearSuggestions();
+                        viewModel.selectFood(result.getString(CustomFoodSheet.RESULT_FOOD_ID));
+                    }
+                });
     }
 
     private void showDate(LocalDate date) {
@@ -278,7 +297,30 @@ public class DiaryFragment extends Fragment {
 
     private void showSuggestions(List<Suggestion> suggestions) {
         suggestionAdapter.submitList(suggestions);
-        binding.suggestionsCard.setVisibility(suggestions.isEmpty() ? View.GONE : View.VISIBLE);
+        showCreateOption();
+    }
+
+    /**
+     * Com texto digitado, o cartão mostra também "Criar alimento": mesmo sem nenhuma sugestão,
+     * o usuário pode cadastrar o produto da embalagem que não está na TACO.
+     */
+    private void showCreateOption() {
+        String query = typedQuery();
+        boolean canCreate = query.length() >= SuggestionSearch.MIN_QUERY_LENGTH;
+        binding.createFood.setVisibility(canCreate ? View.VISIBLE : View.GONE);
+        binding.createFood.setText(getString(R.string.food_create, query));
+        binding.suggestionsCard.setVisibility(canCreate || suggestionAdapter.getItemCount() > 0
+                ? View.VISIBLE : View.GONE);
+    }
+
+    /** O nome digitado, sem números nem unidades ("granola 40 g" vira "granola"). */
+    private String typedQuery() {
+        Editable text = binding.foodInput.getText();
+        return text == null ? "" : FoodInputParser.parse(text.toString()).query();
+    }
+
+    private static String capitalize(String text) {
+        return text.isEmpty() ? text : text.substring(0, 1).toUpperCase(PT_BR) + text.substring(1);
     }
 
     private void showEvent(DiaryEvent event) {

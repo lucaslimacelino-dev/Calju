@@ -37,7 +37,10 @@ final class SuggestionSearch {
         }
         List<Suggestion> result = new ArrayList<>();
         for (FoodSearchRow row : catalog.search(input.query(), limit)) {
-            result.add(toSuggestion(row, catalog.food(row.id), input));
+            Food food = catalog.food(row.id);
+            if (food != null) {
+                result.add(toSuggestion(row, food, input));
+            }
         }
         return result;
     }
@@ -55,7 +58,8 @@ final class SuggestionSearch {
         Optional<NutrientAmount> per100g = food.nutrient(Nutrients.ENERGY);
         BigDecimal kcalPer100g = per100g.isPresent() && per100g.get().qualifier() == Qualifier.VALUE
                 ? per100g.get().amount() : null;
-        return new Suggestion(row.id, row.name, grams.orElse(null), kcal, portionText, kcalPer100g);
+        String name = row.brand == null ? row.name : row.name + " · " + row.brand;
+        return new Suggestion(row.id, name, grams.orElse(null), kcal, portionText, kcalPer100g);
     }
 
     private static BigDecimal knownKcal(Food food, BigDecimal grams) {

@@ -54,4 +54,12 @@ public class FormatsTest {
         assertNull(Formats.parsePositive("0"));
         assertNull(Formats.parsePositive("-5"));
     }
+
+    @Test
+    public void naoNegativoAceitaZeroERecusaNegativo() {
+        assertEquals(0, BigDecimal.ZERO.compareTo(Formats.parseNonNegative("0")));
+        assertEquals(new BigDecimal("2.5"), Formats.parseNonNegative("2,5"));
+        assertNull(Formats.parseNonNegative("-1"));
+        assertNull(Formats.parseNonNegative(""));
+    }
 }

@@ -55,7 +55,7 @@ public class DiaryRepositoryTest {
         database = open();
         new CatalogImporter(database, context.getAssets()).importIfNeeded();
         diary = new DiaryRepository(database, Clock.systemUTC());
-        FoodSearchRow arroz = new CatalogRepository(database.catalogDao()).search("arroz tipo 1 cozido", 1).get(0);
+        FoodSearchRow arroz = new CatalogRepository(database, Clock.systemDefaultZone()).search("arroz tipo 1 cozido", 1).get(0);
         arrozId = arroz.id;
     }
 

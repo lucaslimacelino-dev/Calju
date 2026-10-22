@@ -57,7 +57,7 @@ public class MealRepositoryTest {
         new CatalogImporter(database, context.getAssets()).importIfNeeded();
         meals = new MealRepository(database, Clock.systemUTC());
         diary = new DiaryRepository(database, Clock.systemUTC());
-        CatalogRepository catalog = new CatalogRepository(database.catalogDao());
+        CatalogRepository catalog = new CatalogRepository(database, Clock.systemDefaultZone());
         arroz = catalog.search("arroz tipo 1 cozido", 1).get(0).id;
         feijao = catalog.search("feijao carioca cozido", 1).get(0).id;
         banana = catalog.search("banana prata", 1).get(0).id;
