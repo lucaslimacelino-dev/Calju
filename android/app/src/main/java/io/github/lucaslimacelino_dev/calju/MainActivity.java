@@ -33,13 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+        // No Diário o próprio cabeçalho ("Hoje") faz o papel de título.
+        navController.addOnDestinationChangedListener((controller, destination, arguments) ->
+                binding.toolbar.setVisibility(destination.getId() == R.id.diaryFragment ? View.GONE : View.VISIBLE));
 
-        // Com edge-to-edge o sistema não redimensiona a tela para o teclado: o app faz isso.
+        // Com edge-to-edge o app reserva o espaço da barra de status (a barra de título some no
+        // Diário) e redimensiona a tela para o teclado.
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (root, insets) -> {
+            int statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
             boolean keyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime());
             int keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
             binding.bottomNavigation.setVisibility(keyboardVisible ? View.GONE : View.VISIBLE);
-            root.setPadding(0, 0, 0, keyboardVisible ? keyboardHeight : 0);
+            root.setPadding(0, statusBar, 0, keyboardVisible ? keyboardHeight : 0);
             return insets;
         });
     }

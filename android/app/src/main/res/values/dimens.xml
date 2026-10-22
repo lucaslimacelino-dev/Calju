@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="meals_empty_padding">16dp</dimen>
+    <dimen name="snackbar_caju">40dp</dimen>
+    <dimen name="snackbar_caju_padding">12dp</dimen>
+    <dimen name="welcome_bottom_padding">24dp</dimen>
 </resources>

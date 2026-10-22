@@ -12,4 +12,12 @@
         <item quantity="one">%d salva</item>
         <item quantity="other">%d salvas</item>
     </plurals>
+    <plurals name="caju_past_day">
+        <item quantity="one">%d registro neste dia. Toque num item para editar.</item>
+        <item quantity="other">%d registros neste dia. Toque num item para editar.</item>
+    </plurals>
+    <plurals name="caju_no_goal">
+        <item quantity="one">%d registro hoje. Me conta o próximo quando rolar!</item>
+        <item quantity="other">%d registros hoje. Me conta o próximo quando rolar!</item>
+    </plurals>
 </resources>

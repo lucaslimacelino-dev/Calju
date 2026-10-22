@@ -227,7 +227,9 @@ Conta e aparelho:
 ## 6. Identidade visual e UX
 
 Revisada em 20/10/2026 (paleta "castanha e caju" e tela inicial v3, aprovadas pelo autor) e em
-21/10/2026 (tela inicial v4, no estilo de diários como o Foodvisor: layout híbrido aprovado pelo autor).
+21/10/2026 (tela inicial v4, no estilo de diários como o Foodvisor: layout híbrido aprovado pelo autor)
+e em 22/10/2026 (v5 "Caju conversa", com o mascote Caju: proposta A escolhida pelo autor, com as
+refeições do dia em lista compacta; implementada na Fase 4e).
 
 ### Paleta "castanha e caju"
 
@@ -267,28 +269,48 @@ Cartão de resumo (fundo castanho nos dois temas) e refeições:
 - Roboto do sistema, escala Material 3, algarismos tabulares.
 - Cartões com cantos arredondados e sombra suave; sheets com cantos de 26 dp.
 - Tema escuro no MVP.
-- Símbolo: forma geométrica inspirada no caju; sem mascote (Fase 8).
+- Mascote: **Caju**, personagem original (caju com a castanha como boina), em 4 humores:
+  feliz, comemorando, pensando e dormindo. Vetores próprios do app (`ic_caju_*`).
+- Tom do Caju: fala curta, em primeira pessoa, sem julgamento. Passar da meta nunca é erro
+  ("um dia não define nada"); sem vermelho de alerta para comida.
 
-### Tela inicial (Diário) — v4
+### Storytelling e mensagens do Caju (v5)
+
+- Primeiro uso: duas telas (`WelcomeActivity`): "Oi! Eu sou o Caju." e "É só me contar"
+  (exemplos do campo). Vistas uma vez; "Pular" disponível.
+- Diário: o Caju fica no topo com um balão que muda conforme o dia (`CajuMessages`):
+  dia vazio (dormindo), registros sem meta, kcal restantes, meta de proteína completa
+  (comemorando), acima da meta (sem alarme), dia passado.
+- Registro feito: aviso "Anotado no almoço!" com o Caju comemorando e "Desfazer".
+- Busca sem resultado: "Criar alimento" com o Caju pensando.
+- Fonte: Roboto do sistema; a Nunito (proposta) depende de conferir o suporte a fonte
+  variável no Android e fica para depois.
+
+### Tela inicial (Diário) — v5 "Caju conversa"
 
 ```
-Hoje                                   ‹ ›
-terça, 20 de outubro
-┏ Resumo (castanho) ━━━━━━━━━━━━━━━━━━━━━┓
-┃        anel grande: 1.240 kcal          ┃
-┃        restantes · 760 de 2.000         ┃
-┃  [•Proteína] [•Carboidrato] [•Gordura]  ┃  valor, meta, barra
-┃        Ver micronutrientes              ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┌ (☕) Café da manhã       320 kcal  (+) ┐   uma seção por refeição, sempre visível
-│      Banana, prata, crua    150 g · 147 │   registros da refeição
-└───────────────────────────────────────┘
-┌ (🍔) Almoço                       (+) ┐
-┌ (🍝) Jantar                       (+) ┐
-┌ (🥐) Lanche                       (+) ┐
-┌ ★ Refeições prontas            3 ▾ ┐       seção recolhível
-( O que você comeu?                    ↑ )   campo fixo embaixo
-Diário | Histórico | Perfil                  barra inferior
+Hoje                                   ‹ ›   (sem barra de título no Diário)
+quinta, 22 de outubro
+(Caju) ┌ Faltam 1.734 kcal para a meta… ┐    balão: fala muda conforme o dia
+┌ Resumo (pêssego; castanho no escuro) ──┐
+│ (anel 1.734    )  Meta de hoje         │
+│ (kcal restantes)  2.000 kcal           │
+│                   266 consumidas       │
+│ [•Proteína] [•Carboidrato] [•Gordura]  │
+│        Ver micronutrientes             │
+└────────────────────────────────────────┘
+┌ (☕) Café da manhã         74 kcal  (+) ┐   lista compacta, um cartão só
+│      Banana, prata · 75 g          74   │
+│ (🍔) Almoço · Nada ainda            (+) │
+│ (🍝) Jantar · Nada ainda            (+) │
+│ (🥐) Lanche · Nada ainda            (+) │
+└────────────────────────────────────────┘
+┌ ★ Refeições prontas        2 salvas ▴ ┐   aberta por padrão
+│ Marmita                    (✎) (+)     │
+│ + Nova refeição                        │
+└────────────────────────────────────────┘
+( (Caju) Conte pro Caju o que comeu…  ↑ )  campo fixo embaixo
+Diário | Histórico | Perfil
 ```
 
 (Números ilustrativos, não são dados nutricionais reais.)
@@ -437,6 +459,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 4b (concluída) | Diário com snapshot, edição, remoção, desfazer, painel do dia, micronutrientes | Alterar alimento não altera registro antigo; persiste após reiniciar |
 | 4c (concluída) | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 4d (concluída) | Histórico, "Salvar como refeição" e alimentos personalizados (antecipados antes do backend por decisão do autor em 21/10/2026, para o app ficar completo para uso próprio) | Histórico com totais e meta do dia; molde criado a partir de registro; alimento do usuário aparece na busca |
+| 4e (concluída) | Visual "Caju conversa" e storytelling com o mascote (antecipado da Fase 8 por decisão do autor em 22/10/2026) | Testes de UI continuam passando; mensagens do Caju testadas sem Android |
 | 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |

@@ -31,7 +31,7 @@ public class DayRingView extends View {
             paint.setStrokeWidth(stroke);
             paint.setStrokeCap(Paint.Cap.ROUND);
         }
-        track.setColor(MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer));
+        track.setColor(MaterialColors.getColor(this, com.google.android.material.R.attr.colorOutline));
         progressPaint.setColor(MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondary));
     }
 

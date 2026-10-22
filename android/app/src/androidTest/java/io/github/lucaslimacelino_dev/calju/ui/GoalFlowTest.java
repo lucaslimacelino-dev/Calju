@@ -57,7 +57,8 @@ public class GoalFlowTest {
         Waits.untilDisplayed(withText(R.string.goals_saved));
 
         onView(withId(R.id.diaryFragment)).perform(click());
-        Waits.untilDisplayed(withText("kcal restantes · meta 2.000"));
+        Waits.untilDisplayed(withText(R.string.kcal_remaining));
+        onView(allOf(withId(R.id.goal_value), withText("2.000 kcal"))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.kcal_value), withText("2.000"))).check(matches(isDisplayed()));
         onView(withText("de 100 g")).check(matches(isDisplayed()));
     }

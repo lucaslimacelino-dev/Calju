@@ -74,9 +74,10 @@ public class MealFlowTest {
         return allOf(matcher, isDescendantOfA(withId(R.id.meals_list)));
     }
 
+    /** A seção "Refeições prontas" já abre expandida; basta esperar o dia carregar. */
     private static void openMeals() {
         Waits.untilDayLoaded();
-        Waits.scrollAndTap(withId(R.id.meals_header));
+        Waits.untilPresent(withId(R.id.new_meal));
     }
 
     /** Toca num elemento depois que o aviso sumir (ele cobre a parte de baixo da tela). */

@@ -35,4 +35,8 @@
     <color name="dinner_container">#4A2F1C</color>
     <color name="snack">#A9D18E</color>
     <color name="snack_container">#26361E</color>
+    <color name="summary_ring_track">#6F4A31</color>
+    <color name="caju_bubble">#2A231E</color>
+    <color name="add_button">#4A2219</color>
+    <color name="on_add_button">#FF8A70</color>
 </resources>

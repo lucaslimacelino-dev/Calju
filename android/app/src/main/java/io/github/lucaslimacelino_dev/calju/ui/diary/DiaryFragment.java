@@ -1,9 +1,11 @@
 package io.github.lucaslimacelino_dev.calju.ui.diary;
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -183,8 +185,50 @@ public class DiaryFragment extends Fragment {
                 R.color.summary_carbohydrate);
         macro(binding.fat, state.fat(), goal == null ? null : goal.fatG(), R.color.summary_fat);
 
-        binding.emptyState.setVisibility(state.entries().isEmpty() ? View.VISIBLE : View.GONE);
+        showCaju(CajuMessages.forDay(state, viewModel.today()));
         showSections(OccasionSection.group(state.entries()));
+    }
+
+    private void showCaju(CajuMessages.Line line) {
+        binding.caju.setImageResource(cajuDrawable(line.mood()));
+        String message;
+        switch (line.kind()) {
+            case EMPTY_TODAY:
+                message = getString(R.string.caju_empty_today);
+                break;
+            case EMPTY_PAST:
+                message = getString(R.string.caju_empty_past);
+                break;
+            case PAST_DAY:
+                message = getResources().getQuantityString(R.plurals.caju_past_day, line.count(), line.count());
+                break;
+            case NO_GOAL:
+                message = getResources().getQuantityString(R.plurals.caju_no_goal, line.count(), line.count());
+                break;
+            case REMAINING:
+                message = getString(R.string.caju_remaining, Formats.amount(line.kcal(), NutrientUnit.KCAL));
+                break;
+            case PROTEIN_DONE:
+                message = getString(R.string.caju_protein_done);
+                break;
+            default:
+                message = getString(R.string.caju_over_goal);
+                break;
+        }
+        binding.cajuMessage.setText(message);
+    }
+
+    private static int cajuDrawable(CajuMessages.Mood mood) {
+        switch (mood) {
+            case CELEBRATING:
+                return R.drawable.ic_caju_comemorando;
+            case THINKING:
+                return R.drawable.ic_caju_pensando;
+            case SLEEPING:
+                return R.drawable.ic_caju_dormindo;
+            default:
+                return R.drawable.ic_caju_feliz;
+        }
     }
 
     /** As quatro seções são criadas uma vez; as atualizações só trocam o conteúdo (a tela não pula). */
@@ -199,6 +243,8 @@ public class DiaryFragment extends Fragment {
             card.title.setText(Occasions.label(occasion));
             card.add.setContentDescription(getString(R.string.section_add, lowerLabel(occasion)));
             card.add.setOnClickListener(v -> startAdding(occasion));
+            card.divider.setVisibility(occasion == Occasion.values()[Occasion.values().length - 1]
+                    ? View.GONE : View.VISIBLE);
             sectionCards.put(occasion, card);
         }
     }
@@ -207,6 +253,7 @@ public class DiaryFragment extends Fragment {
         for (OccasionSection section : sections) {
             ItemOccasionSectionBinding card = sectionCards.get(section.occasion());
             card.kcal.setVisibility(section.isEmpty() ? View.GONE : View.VISIBLE);
+            card.detail.setVisibility(section.isEmpty() ? View.VISIBLE : View.GONE);
             card.kcal.setText(getString(R.string.entry_kcal, mark(section.complete(), R.string.value_at_least,
                     value -> Formats.amount(value, NutrientUnit.KCAL)).apply(section.kcal())));
             card.items.removeAllViews();
@@ -255,6 +302,11 @@ public class DiaryFragment extends Fragment {
     private void showEnergy(NutrientTotal kcal, Goal goal) {
         String consumed = Formats.amount(kcal.amount(), NutrientUnit.KCAL);
         binding.defineGoal.setVisibility(goal == null ? View.VISIBLE : View.GONE);
+        binding.goalTitle.setText(goal == null ? R.string.summary_no_goal : R.string.summary_goal_title);
+        binding.goalValue.setVisibility(goal == null ? View.GONE : View.VISIBLE);
+        binding.goalConsumed.setText(goal == null ? getString(R.string.summary_no_goal_hint)
+                : getString(R.string.summary_consumed, mark(kcal.complete(), R.string.value_at_least,
+                value -> Formats.amount(value, NutrientUnit.KCAL)).apply(kcal.amount())));
         if (goal == null) {
             NumberAnimator.animate(binding.kcalValue, kcal.amount(), mark(kcal.complete(), R.string.value_at_least,
                     value -> Formats.amount(value, NutrientUnit.KCAL)));
@@ -264,12 +316,13 @@ public class DiaryFragment extends Fragment {
             return;
         }
         String target = Formats.amount(goal.kcal(), NutrientUnit.KCAL);
+        binding.goalValue.setText(getString(R.string.summary_goal_value, target));
         BigDecimal remaining = goal.kcal().subtract(kcal.amount());
         boolean over = remaining.signum() < 0;
         NumberAnimator.animate(binding.kcalValue, remaining.abs(), mark(kcal.complete(),
                 over ? R.string.value_at_least : R.string.value_at_most,
                 value -> Formats.amount(value, NutrientUnit.KCAL)));
-        binding.kcalCaption.setText(getString(over ? R.string.kcal_over : R.string.kcal_remaining, target));
+        binding.kcalCaption.setText(over ? R.string.kcal_over : R.string.kcal_remaining);
         binding.ring.setProgress(kcal.amount().floatValue() / goal.kcal().floatValue());
         binding.ringContainer.setContentDescription(
                 getString(R.string.kcal_ring_description_goal, consumed, target) + ". "
@@ -354,7 +407,24 @@ public class DiaryFragment extends Fragment {
         if (event.canUndo()) {
             snackbar.setAction(R.string.undo, v -> viewModel.undo(event));
         }
+        if (event.type() == DiaryEvent.Type.ADDED) {
+            celebrate(snackbar);
+        }
         snackbar.show();
+    }
+
+    /** Registro feito: o Caju comemora ao lado da mensagem do aviso. */
+    private void celebrate(Snackbar snackbar) {
+        TextView text = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+        Drawable caju = ContextCompat.getDrawable(requireContext(), R.drawable.ic_caju_comemorando);
+        if (text == null || caju == null) {
+            return;
+        }
+        int size = getResources().getDimensionPixelSize(R.dimen.snackbar_caju);
+        caju.setBounds(0, 0, size * 120 / 140, size);
+        text.setCompoundDrawablesRelative(caju, null, null, null);
+        text.setCompoundDrawablePadding(getResources().getDimensionPixelSize(R.dimen.snackbar_caju_padding));
+        text.setGravity(Gravity.CENTER_VERTICAL);
     }
 
     private void onEntryClicked(EntryRow row) {
@@ -373,8 +443,8 @@ public class DiaryFragment extends Fragment {
 
     /** Seção "Refeições prontas": cabeçalho sempre visível; lista só quando aberta. */
     private void showMeals(List<MealSummary> meals, boolean expanded) {
-        String count = getResources().getQuantityString(R.plurals.meals_count, meals.size(), meals.size());
-        binding.mealsCount.setText(getString(expanded ? R.string.meals_count_open : R.string.meals_count_closed, count));
+        binding.mealsCount.setText(getResources().getQuantityString(R.plurals.meals_count, meals.size(), meals.size()));
+        binding.mealsChevron.setRotation(expanded ? 180f : 0f);
         binding.mealsHeader.setContentDescription(getString(expanded ? R.string.meals_collapse : R.string.meals_expand));
         binding.mealsList.setVisibility(expanded ? View.VISIBLE : View.GONE);
         binding.newMeal.setVisibility(expanded ? View.VISIBLE : View.GONE);

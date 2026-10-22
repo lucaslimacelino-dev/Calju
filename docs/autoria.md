@@ -92,3 +92,11 @@ objetiva que os sustente.
 - Alimentos personalizados (banco v5, conversão do rótulo para 100 g, validação, cadastro pelo
   Diário e pelo Perfil) e testes escritos pelo assistente, seguindo o desenho proposto pelo
   assistente e aprovado pelo autor (valores digitados como estão na embalagem).
+
+### Fase 4e — Visual com o mascote Caju
+
+- Pedido de um design mais amigável e de um mascote com storytelling: do autor. Personagem
+  Caju (desenho original em vetor), propostas de tela A e B e falas: propostos pelo assistente;
+  escolha da proposta A com as refeições em lista compacta: do autor.
+- Implementação (vetores dos 4 humores, tela de boas-vindas, falas do Caju por situação,
+  novo resumo, lista compacta, cores, medição de contraste) e testes escritos pelo assistente.

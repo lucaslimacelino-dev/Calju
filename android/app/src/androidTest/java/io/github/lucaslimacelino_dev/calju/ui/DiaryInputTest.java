@@ -94,7 +94,7 @@ public class DiaryInputTest {
     public void adicionarGravaNoDiarioEAtualizaOPainel() {
         addArroz("150");
 
-        Waits.untilDisplayed(withText("Adicionado: jantar"));
+        Waits.untilDisplayed(withText("Anotado no jantar!"));
         Waits.untilPresent(inEntries(withText(ARROZ)));
         onView(inEntries(withText("150 g"))).perform(scrollTo()).check(matches(isDisplayed()));
         Waits.untilPresent(allOf(withId(R.id.kcal_value), withText("192")));
@@ -123,7 +123,7 @@ public class DiaryInputTest {
         Waits.untilDisplayed(withId(R.id.remove_button));
         onView(withId(R.id.remove_button)).perform(click());
 
-        Waits.untilPresent(withId(R.id.empty_state));
+        Waits.untilPresent(withText(R.string.caju_empty_today));
         Waits.untilDisplayed(withText(R.string.undo));
         onView(withText(R.string.undo)).perform(click());
         Waits.untilPresent(inEntries(withText(ARROZ)));
@@ -156,7 +156,7 @@ public class DiaryInputTest {
         onView(withId(R.id.grams)).perform(replaceText("100"));
         onView(withId(R.id.add_button)).perform(click());
 
-        Waits.untilDisplayed(withText("Adicionado: lanche"));
+        Waits.untilDisplayed(withText("Anotado no lanche!"));
         onView(withId(R.id.food_input)).check(matches(withHint(R.string.food_input_hint)));
     }
 }

@@ -6,7 +6,7 @@
     <color name="on_primary_container">#2A1607</color>
     <color name="secondary">#C7402A</color>
     <color name="on_secondary">#FFFFFF</color>
-    <color name="background">#FAF6F1</color>
+    <color name="background">#FFF8F1</color>
     <color name="surface">#FFFFFF</color>
     <color name="surface_container">#F3EDE6</color>
     <color name="on_surface">#2A211B</color>
@@ -17,16 +17,16 @@
     <color name="inverse_surface">#3A2F28</color>
     <color name="inverse_on_surface">#F7EEE8</color>
     <color name="inverse_primary">#E8BE9C</color>
-    <color name="summary_background">#5E3A22</color>
-    <color name="summary_tile">#6F4A31</color>
-    <color name="summary_track">#83593D</color>
-    <color name="on_summary">#FFF6EE</color>
-    <color name="on_summary_variant">#E9D3C1</color>
-    <color name="summary_accent">#FF8A70</color>
-    <color name="on_summary_accent">#3E0D02</color>
-    <color name="summary_protein">#FF8A70</color>
-    <color name="summary_carbohydrate">#F5C766</color>
-    <color name="summary_fat">#F2DFCF</color>
+    <color name="summary_background">#FFE8DA</color>
+    <color name="summary_tile">#FFFFFF</color>
+    <color name="summary_track">#F3EDE6</color>
+    <color name="on_summary">#3B2416</color>
+    <color name="on_summary_variant">#6B4429</color>
+    <color name="summary_accent">#C7402A</color>
+    <color name="on_summary_accent">#FFFFFF</color>
+    <color name="summary_protein">#EE5A3C</color>
+    <color name="summary_carbohydrate">#E9A93A</color>
+    <color name="summary_fat">#9A6440</color>
     <color name="breakfast">#9A6200</color>
     <color name="breakfast_container">#FCEBC8</color>
     <color name="lunch">#C7402A</color>
@@ -35,4 +35,8 @@
     <color name="dinner_container">#F2DFCF</color>
     <color name="snack">#4C7A34</color>
     <color name="snack_container">#DDEBD3</color>
+    <color name="summary_ring_track">#FFD2BD</color>
+    <color name="caju_bubble">#FFFFFF</color>
+    <color name="add_button">#FBDCD3</color>
+    <color name="on_add_button">#C7402A</color>
 </resources>

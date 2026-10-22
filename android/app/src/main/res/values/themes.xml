@@ -40,6 +40,7 @@
         <item name="colorOnSecondaryContainer">@color/on_summary_accent</item>
         <item name="colorSurface">@color/summary_track</item>
         <item name="colorSurfaceContainer">@color/summary_tile</item>
+        <item name="colorOutline">@color/summary_ring_track</item>
         <item name="colorOnSurface">@color/on_summary</item>
         <item name="colorOnSurfaceVariant">@color/on_summary_variant</item>
         <item name="android:textColorPrimary">@color/on_summary</item>
@@ -57,11 +58,55 @@
         <item name="iconTint">?attr/colorOnSecondary</item>
     </style>
 
+    <style name="Widget.CaLju.SectionAdd" parent="Widget.Material3.Button.IconButton.Filled">
+        <item name="backgroundTint">@color/add_button</item>
+        <item name="iconTint">@color/on_add_button</item>
+    </style>
+
     <style name="Widget.CaLju.PrimaryAction" parent="Widget.Material3.Button">
         <item name="backgroundTint">?attr/colorSecondary</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:minHeight">56dp</item>
         <item name="cornerRadius">16dp</item>
+    </style>
+
+    <style name="Widget.CaLju.UserBubble" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:background">@drawable/bg_user_bubble</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyLarge</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.CaLju.CajuReply" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Widget.CaLju.CajuAvatar" parent="">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">47dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="Widget.CaLju.CajuBubble" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:background">@drawable/bg_caju_bubble</item>
+        <item name="android:elevation">1dp</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
     </style>
 
     <style name="Widget.CaLju.EmptyState" parent="">

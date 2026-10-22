@@ -25,7 +25,6 @@
     <string name="about_title">Sobre</string>
     <string name="about_version">CaLju, versão %1$s</string>
 
-    <string name="diary_empty">Nenhum registro neste dia. Toque em + numa refeição ou digite abaixo o que você comeu.</string>
     <string name="history_empty">Os dias com registro aparecerão aqui.</string>
     <string name="history_average_title">Média dos últimos 7 dias</string>
     <string name="history_average_value">%1$s kcal por dia</string>
@@ -35,7 +34,7 @@
     <string name="history_macros">Proteína %1$s g · Carbo %2$s g · Gordura %3$s g</string>
     <string name="history_open_day">Abrir %1$s no diário</string>
 
-    <string name="food_input_hint">O que você comeu?</string>
+    <string name="food_input_hint">Conte pro Caju o que comeu…</string>
     <string name="food_input_hint_for">O que você comeu no %1$s?</string>
     <string name="section_add">Adicionar ao %1$s</string>
     <string name="food_input_send">Escolher o primeiro alimento sugerido</string>
@@ -68,8 +67,8 @@
     <string name="kcal_consumed">kcal consumidas</string>
     <string name="kcal_ring_description">%1$s kcal consumidas</string>
     <string name="kcal_ring_description_goal">%1$s de %2$s kcal consumidas</string>
-    <string name="kcal_remaining">kcal restantes · meta %1$s</string>
-    <string name="kcal_over">kcal acima da meta de %1$s</string>
+    <string name="kcal_remaining">kcal restantes</string>
+    <string name="kcal_over">kcal acima da meta</string>
     <string name="macro_goal">de %1$s g</string>
     <string name="value_at_most">≤ %1$s</string>
     <string name="macro_protein">Proteína</string>
@@ -85,8 +84,6 @@
 
     <string name="meals_title">★ Refeições prontas</string>
     <string name="meals_empty">Nenhuma refeição salva ainda.</string>
-    <string name="meals_count_open">%1$s  ▴</string>
-    <string name="meals_count_closed">%1$s  ▾</string>
     <string name="meals_new">Nova refeição</string>
     <string name="meals_expand">Mostrar refeições prontas</string>
     <string name="meals_collapse">Ocultar refeições prontas</string>
@@ -110,7 +107,7 @@
     <string name="entry_edit_save">Salvar</string>
     <string name="entry_save_as_meal">Salvar como refeição</string>
 
-    <string name="event_added">Adicionado: %1$s</string>
+    <string name="event_added">Anotado no %1$s!</string>
     <string name="event_meal_saved">Refeição salva: %1$s</string>
     <string name="event_meal_duplicated">Cópia criada: %1$s</string>
     <string name="event_meal_deleted">Refeição excluída: %1$s</string>
@@ -150,4 +147,29 @@
     <string name="my_food_edit">Editar %1$s</string>
     <string name="my_food_detail">%1$s kcal em 100 g</string>
     <string name="my_food_detail_brand">%1$s · %2$s kcal em 100 g</string>
+    <string name="section_empty">Nada ainda</string>
+    <string name="caju_empty_today">Ainda não anotei nada hoje. Me conta a primeira refeição?</string>
+    <string name="caju_empty_past">Nada anotado neste dia.</string>
+    <string name="caju_remaining">Faltam %1$s kcal para a meta de hoje. Me conta a próxima refeição!</string>
+    <string name="caju_protein_done">Proteína do dia completa! Mandou bem.</string>
+    <string name="caju_over_goal">Hoje passou um pouco da meta. Tudo certo: um dia não define nada.</string>
+    <string name="welcome_skip">Pular</string>
+    <string name="welcome_hello_title">Oi! Eu sou o Caju.</string>
+    <string name="welcome_hello_text">Você me conta o que comeu, e eu faço as contas de calorias e nutrientes do seu dia. Tudo fica no seu celular.</string>
+    <string name="welcome_how_title">É só me contar.</string>
+    <string name="welcome_how_text">Escreva do seu jeito. Se não souber o peso, eu uso uma porção média.</string>
+    <string name="welcome_how_user_1">arroz 150</string>
+    <string name="welcome_how_caju_1">Arroz, tipo 1, cozido: 150 g, 192 kcal. Anotei no almoço!</string>
+    <string name="welcome_how_user_2">2 bananas</string>
+    <string name="welcome_how_caju_2">Usei 1 unidade média de banana prata (75 g) para cada uma. Dá para ajustar antes de salvar.</string>
+    <string name="welcome_how_user_3">granola da marca X</string>
+    <string name="welcome_how_caju_3">Esse eu ainda não conheço. Me mostra a tabela da embalagem que eu guardo.</string>
+    <string name="welcome_page">%1$d de %2$d</string>
+    <string name="welcome_start">Vamos começar</string>
+    <string name="welcome_done">Entendi</string>
+    <string name="summary_goal_title">Meta de hoje</string>
+    <string name="summary_no_goal">Sem meta</string>
+    <string name="summary_goal_value">%1$s kcal</string>
+    <string name="summary_consumed">%1$s consumidas</string>
+    <string name="summary_no_goal_hint">Defina quando quiser</string>
 </resources>

@@ -49,7 +49,8 @@ public class DiaryViewModel extends ViewModel {
     private final MutableLiveData<LocalDate> date;
     private final LiveData<DayState> dayState;
     private final MediatorLiveData<List<MealSummary>> mealSummaries = new MediatorLiveData<>();
-    private final MutableLiveData<Boolean> mealsExpanded = new MutableLiveData<>(false);
+    /** Aberta por padrão: as refeições salvas ficam à vista logo abaixo das do dia. */
+    private final MutableLiveData<Boolean> mealsExpanded = new MutableLiveData<>(true);
     private final MutableLiveData<List<Suggestion>> suggestions = new MutableLiveData<>(Collections.emptyList());
     private final MutableLiveData<SelectedFood> selected = new MutableLiveData<>();
     /** Refeição escolhida pelo "+" de uma seção; nula = sugerir pelo horário. */
