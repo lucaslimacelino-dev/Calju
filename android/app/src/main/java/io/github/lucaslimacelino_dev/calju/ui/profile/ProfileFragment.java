@@ -26,6 +26,7 @@ import io.github.lucaslimacelino_dev.calju.databinding.FragmentProfileBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.ItemCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
+import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.account.AccountSheet;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
@@ -62,6 +63,10 @@ public class ProfileFragment extends Fragment {
         binding.saveGoals.setOnClickListener(v -> save());
 
         viewModel.signedInEmail().observe(getViewLifecycleOwner(), this::showAccount);
+        binding.syncButton.setOnClickListener(v -> viewModel.syncNow());
+        viewModel.syncing().observe(getViewLifecycleOwner(),
+                busy -> binding.syncButton.setEnabled(!Boolean.TRUE.equals(busy)));
+        viewModel.syncResult().observe(getViewLifecycleOwner(), this::showSyncResult);
         getChildFragmentManager().setFragmentResultListener(AccountSheet.RESULT_KEY, getViewLifecycleOwner(),
                 (key, result) -> {
                     String email = viewModel.signedInEmail().getValue();
@@ -86,8 +91,33 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    /** Sem conta: convite para entrar. Com conta: e-mail e "Sair". */
+    private void showSyncResult(SyncEngine.Result result) {
+        if (result == null) {
+            return;
+        }
+        viewModel.syncResultShown();
+        String text;
+        switch (result.outcome()) {
+            case DONE:
+                text = result.conflicts() > 0 ? getString(R.string.sync_done_conflicts, result.conflicts())
+                        : getString(R.string.sync_done, result.sent(), result.received());
+                break;
+            case OFFLINE:
+                text = getString(R.string.sync_offline);
+                break;
+            case SIGNED_OUT:
+                text = getString(R.string.sync_signed_out);
+                break;
+            default:
+                text = getString(R.string.sync_server_error);
+                break;
+        }
+        message(text).show();
+    }
+
+    /** Sem conta: convite para entrar. Com conta: e-mail, "Sincronizar agora" e "Sair". */
     private void showAccount(String email) {
+        binding.syncButton.setVisibility(email == null ? View.GONE : View.VISIBLE);
         if (email == null) {
             binding.accountStatus.setText(R.string.account_section_signed_out);
             binding.accountButton.setText(R.string.account_open);

@@ -46,6 +46,10 @@ public class NutritionGoalEntity {
     @NonNull
     public String syncState;
 
+    /** Última versão confirmada pelo servidor; 0 = nunca enviado (ver SyncStates). */
+    @ColumnInfo(name = "server_version", defaultValue = "0")
+    public int serverVersion;
+
     public NutritionGoalEntity(@NonNull String id, @NonNull LocalDate effectiveFrom, @NonNull BigDecimal kcal,
                                @Nullable BigDecimal proteinG, @Nullable BigDecimal carbsG,
                                @Nullable BigDecimal fatG, long updatedAt, int version, @NonNull String syncState) {

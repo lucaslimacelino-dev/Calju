@@ -137,6 +137,11 @@ public class CatalogRepository {
                 portion == null ? null : portion.label, portion == null ? null : portion.grams);
     }
 
+    /** Alimentos mudaram por fora (sincronização): a busca recarrega a lista na próxima vez. */
+    public void invalidateSearch() {
+        searchIndex = null;
+    }
+
     /** Exclusão lógica: some da busca e da lista, mas pode ser restaurado (desfazer). */
     @WorkerThread
     public void deleteCustomFood(String id) {

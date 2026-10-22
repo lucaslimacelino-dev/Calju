@@ -54,6 +54,10 @@ public class LogEntryEntity {
     @NonNull
     public String syncState;
 
+    /** Última versão confirmada pelo servidor; 0 = nunca enviado (ver SyncStates). */
+    @ColumnInfo(name = "server_version", defaultValue = "0")
+    public int serverVersion;
+
     public LogEntryEntity(@NonNull String id, @NonNull LocalDate logDate, @NonNull Occasion occasion,
                           @Nullable String title, @Nullable String sourceMealId, long createdAt, long updatedAt,
                           @Nullable Long deletedAt, int version, @NonNull String syncState) {

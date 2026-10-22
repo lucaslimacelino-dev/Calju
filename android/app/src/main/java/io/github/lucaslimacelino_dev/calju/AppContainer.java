@@ -16,6 +16,8 @@ import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.MealRepository;
+import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
+import io.github.lucaslimacelino_dev.calju.data.sync.SyncPrefs;
 
 /** Injeção de dependências manual: cria e guarda os objetos compartilhados pelo app. */
 public class AppContainer {
@@ -31,6 +33,7 @@ public class AppContainer {
     public final MealRepository mealRepository;
     public final ApiClient apiClient;
     public final AccountRepository accountRepository;
+    public final SyncEngine syncEngine;
     public final Clock clock = Clock.systemDefaultZone();
 
     public AppContainer(Context context) {
@@ -42,5 +45,7 @@ public class AppContainer {
         mealRepository = new MealRepository(database, clock);
         apiClient = new ApiClient(BuildConfig.API_BASE_URL, new KeystoreSessionStore(context));
         accountRepository = new AccountRepository(apiClient, Build.MODEL);
+        syncEngine = new SyncEngine(database, catalogRepository, apiClient.data(), apiClient.session(),
+                new SyncPrefs(context));
     }
 }

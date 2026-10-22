@@ -58,6 +58,10 @@ public class FoodEntity {
     @Nullable
     public String syncState;
 
+    /** Última versão confirmada pelo servidor; 0 = nunca enviado (ver SyncStates). */
+    @ColumnInfo(name = "server_version", defaultValue = "0")
+    public int serverVersion;
+
     public FoodEntity(@NonNull String id, @NonNull String name, @NonNull String searchName,
                       @Nullable String category, @Nullable String sourceId, @Nullable Integer sourceNumber,
                       @Nullable String brand, boolean custom, @Nullable Long updatedAt, @Nullable Long deletedAt,

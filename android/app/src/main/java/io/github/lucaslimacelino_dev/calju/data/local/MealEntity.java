@@ -33,6 +33,10 @@ public class MealEntity {
     @NonNull
     public String syncState;
 
+    /** Última versão confirmada pelo servidor; 0 = nunca enviado (ver SyncStates). */
+    @ColumnInfo(name = "server_version", defaultValue = "0")
+    public int serverVersion;
+
     public MealEntity(@NonNull String id, @NonNull String name, long createdAt, long updatedAt,
                       @Nullable Long deletedAt, int version, @NonNull String syncState) {
         this.id = id;

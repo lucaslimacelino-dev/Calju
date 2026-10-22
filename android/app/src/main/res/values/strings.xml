@@ -82,7 +82,7 @@
     <string name="micronutrients_title">Nutrientes do dia</string>
     <string name="micronutrients_legend">\"≥\" indica que algum alimento não tem esse valor medido; \"—\", que nenhum tem.</string>
 
-    <string name="meals_title">★ Refeições prontas</string>
+    <string name="meals_title">Refeições prontas</string>
     <string name="meals_empty">Nenhuma refeição salva ainda.</string>
     <string name="meals_new">Nova refeição</string>
     <string name="meals_expand">Mostrar refeições prontas</string>
@@ -198,4 +198,10 @@
     <string name="account_password_required">Digite a senha</string>
     <string name="account_code_invalid">O código tem 6 números</string>
     <string name="account_password_short">Use pelo menos 12 caracteres</string>
+    <string name="sync_now">Sincronizar agora</string>
+    <string name="sync_done">Sincronizado: %1$d enviados, %2$d recebidos.</string>
+    <string name="sync_done_conflicts">Sincronizado, mas %1$d registro(s) precisam da sua decisão.</string>
+    <string name="sync_offline">Sem conexão com o servidor. Os dados ficam guardados e vão na próxima vez.</string>
+    <string name="sync_signed_out">A sessão expirou. Entre de novo para sincronizar.</string>
+    <string name="sync_server_error">O servidor não respondeu direito. Tente de novo em instantes.</string>
 </resources>

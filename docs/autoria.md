@@ -126,4 +126,5 @@ objetiva que os sustente.
   usuário): opções recomendadas pelo assistente e escolhidas pelo autor.
 - Etapa 1 (sequência de mudanças com gatilho, trava por usuário, `GET /sync/pull`) e etapa 2
   (rede no app, guarda cifrada da sessão, telas de conta) e testes escritos pelo assistente;
-  teste de ponta a ponta no emulador contra o backend local feito pelo assistente.
+  etapa 3a (motor de sincronização, banco v6) e testes escritos pelo assistente; testes de ponta a
+  ponta no emulador contra o backend local feitos pelo assistente.

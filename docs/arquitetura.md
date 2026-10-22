@@ -161,6 +161,14 @@ escolhe, como os registros do diário.
 
 1. **Push** de linhas `PENDING` com a `version` base; servidor aplica se coincidir,
    senão retorna conflito. UUID pertencente a outro usuário é rejeitado.
+   No app (Fase 7, `SyncEngine`): banco local v6 com `server_version` (última versão
+   confirmada; 0 = nunca enviado) e `sync_state` PENDING/SYNCED/CONFLICT/FAILED. Ordem: alimentos,
+   refeições, metas, registros. Criado e excluído antes de enviar não vai ao servidor. 409/404 →
+   CONFLICT; 400 → FAILED (não reenvia em laço); sem rede, 5xx ou sessão vencida → para e tenta
+   depois. "Synced" só se o registro não mudou durante o envio (compara `version`).
+   Recebimento: páginas de 500 aplicadas numa transação; o cursor só avança depois; registro
+   com mudança local pendente nunca é sobrescrito; meta do servidor no mesmo dia de uma meta
+   local pendente → CONFLICT.
 2. **Pull** por cursor (`change_seq`).
 3. **Idempotência:** upsert por UUID + versão; reenvio não duplica.
 4. **Conflitos nunca sobrescrevem em silêncio:** refeição → cópia "(conflito)";

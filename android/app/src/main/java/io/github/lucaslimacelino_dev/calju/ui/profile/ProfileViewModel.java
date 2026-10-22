@@ -19,6 +19,7 @@ import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.AccountRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
+import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
@@ -33,6 +34,9 @@ public class ProfileViewModel extends ViewModel {
     private final GoalRepository goals;
     private final CatalogRepository catalog;
     private final AccountRepository account;
+    private final SyncEngine syncEngine;
+    private final MutableLiveData<SyncEngine.Result> syncResult = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> syncing = new MutableLiveData<>(false);
     private final Executor executor;
     private final Executor networkExecutor;
     private final LiveData<Goal> currentGoal;
@@ -40,10 +44,11 @@ public class ProfileViewModel extends ViewModel {
     private final MediatorLiveData<List<FoodSummary>> customFoods = new MediatorLiveData<>();
 
     public ProfileViewModel(GoalRepository goals, CatalogRepository catalog, AccountRepository account,
-                            Executor executor, Executor networkExecutor) {
+                            SyncEngine syncEngine, Executor executor, Executor networkExecutor) {
         this.goals = goals;
         this.catalog = catalog;
         this.account = account;
+        this.syncEngine = syncEngine;
         this.executor = executor;
         this.networkExecutor = networkExecutor;
         this.currentGoal = Transformations.map(goals.observeAll(),
@@ -60,6 +65,30 @@ public class ProfileViewModel extends ViewModel {
     /** E-mail da conta conectada; nulo = sem conta. */
     public LiveData<String> signedInEmail() {
         return account.signedInEmail();
+    }
+
+    public LiveData<SyncEngine.Result> syncResult() {
+        return syncResult;
+    }
+
+    public LiveData<Boolean> syncing() {
+        return syncing;
+    }
+
+    /** Sincroniza agora (envia o que mudou aqui e recebe o que mudou na conta). */
+    public void syncNow() {
+        if (Boolean.TRUE.equals(syncing.getValue())) {
+            return;
+        }
+        syncing.setValue(true);
+        networkExecutor.execute(() -> {
+            syncResult.postValue(syncEngine.run());
+            syncing.postValue(false);
+        });
+    }
+
+    public void syncResultShown() {
+        syncResult.setValue(null);
     }
 
     /** Sai da conta; os dados deste aparelho continuam. */
@@ -110,7 +139,8 @@ public class ProfileViewModel extends ViewModel {
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new ProfileViewModel(container.goalRepository, container.catalogRepository,
-                        container.accountRepository, container.databaseExecutor, container.networkExecutor);
+                        container.accountRepository, container.syncEngine, container.databaseExecutor,
+                        container.networkExecutor);
             }
         };
     }
