@@ -42,6 +42,10 @@ public class AuthRateLimits {
         limiter.check("login:ip-email:" + ip + ":" + Emails.normalize(email), 10, QUARTER);
     }
 
+    void google(String ip) {
+        limiter.check("google:ip:" + ip, 30, QUARTER);
+    }
+
     void refresh(String ip) {
         limiter.check("refresh:ip:" + ip, 300, QUARTER);
     }

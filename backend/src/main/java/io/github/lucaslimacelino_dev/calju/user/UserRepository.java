@@ -9,4 +9,6 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
     /** O e-mail é guardado em minúsculas, sem espaços (ver Emails.normalize). */
     Optional<UserEntity> findByEmail(String email);
+
+    Optional<UserEntity> findByGoogleSubject(String googleSubject);
 }

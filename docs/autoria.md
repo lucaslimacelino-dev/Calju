@@ -116,4 +116,6 @@ objetiva que os sustente.
   no cadastro): ajuste de segurança proposto pelo assistente durante a implementação.
 - Etapas 1 a 3 (cadastro, confirmação por código, login, renovação com rotação e detecção de
   reuso, logout, Argon2id, e-mails, redefinição de senha, limitação de tentativas e os valores
-  iniciais dos limites) e testes escritos pelo assistente.
+  iniciais dos limites), etapa 4 (login com Google: verificação do ID token conforme a
+  documentação oficial, regra de vínculo por e-mail) e etapa 5 (sessões por aparelho, troca de
+  senha, exclusão de conta) e testes escritos pelo assistente.

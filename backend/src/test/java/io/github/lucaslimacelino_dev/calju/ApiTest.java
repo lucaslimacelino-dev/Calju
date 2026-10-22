@@ -20,7 +20,8 @@ import io.github.lucaslimacelino_dev.calju.user.UserRepository;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@Import({TestcontainersConfiguration.class, TestSecurityConfiguration.class, RecordingMailer.Config.class})
+@Import({TestcontainersConfiguration.class, TestSecurityConfiguration.class, RecordingMailer.Config.class,
+        TestGoogleConfiguration.class})
 public abstract class ApiTest {
 
     @Autowired

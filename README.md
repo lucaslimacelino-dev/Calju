@@ -23,7 +23,7 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 4d | Histórico, salvar registro como refeição, alimentos personalizados | Concluída |
 | 4e | Visual "Caju conversa" com o mascote Caju e boas-vindas | Concluída |
 | 5 | API REST do backend | Concluída |
-| 6 | Conta: cadastro, login (e-mail e Google), tokens | Em andamento |
+| 6 | Conta: cadastro, login (e-mail e Google), tokens | Concluída (backend) |
 | 7–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
@@ -82,7 +82,9 @@ backend (códigos de confirmação) não saem para a internet e aparecem em http
 
 ### Backend
 
-O backend exige `CALJU_JWT_SECRET` no `.env` (segredo que assina os tokens). Para gerar um
+O backend exige `CALJU_JWT_SECRET` no `.env` (segredo que assina os tokens). O login com
+Google só funciona com `CALJU_GOOGLE_CLIENT_ID` (ID do cliente OAuth do tipo Web, criado no
+Google Cloud); sem ele, `/api/v1/auth/google` responde 503 e o resto funciona normalmente. Para gerar um
 valor aleatório de 32 bytes no PowerShell:
 
 ```powershell

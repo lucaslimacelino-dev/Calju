@@ -5,6 +5,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -26,6 +27,8 @@ import io.github.lucaslimacelino_dev.calju.config.JwtProperties;
 @Service
 public class TokenService {
 
+    /** Claim com o id da sessão (família de refresh tokens): permite saber qual aparelho é "este". */
+    public static final String SESSION_CLAIM = "sid";
     static final Duration ACCESS_VALIDITY = Duration.ofMinutes(15);
     static final Duration REFRESH_VALIDITY = Duration.ofDays(30);
     private static final String INVALID = "Sessão inválida ou expirada.";
@@ -75,10 +78,32 @@ public class TokenService {
                 .ifPresent(token -> refreshTokens.revokeFamily(token.getFamilyId(), clock.instant()));
     }
 
-    /** Senha trocada ou redefinida: todas as sessões do usuário são encerradas. */
+    /** Senha redefinida: todas as sessões do usuário são encerradas. */
     @Transactional
     public void revokeAll(UUID userId) {
         refreshTokens.revokeAllOfUser(userId, clock.instant());
+    }
+
+    /** Senha trocada no app: as outras sessões são encerradas; a atual continua (se for conhecida). */
+    @Transactional
+    public void revokeAllExcept(UUID userId, UUID keepSessionId) {
+        if (keepSessionId == null) {
+            refreshTokens.revokeAllOfUser(userId, clock.instant());
+        } else {
+            refreshTokens.revokeAllOfUserExceptFamily(userId, keepSessionId, clock.instant());
+        }
+    }
+
+    /** Sessões abertas (uma por aparelho), da usada mais recentemente para a mais antiga. */
+    @Transactional(readOnly = true)
+    public List<RefreshTokenEntity> activeSessions(UUID userId) {
+        return refreshTokens.findActive(userId, clock.instant());
+    }
+
+    /** Encerra uma sessão do próprio usuário; falso se ela não existe ou é de outra pessoa. */
+    @Transactional
+    public boolean revokeSession(UUID userId, UUID sessionId) {
+        return refreshTokens.revokeFamilyOfUser(userId, sessionId, clock.instant()) > 0;
     }
 
     private record Issued(UUID refreshId, TokenResponse response) {
@@ -89,6 +114,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(properties.jwtIssuer())
                 .subject(userId.toString())
+                .claim(SESSION_CLAIM, familyId.toString())
                 .issuedAt(now)
                 .expiresAt(now.plus(ACCESS_VALIDITY))
                 .build();

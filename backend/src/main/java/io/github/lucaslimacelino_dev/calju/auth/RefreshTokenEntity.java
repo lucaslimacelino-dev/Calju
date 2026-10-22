@@ -75,11 +75,20 @@ public class RefreshTokenEntity {
         return userId;
     }
 
-    UUID getFamilyId() {
+    public UUID getFamilyId() {
         return familyId;
     }
 
-    String getDeviceLabel() {
+    public String getDeviceLabel() {
         return deviceLabel;
+    }
+
+    /** Criação deste token = último uso da sessão (cada renovação gera um token novo). */
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getExpiresAt() {
+        return expiresAt;
     }
 }

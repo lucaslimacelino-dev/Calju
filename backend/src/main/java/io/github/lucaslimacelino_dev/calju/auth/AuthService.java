@@ -1,18 +1,24 @@
 package io.github.lucaslimacelino_dev.calju.auth;
 
 import java.time.Clock;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.github.lucaslimacelino_dev.calju.auth.dto.LoginRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.TokenResponse;
 import io.github.lucaslimacelino_dev.calju.auth.dto.VerifyRequest;
 import io.github.lucaslimacelino_dev.calju.common.AuthFailedException;
 import io.github.lucaslimacelino_dev.calju.common.BadRequestException;
+import io.github.lucaslimacelino_dev.calju.common.ConflictException;
 import io.github.lucaslimacelino_dev.calju.user.Emails;
 import io.github.lucaslimacelino_dev.calju.user.UserEntity;
 import io.github.lucaslimacelino_dev.calju.user.UserRepository;
@@ -26,23 +32,28 @@ public class AuthService {
 
     static final String INVALID_CODE = "Código inválido ou expirado.";
     static final String INVALID_LOGIN = "E-mail ou senha incorretos.";
+    static final String INVALID_GOOGLE = "Não foi possível entrar com o Google.";
+    static final String GOOGLE_LINK_CONFLICT =
+            "Já existe uma conta com este e-mail. Entre com a senha para continuar.";
 
     private final UserRepository users;
     private final EmailCodeService codes;
     private final CodeMailer mailer;
     private final PasswordEncoder passwords;
     private final TokenService tokens;
+    private final GoogleIdTokenDecoder google;
     private final Clock clock;
     /** Hash de uma senha aleatória: conferido quando o e-mail não existe, para o tempo não denunciar. */
     private final String dummyHash;
 
     public AuthService(UserRepository users, EmailCodeService codes, CodeMailer mailer, PasswordEncoder passwords,
-                       TokenService tokens, Clock clock) {
+                       TokenService tokens, GoogleIdTokenDecoder google, Clock clock) {
         this.users = users;
         this.codes = codes;
         this.mailer = mailer;
         this.passwords = passwords;
         this.tokens = tokens;
+        this.google = google;
         this.clock = clock;
         this.dummyHash = passwords.encode(UUID.randomUUID().toString());
     }
@@ -96,6 +107,55 @@ public class AuthService {
         user.changePasswordHash(passwords.encode(request.password()), clock.instant());
         tokens.revokeAll(user.getId());
         return tokens.openSession(user.getId(), request.deviceLabel());
+    }
+
+    /**
+     * Entrar com o Google. A conta é achada pelo "sub" do Google. Sem vínculo ainda: se já existe
+     * conta com o mesmo e-mail, só vincula quando o Google é a autoridade sobre o endereço (Gmail
+     * ou Google Workspace); em outros casos pede a senha, para ninguém tomar a conta alheia.
+     */
+    @Transactional
+    public TokenResponse loginWithGoogle(String idToken, String deviceLabel) {
+        if (!google.isEnabled()) {
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Login com Google indisponível.");
+        }
+        Jwt token;
+        try {
+            token = google.decode(idToken);
+        } catch (JwtException e) {
+            throw new AuthFailedException(INVALID_GOOGLE);
+        }
+        String subject = token.getSubject();
+        if (subject == null || subject.isBlank()) {
+            throw new AuthFailedException(INVALID_GOOGLE);
+        }
+        Optional<UserEntity> linked = users.findByGoogleSubject(subject);
+        if (linked.isPresent()) {
+            return tokens.openSession(linked.get().getId(), deviceLabel);
+        }
+        String email = token.getClaimAsString("email");
+        if (email == null || !Boolean.TRUE.equals(token.getClaimAsBoolean("email_verified"))) {
+            throw new AuthFailedException(INVALID_GOOGLE);
+        }
+        email = Emails.normalize(email);
+        Optional<UserEntity> sameEmail = users.findByEmail(email);
+        UserEntity user;
+        if (sameEmail.isPresent()) {
+            if (!googleOwnsAddress(email, token.getClaimAsString("hd"))) {
+                throw new ConflictException(GOOGLE_LINK_CONFLICT);
+            }
+            user = sameEmail.get();
+        } else {
+            user = users.save(new UserEntity(UUID.randomUUID(), email, clock.instant()));
+        }
+        user.linkGoogle(subject, clock.instant());
+        return tokens.openSession(user.getId(), deviceLabel);
+    }
+
+    /** Segundo o Google, ele só é autoridade sobre o e-mail em contas Gmail e Google Workspace (hd). */
+    private static boolean googleOwnsAddress(String email, String hostedDomain) {
+        return email.toLowerCase(Locale.ROOT).endsWith("@gmail.com")
+                || (hostedDomain != null && !hostedDomain.isBlank());
     }
 
     @Transactional

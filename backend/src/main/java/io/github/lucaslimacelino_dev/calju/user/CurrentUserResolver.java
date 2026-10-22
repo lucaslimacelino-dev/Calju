@@ -12,6 +12,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import io.github.lucaslimacelino_dev.calju.auth.TokenService;
 import io.github.lucaslimacelino_dev.calju.common.AccountNotFoundException;
 
 /** Preenche parâmetros {@link CurrentUser}: id do token, conferido no banco (conta excluída → 401). */
@@ -45,6 +46,15 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
         if (!users.existsById(id)) {
             throw new AccountNotFoundException();
         }
-        return new CurrentUser(id);
+        return new CurrentUser(id, sessionOf(token));
+    }
+
+    private static UUID sessionOf(JwtAuthenticationToken token) {
+        String sid = token.getToken().getClaimAsString(TokenService.SESSION_CLAIM);
+        try {
+            return sid == null ? null : UUID.fromString(sid);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

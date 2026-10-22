@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.lucaslimacelino_dev.calju.auth.dto.AcceptedResponse;
+import io.github.lucaslimacelino_dev.calju.auth.dto.GoogleLoginRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.LoginRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.RefreshRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.RegisterRequest;
@@ -69,6 +70,12 @@ public class AuthController {
     public TokenResponse login(@Valid @RequestBody LoginRequest request, HttpServletRequest http) {
         limits.login(http.getRemoteAddr(), request.email());
         return auth.login(request);
+    }
+
+    @PostMapping("/google")
+    public TokenResponse google(@Valid @RequestBody GoogleLoginRequest request, HttpServletRequest http) {
+        limits.google(http.getRemoteAddr());
+        return auth.loginWithGoogle(request.idToken(), request.deviceLabel());
     }
 
     @PostMapping("/refresh")

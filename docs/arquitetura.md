@@ -185,10 +185,16 @@ Conta e aparelho:
   valida tokens HS256 com emissor `calju` e segredo em `CALJU_JWT_SECRET` (Base64, ≥ 256 bits;
   sem ele o backend não inicia). O `sub` do token é o id do usuário; conta inexistente → 401.
   A emissão dos tokens (cadastro/login) é da Fase 6.
-- **Login com Google (pedido do autor em 22/10/2026, Fase 6):** além de e-mail e senha. O
-  servidor confere a identidade Google e emite o mesmo token do CaLju; por isso `users` não
-  exige senha (contas só com Google). Biblioteca do Android e verificação do token Google a
-  conferir na documentação oficial na Fase 6.
+- **Login com Google (pedido do autor em 22/10/2026; backend na Fase 6):** `POST /auth/google
+  {idToken}`. Conferido conforme a documentação do Google: assinatura pelas chaves de
+  `https://www.googleapis.com/oauth2/v3/certs`, `iss` = `accounts.google.com` ou
+  `https://accounts.google.com`, `aud` = client ID do tipo Web (`CALJU_GOOGLE_CLIENT_ID`; vazio →
+  503), `exp`. A conta é ligada pelo `sub` (V7 `users.google_subject`), nunca pelo e-mail. Sem
+  vínculo: conta nova (confirmada, sem senha) ou, se o e-mail já existe, vínculo só quando o
+  Google é autoridade sobre o endereço (Gmail ou Workspace com `hd`) e `email_verified`; senão
+  409 pedindo a senha. Exclusão de conta só com Google: confirmada por um ID token novo da mesma
+  conta. No Android (Fase 7): Credential Manager (`androidx.credentials`) + `googleid`, com
+  `setServerClientId` = client ID Web; exemplos oficiais em Kotlin, usar a API com callback em Java.
 
 - **Fase 6 (decisões do autor em 22/10/2026):** confirmação e redefinição por **código de 6
   dígitos** no e-mail (sem links); tokens **só depois** de confirmar o e-mail; e-mails de
@@ -207,6 +213,11 @@ Conta e aparelho:
   pedidos que enviam e-mail: 20 por IP e 5 por e-mail por hora; renovação: 300 por IP a cada
   15 min. Excedeu → 429 com `Retry-After`. Nunca por e-mail sozinho no login (ninguém tranca a
   conta alheia). Atrás do proxy (Fase 9), o IP real virá do cabeçalho encaminhado.
+- Conta (com token): `GET /account`; `GET /account/sessions` (um item por aparelho, marcando
+  o atual pela claim `sid` do token de acesso); `DELETE /account/sessions/{id}`;
+  `POST /account/password {currentPassword, newPassword}` (encerra os outros aparelhos);
+  `DELETE /account {password}` (apaga a conta e todos os dados em cascata). Senha errada → 400;
+  10 tentativas por usuário a cada 15 min.
 - Senha: 12 a 128 caracteres, sem regras de composição (OWASP ASVS). Login errado, e-mail
   inexistente e conta não confirmada dão o mesmo 401; com e-mail inexistente a senha é conferida
   contra um hash falso, para o tempo de resposta não denunciar.
@@ -504,7 +515,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 4d (concluída) | Histórico, "Salvar como refeição" e alimentos personalizados (antecipados antes do backend por decisão do autor em 21/10/2026, para o app ficar completo para uso próprio) | Histórico com totais e meta do dia; molde criado a partir de registro; alimento do usuário aparece na busca |
 | 4e (concluída) | Visual "Caju conversa" e storytelling com o mascote (antecipado da Fase 8 por decisão do autor em 22/10/2026) | Testes de UI continuam passando; mensagens do Caju testadas sem Android |
 | 5 (concluída) | API REST, DTOs, validação, ProblemDetail (já protegida por token; decisão do autor em 22/10/2026) | Testes de integração |
-| 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
+| 6 (concluída) | Spring Security, JWT, refresh, e-mail, limitação, login com Google (backend) | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 | Refino visual, símbolo, acessibilidade | TalkBack, fonte 200%, tema escuro |
 | 9 | APK de release assinado com R8; distribuição limitada; backend de produção se a conta/sync estiver no escopo. Publicação na Play é opcional e posterior | Aparelho real; revisão de dependências |

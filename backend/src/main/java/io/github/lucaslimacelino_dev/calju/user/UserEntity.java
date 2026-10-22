@@ -31,6 +31,9 @@ public class UserEntity {
     @Column(name = "email_verified_at")
     private Instant emailVerifiedAt;
 
+    @Column(name = "google_subject", length = 255)
+    private String googleSubject;
+
     protected UserEntity() {
     }
 
@@ -53,6 +56,10 @@ public class UserEntity {
         return passwordHash;
     }
 
+    public String getGoogleSubject() {
+        return googleSubject;
+    }
+
     public boolean isEmailVerified() {
         return emailVerifiedAt != null;
     }
@@ -60,6 +67,15 @@ public class UserEntity {
     /** Código conferido: a senha passa a valer e o e-mail fica confirmado. */
     public void confirmWithPassword(String passwordHash, Instant now) {
         this.passwordHash = passwordHash;
+        if (emailVerifiedAt == null) {
+            this.emailVerifiedAt = now;
+        }
+        this.updatedAt = now;
+    }
+
+    /** Vincula a conta Google; o Google já conferiu o e-mail, então ele fica confirmado. */
+    public void linkGoogle(String subject, Instant now) {
+        this.googleSubject = subject;
         if (emailVerifiedAt == null) {
             this.emailVerifiedAt = now;
         }
