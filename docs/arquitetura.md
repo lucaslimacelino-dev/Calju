@@ -190,6 +190,19 @@ Conta e aparelho:
   exige senha (contas só com Google). Biblioteca do Android e verificação do token Google a
   conferir na documentação oficial na Fase 6.
 
+- **Fase 6 (decisões do autor em 22/10/2026):** confirmação e redefinição por **código de 6
+  dígitos** no e-mail (sem links); tokens **só depois** de confirmar o e-mail; e-mails de
+  desenvolvimento no **Mailpit** (docker-compose, `localhost:8025`).
+- Fluxo: `POST /auth/register {email}` → 202 sempre igual (e-mail novo ou não confirmado recebe
+  código; já confirmado recebe aviso). `POST /auth/verify {email, code, password}` define a
+  senha e devolve os tokens: a senha só é escolhida por quem recebeu o código (impede que outra
+  pessoa cadastre o e-mail alheio com a própria senha). Código: 30 min, 5 tentativas, hash
+  SHA-256, um novo invalida os anteriores. `POST /auth/login`, `/refresh` (rotação; reuso
+  revoga a família), `/logout` (encerra a sessão; idempotente).
+- Senha: 12 a 128 caracteres, sem regras de composição (OWASP ASVS). Login errado, e-mail
+  inexistente e conta não confirmada dão o mesmo 401; com e-mail inexistente a senha é conferida
+  contra um hash falso, para o tempo de resposta não denunciar.
+
 ### Senhas
 
 - **Argon2id** (`Argon2PasswordEncoder` + Bouncy Castle): memória 19 MiB, 2 iterações,

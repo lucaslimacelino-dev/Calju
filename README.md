@@ -23,7 +23,7 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 4d | Histórico, salvar registro como refeição, alimentos personalizados | Concluída |
 | 4e | Visual "Caju conversa" com o mascote Caju e boas-vindas | Concluída |
 | 5 | API REST do backend | Concluída |
-| 6 | Conta: cadastro, login (e-mail e Google), tokens | A fazer |
+| 6 | Conta: cadastro, login (e-mail e Google), tokens | Em andamento |
 | 7–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
@@ -76,6 +76,9 @@ Copy-Item .env.example .env   # depois defina POSTGRES_PASSWORD e CALJU_JWT_SECR
 docker compose up -d
 docker compose ps             # aguarde o estado "healthy"
 ```
+
+O `docker compose` também sobe o **Mailpit**, um servidor de e-mail falso: os e-mails do
+backend (códigos de confirmação) não saem para a internet e aparecem em http://localhost:8025.
 
 ### Backend
 

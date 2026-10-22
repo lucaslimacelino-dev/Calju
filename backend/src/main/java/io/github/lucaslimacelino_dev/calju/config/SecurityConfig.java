@@ -10,16 +10,20 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 import io.github.lucaslimacelino_dev.calju.common.ProblemAuthenticationEntryPoint;
 
 /**
- * Padrão negar: só o health é público; todo o resto exige um token JWT válido, assinado com
- * HS256 pelo próprio backend e com emissor "calju". Sem sessão no servidor (cada requisição
- * traz o token), por isso não há cookie e a proteção CSRF não se aplica.
+ * Padrão negar: só o health e as rotas de conta (/api/v1/auth) são públicos; todo o resto exige
+ * um token JWT válido, assinado com HS256 pelo próprio backend e com emissor "calju". Sem sessão
+ * no servidor (cada requisição traz o token), por isso não há cookie e a proteção CSRF não se aplica.
  */
 @Configuration
 @EnableConfigurationProperties(JwtProperties.class)
@@ -30,6 +34,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(Customizer.withDefaults())
@@ -38,6 +43,12 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
+    }
+
+    /** Assina os tokens de acesso emitidos no login (mesma chave que o decoder confere). */
+    @Bean
+    JwtEncoder jwtEncoder(JwtProperties properties) {
+        return new NimbusJwtEncoder(new ImmutableSecret<>(properties.secretKey()));
     }
 
     @Bean

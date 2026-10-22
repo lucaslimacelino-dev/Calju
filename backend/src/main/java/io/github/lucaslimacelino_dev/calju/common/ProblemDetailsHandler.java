@@ -48,6 +48,11 @@ public class ProblemDetailsHandler extends ResponseEntityExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "A mudança conflita com dados existentes.");
     }
 
+    @ExceptionHandler(AuthFailedException.class)
+    ProblemDetail authFailed(AuthFailedException exception) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, exception.getMessage());
+    }
+
     @ExceptionHandler(AccountNotFoundException.class)
     ProblemDetail accountNotFound(AccountNotFoundException exception) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, exception.getMessage());

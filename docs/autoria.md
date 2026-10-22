@@ -108,3 +108,11 @@ objetiva que os sustente.
 - Segurança da API, erros em ProblemDetail, usuário atual, metas, alimentos do usuário,
   refeições salvas e diário (migrações V2 a V5, entidades, serviços, controllers) e testes de
   integração escritos pelo assistente.
+
+### Fase 6 — Conta e login
+
+- Código de 6 dígitos, tokens só após confirmar o e-mail e Mailpit em desenvolvimento: opções
+  recomendadas pelo assistente e escolhidas pelo autor. Definir a senha junto com o código (e não
+  no cadastro): ajuste de segurança proposto pelo assistente durante a implementação.
+- Etapa 1 (cadastro, confirmação por código, login, renovação com rotação e detecção de reuso,
+  logout, Argon2id, e-mails) e testes escritos pelo assistente.
