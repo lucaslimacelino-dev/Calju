@@ -4,20 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(TestcontainersConfiguration.class)
-class CaljuBackendApplicationTests {
-
-    @Autowired
-    private MockMvcTester mvc;
+class CaljuBackendApplicationTests extends ApiTest {
 
     @Autowired
     private JdbcTemplate jdbc;
@@ -32,14 +23,19 @@ class CaljuBackendApplicationTests {
     }
 
     @Test
-    void flywayAplicaMigracaoInicial() {
-        Boolean sucesso = jdbc.queryForObject(
-                "select success from flyway_schema_history where version = '1'", Boolean.class);
-        assertThat(sucesso).isTrue();
+    void flywayAplicaAsMigracoes() {
+        Integer falhas = jdbc.queryForObject(
+                "select count(*) from flyway_schema_history where not success", Integer.class);
+        Integer aplicadas = jdbc.queryForObject(
+                "select count(*) from flyway_schema_history where success", Integer.class);
+        assertThat(falhas).isZero();
+        assertThat(aplicadas).isGreaterThanOrEqualTo(2);
     }
 
     @Test
-    void endpointsDoActuatorAlemDoHealthNaoSaoExpostos() {
-        assertThat(mvc.get().uri("/actuator/env")).hasStatus(HttpStatus.NOT_FOUND);
+    void endpointsDoActuatorAlemDoHealthNaoSaoExpostosNemComToken() {
+        assertThat(mvc.get().uri("/actuator/env")).hasStatus(HttpStatus.UNAUTHORIZED);
+        assertThat(mvc.get().uri("/actuator/env").header(HttpHeaders.AUTHORIZATION, bearer(newUser())))
+                .hasStatus(HttpStatus.NOT_FOUND);
     }
 }

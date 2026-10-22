@@ -100,3 +100,10 @@ objetiva que os sustente.
   escolha da proposta A com as refeições em lista compacta: do autor.
 - Implementação (vetores dos 4 humores, tela de boas-vindas, falas do Caju por situação,
   novo resumo, lista compacta, cores, medição de contraste) e testes escritos pelo assistente.
+
+### Fase 5 — API REST do backend
+
+- Ordem da fase (API já protegida por token, com a emissão na Fase 6): opção recomendada pelo
+  assistente e escolhida pelo autor. Login com Google: pedido do autor, previsto para a Fase 6.
+- Etapa 1 (segurança da API, erros em ProblemDetail, usuário atual, metas) e testes de
+  integração escritos pelo assistente.

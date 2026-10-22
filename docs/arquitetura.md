@@ -181,6 +181,15 @@ Conta e aparelho:
 - Troca de senha ou exclusão de conta revoga todos os refresh tokens; lista de sessões
   por aparelho com opção de encerrar.
 
+- **Fase 5 (decisão do autor em 22/10/2026):** a API de dados já nasce protegida. O backend
+  valida tokens HS256 com emissor `calju` e segredo em `CALJU_JWT_SECRET` (Base64, ≥ 256 bits;
+  sem ele o backend não inicia). O `sub` do token é o id do usuário; conta inexistente → 401.
+  A emissão dos tokens (cadastro/login) é da Fase 6.
+- **Login com Google (pedido do autor em 22/10/2026, Fase 6):** além de e-mail e senha. O
+  servidor confere a identidade Google e emite o mesmo token do CaLju; por isso `users` não
+  exige senha (contas só com Google). Biblioteca do Android e verificação do token Google a
+  conferir na documentação oficial na Fase 6.
+
 ### Senhas
 
 - **Argon2id** (`Argon2PasswordEncoder` + Bouncy Castle): memória 19 MiB, 2 iterações,
@@ -204,6 +213,12 @@ Conta e aparelho:
 - Testes de acesso entre usuários (IDOR) obrigatórios.
 - Bean Validation nos DTOs; erros no formato `ProblemDetail` (RFC 9457) sem stack trace.
 - CORS desligado (sem frontend web; CORS não é autenticação).
+- API REST em `/api/v1`: `PUT /{recurso}/{id}` cria ou atualiza com o UUID do aparelho
+  (repetir não duplica). O corpo traz `version`, a versão que o cliente conhece (0 = novo);
+  diferente da atual → 409 com `currentVersion`. Linha travada durante a gravação
+  (`SELECT … FOR UPDATE`). Respostas 201 (criou) ou 200 (atualizou).
+- O catálogo oficial (TACO) não vai para o servidor: já vem no app. `foods` no servidor
+  guarda só alimentos do usuário.
 - Logs de auditoria sem senhas, tokens ou dados alimentares; Dependabot; JPA parametrizado.
 - Referências: OWASP ASVS nível 1 (partes do 2 em autenticação), OWASP API Security
   Top 10, OWASP MASVS-L1.

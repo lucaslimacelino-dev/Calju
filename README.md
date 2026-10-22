@@ -22,7 +22,7 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 4c | Metas e refeições salvas | Concluída |
 | 4d | Histórico, salvar registro como refeição, alimentos personalizados | Concluída |
 | 4e | Visual "Caju conversa" com o mascote Caju e boas-vindas | Concluída |
-| 5 | API REST do backend | A fazer |
+| 5 | API REST do backend | Em andamento |
 | 6–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
@@ -71,12 +71,19 @@ O Maven não precisa estar instalado: o projeto usa o Maven Wrapper (`mvnw`).
 ### Banco de dados de desenvolvimento
 
 ```powershell
-Copy-Item .env.example .env   # depois defina POSTGRES_PASSWORD no .env
+Copy-Item .env.example .env   # depois defina POSTGRES_PASSWORD e CALJU_JWT_SECRET no .env
 docker compose up -d
 docker compose ps             # aguarde o estado "healthy"
 ```
 
 ### Backend
+
+O backend exige `CALJU_JWT_SECRET` no `.env` (segredo que assina os tokens). Para gerar um
+valor aleatório de 32 bytes no PowerShell:
+
+```powershell
+$b = New-Object byte[] 32; [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); [Convert]::ToBase64String($b)
+```
 
 ```powershell
 cd backend
