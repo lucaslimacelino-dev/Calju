@@ -105,5 +105,6 @@ objetiva que os sustente.
 
 - Ordem da fase (API já protegida por token, com a emissão na Fase 6): opção recomendada pelo
   assistente e escolhida pelo autor. Login com Google: pedido do autor, previsto para a Fase 6.
-- Etapa 1 (segurança da API, erros em ProblemDetail, usuário atual, metas) e testes de
+- Segurança da API, erros em ProblemDetail, usuário atual, metas, alimentos do usuário,
+  refeições salvas e diário (migrações V2 a V5, entidades, serviços, controllers) e testes de
   integração escritos pelo assistente.

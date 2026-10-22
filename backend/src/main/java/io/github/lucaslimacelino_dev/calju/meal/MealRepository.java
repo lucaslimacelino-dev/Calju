@@ -1,0 +1,22 @@
+package io.github.lucaslimacelino_dev.calju.meal;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import jakarta.persistence.LockModeType;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+
+public interface MealRepository extends JpaRepository<MealEntity, UUID> {
+
+    List<MealEntity> findByOwnerIdAndDeletedAtIsNullOrderByName(UUID ownerId);
+
+    Optional<MealEntity> findByIdAndOwnerId(UUID id, UUID ownerId);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select m from MealEntity m where m.id = :id")
+    Optional<MealEntity> findForUpdate(UUID id);
+}

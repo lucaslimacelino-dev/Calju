@@ -218,7 +218,14 @@ Conta e aparelho:
   diferente da atual → 409 com `currentVersion`. Linha travada durante a gravação
   (`SELECT … FOR UPDATE`). Respostas 201 (criou) ou 200 (atualizou).
 - O catálogo oficial (TACO) não vai para o servidor: já vem no app. `foods` no servidor
-  guarda só alimentos do usuário.
+  guarda só alimentos do usuário; `food_id` de itens de refeição e do diário não tem chave
+  estrangeira (pode ser da TACO). A lista de nutrientes (V3) é cópia de
+  `data/catalog/nutrients.csv`, conferida por teste.
+- Endpoints (Fase 5): `GET /goals`, `GET|PUT /goals/{id}`; `GET /foods` (ativos),
+  `GET|PUT|DELETE /foods/{id}`; `GET /meals`, `GET|PUT|DELETE /meals/{id}`;
+  `GET /log-entries?from&to` (até 366 dias), `GET|PUT|DELETE /log-entries/{id}`.
+  `DELETE` recebe `?version=` e faz exclusão lógica; um `PUT` depois restaura (desfazer).
+  O servidor guarda o snapshot enviado pelo app e não recalcula nutrientes.
 - Logs de auditoria sem senhas, tokens ou dados alimentares; Dependabot; JPA parametrizado.
 - Referências: OWASP ASVS nível 1 (partes do 2 em autenticação), OWASP API Security
   Top 10, OWASP MASVS-L1.
@@ -475,7 +482,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 4c (concluída) | Refeições salvas e metas | Ajuste no registro não altera molde; duplicar gera novos UUIDs |
 | 4d (concluída) | Histórico, "Salvar como refeição" e alimentos personalizados (antecipados antes do backend por decisão do autor em 21/10/2026, para o app ficar completo para uso próprio) | Histórico com totais e meta do dia; molde criado a partir de registro; alimento do usuário aparece na busca |
 | 4e (concluída) | Visual "Caju conversa" e storytelling com o mascote (antecipado da Fase 8 por decisão do autor em 22/10/2026) | Testes de UI continuam passando; mensagens do Caju testadas sem Android |
-| 5 | API REST, DTOs, validação, ProblemDetail | Testes de integração |
+| 5 (concluída) | API REST, DTOs, validação, ProblemDetail (já protegida por token; decisão do autor em 22/10/2026) | Testes de integração |
 | 6 | Spring Security, JWT, refresh, e-mail, limitação | Testes de autenticação, IDOR e enumeração |
 | 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 | Refino visual, símbolo, acessibilidade | TalkBack, fonte 200%, tema escuro |

@@ -22,8 +22,9 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 4c | Metas e refeições salvas | Concluída |
 | 4d | Histórico, salvar registro como refeição, alimentos personalizados | Concluída |
 | 4e | Visual "Caju conversa" com o mascote Caju e boas-vindas | Concluída |
-| 5 | API REST do backend | Em andamento |
-| 6–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
+| 5 | API REST do backend | Concluída |
+| 6 | Conta: cadastro, login (e-mail e Google), tokens | A fazer |
+| 7–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
 
