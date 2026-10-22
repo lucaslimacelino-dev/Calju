@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -26,6 +27,7 @@ import io.github.lucaslimacelino_dev.calju.databinding.FragmentProfileBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.ItemCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
+import io.github.lucaslimacelino_dev.calju.data.sync.AccountBinding;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.account.AccountSheet;
@@ -72,8 +74,11 @@ public class ProfileFragment extends Fragment {
                     String email = viewModel.signedInEmail().getValue();
                     if (email != null) {
                         message(getString(R.string.account_signed_in_message, email)).show();
+                        viewModel.afterSignIn(email);
                     }
                 });
+        viewModel.bindingDecision().observe(getViewLifecycleOwner(), this::askBinding);
+        viewModel.signOutPending().observe(getViewLifecycleOwner(), this::askSignOut);
 
         viewModel.customFoods().observe(getViewLifecycleOwner(), this::showFoods);
         binding.newFood.setOnClickListener(v -> openFood(CustomFoodSheet.newFood("")));
@@ -89,6 +94,51 @@ public class ProfileFragment extends Fragment {
                         message(getString(R.string.food_saved, name)).show();
                     }
                 });
+    }
+
+    /** Primeira conta com dados no aparelho, ou dados de outra conta: a pessoa decide. */
+    private void askBinding(AccountBinding.Decision decision) {
+        String email = viewModel.signedInEmail().getValue();
+        if (decision == null || email == null) {
+            return;
+        }
+        MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(requireContext()).setCancelable(false);
+        if (decision == AccountBinding.Decision.ASK_UPLOAD) {
+            dialog.setTitle(R.string.binding_upload_title)
+                    .setMessage(getString(R.string.binding_upload_message, email))
+                    .setPositiveButton(R.string.binding_upload_yes, (d, w) -> viewModel.uploadLocalData(email))
+                    .setNegativeButton(R.string.binding_upload_no, (d, w) -> viewModel.replaceLocalData(email));
+        } else {
+            dialog.setTitle(R.string.binding_other_title)
+                    .setMessage(getString(R.string.binding_other_message, viewModel.boundEmail(), email))
+                    .setPositiveButton(R.string.binding_other_yes, (d, w) -> viewModel.replaceLocalData(email))
+                    .setNegativeButton(R.string.cancel, (d, w) -> viewModel.cancelSignIn());
+        }
+        dialog.show();
+    }
+
+    /** Sair: manter ou apagar os dados deste celular (avisando se há algo ainda não enviado). */
+    private void askSignOut(Integer pending) {
+        if (pending == null) {
+            return;
+        }
+        String text = getString(R.string.sign_out_message);
+        if (pending > 0) {
+            text += "\n\n" + getString(R.string.sign_out_pending, pending);
+        }
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.sign_out_title)
+                .setMessage(text)
+                .setPositiveButton(R.string.sign_out_keep, (d, w) -> signOut(true))
+                .setNegativeButton(R.string.sign_out_wipe, (d, w) -> signOut(false))
+                .setNeutralButton(R.string.cancel, (d, w) -> viewModel.signOutCancelled())
+                .setOnCancelListener(d -> viewModel.signOutCancelled())
+                .show();
+    }
+
+    private void signOut(boolean keepData) {
+        viewModel.signOut(keepData);
+        message(getString(R.string.account_signed_out_message)).show();
     }
 
     private void showSyncResult(SyncEngine.Result result) {
@@ -129,10 +179,7 @@ public class ProfileFragment extends Fragment {
         } else {
             binding.accountStatus.setText(getString(R.string.account_section_signed_in, email));
             binding.accountButton.setText(R.string.account_sign_out);
-            binding.accountButton.setOnClickListener(v -> {
-                viewModel.signOut();
-                message(getString(R.string.account_signed_out_message)).show();
-            });
+            binding.accountButton.setOnClickListener(v -> viewModel.prepareSignOut());
         }
     }
 

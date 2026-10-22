@@ -15,6 +15,8 @@ public class CaLjuApp extends Application {
     public void onCreate() {
         super.onCreate();
         container = new AppContainer(this);
+        container.syncCoordinator.watchLocalChanges();
+        container.syncCoordinator.onAppStart();
         container.databaseExecutor.execute(() -> {
             try {
                 container.catalogImporter.importIfNeeded();

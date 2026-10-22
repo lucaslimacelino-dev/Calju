@@ -19,6 +19,8 @@ import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.AccountRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
+import io.github.lucaslimacelino_dev.calju.data.sync.AccountBinding;
+import io.github.lucaslimacelino_dev.calju.data.sync.SyncCoordinator;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
@@ -35,6 +37,9 @@ public class ProfileViewModel extends ViewModel {
     private final CatalogRepository catalog;
     private final AccountRepository account;
     private final SyncEngine syncEngine;
+    private final SyncCoordinator coordinator;
+    private final MutableLiveData<AccountBinding.Decision> bindingDecision = new MutableLiveData<>();
+    private final MutableLiveData<Integer> signOutPending = new MutableLiveData<>();
     private final MutableLiveData<SyncEngine.Result> syncResult = new MutableLiveData<>();
     private final MutableLiveData<Boolean> syncing = new MutableLiveData<>(false);
     private final Executor executor;
@@ -44,11 +49,13 @@ public class ProfileViewModel extends ViewModel {
     private final MediatorLiveData<List<FoodSummary>> customFoods = new MediatorLiveData<>();
 
     public ProfileViewModel(GoalRepository goals, CatalogRepository catalog, AccountRepository account,
-                            SyncEngine syncEngine, Executor executor, Executor networkExecutor) {
+                            SyncEngine syncEngine, SyncCoordinator coordinator, Executor executor,
+                            Executor networkExecutor) {
         this.goals = goals;
         this.catalog = catalog;
         this.account = account;
         this.syncEngine = syncEngine;
+        this.coordinator = coordinator;
         this.executor = executor;
         this.networkExecutor = networkExecutor;
         this.currentGoal = Transformations.map(goals.observeAll(),
@@ -91,9 +98,54 @@ public class ProfileViewModel extends ViewModel {
         syncResult.setValue(null);
     }
 
-    /** Sai da conta; os dados deste aparelho continuam. */
-    public void signOut() {
-        networkExecutor.execute(account::signOut);
+    /** Pergunta a fazer logo depois de entrar (nula = nada a perguntar). */
+    public LiveData<AccountBinding.Decision> bindingDecision() {
+        return bindingDecision;
+    }
+
+    public String boundEmail() {
+        return coordinator.boundEmail();
+    }
+
+    public void afterSignIn(String email) {
+        networkExecutor.execute(() -> {
+            AccountBinding.Decision decision = coordinator.afterSignIn(email);
+            bindingDecision.postValue(decision == AccountBinding.Decision.CONTINUE ? null : decision);
+        });
+    }
+
+    public void uploadLocalData(String email) {
+        bindingDecision.setValue(null);
+        networkExecutor.execute(() -> coordinator.uploadLocalData(email));
+    }
+
+    public void replaceLocalData(String email) {
+        bindingDecision.setValue(null);
+        networkExecutor.execute(() -> coordinator.replaceLocalData(email));
+    }
+
+    public void cancelSignIn() {
+        bindingDecision.setValue(null);
+        networkExecutor.execute(coordinator::cancelSignIn);
+    }
+
+    /** Quantas mudanças ainda não foram enviadas, para a pergunta de "Sair". */
+    public LiveData<Integer> signOutPending() {
+        return signOutPending;
+    }
+
+    public void prepareSignOut() {
+        executor.execute(() -> signOutPending.postValue(coordinator.pendingCount()));
+    }
+
+    /** Sai da conta, mantendo ou apagando os dados deste aparelho. */
+    public void signOut(boolean keepData) {
+        signOutPending.setValue(null);
+        networkExecutor.execute(() -> coordinator.signOut(keepData));
+    }
+
+    public void signOutCancelled() {
+        signOutPending.setValue(null);
     }
 
     public void restoreFood(String foodId) {
@@ -139,8 +191,8 @@ public class ProfileViewModel extends ViewModel {
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new ProfileViewModel(container.goalRepository, container.catalogRepository,
-                        container.accountRepository, container.syncEngine, container.databaseExecutor,
-                        container.networkExecutor);
+                        container.accountRepository, container.syncEngine, container.syncCoordinator,
+                        container.databaseExecutor, container.networkExecutor);
             }
         };
     }

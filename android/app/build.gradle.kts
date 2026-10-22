@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
+    implementation(libs.work.runtime)
 
     testImplementation(libs.junit)
     testImplementation(libs.okhttp.mockwebserver)

@@ -80,6 +80,30 @@ public interface SyncDao {
     @Query("SELECT * FROM foods WHERE id = :id")
     FoodEntity food(String id);
 
+    // Dados do usuário no aparelho (o catálogo da TACO não conta e nunca é apagado)
+
+    @Query("SELECT (SELECT COUNT(*) FROM log_entries) + (SELECT COUNT(*) FROM meals) "
+            + "+ (SELECT COUNT(*) FROM nutrition_goals) + (SELECT COUNT(*) FROM foods WHERE is_custom = 1)")
+    int userDataCount();
+
+    @Query("SELECT (SELECT COUNT(*) FROM log_entries WHERE sync_state = 'PENDING') "
+            + "+ (SELECT COUNT(*) FROM meals WHERE sync_state = 'PENDING') "
+            + "+ (SELECT COUNT(*) FROM nutrition_goals WHERE sync_state = 'PENDING') "
+            + "+ (SELECT COUNT(*) FROM foods WHERE is_custom = 1 AND sync_state = 'PENDING')")
+    int pendingCount();
+
+    @Query("DELETE FROM log_entries")
+    void deleteAllEntries();
+
+    @Query("DELETE FROM meals")
+    void deleteAllMeals();
+
+    @Query("DELETE FROM nutrition_goals")
+    void deleteAllGoals();
+
+    @Query("DELETE FROM foods WHERE is_custom = 1")
+    void deleteAllCustomFoods();
+
     // Remoção antes de gravar a versão do servidor (os filhos saem em cascata)
 
     @Query("DELETE FROM log_entries WHERE id = :id")

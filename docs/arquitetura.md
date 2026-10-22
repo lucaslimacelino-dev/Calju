@@ -175,6 +175,16 @@ escolhe, como os registros do diário.
    registro do diário → usuário escolhe.
 5. **Exclusões** como lápides; limpeza física posterior no servidor.
 6. **Falhas de rede:** WorkManager com restrição de rede e backoff; UI nunca bloqueia.
+   No app (etapa 3b): `SyncScheduler` agenda o `SyncWorker` no WorkManager 2.12.0 — uma rodada
+   5 s depois de cada mudança local pendente (pedidos seguidos se substituem; observa as tabelas
+   pelo `InvalidationTracker` do Room) e uma periódica a cada 6 h, sempre só com rede; sem rede ou
+   5xx → retry com espera exponencial a partir de 30 s.
+7. **Um banco por conta (`SyncCoordinator` + `AccountBinding`):** o aparelho guarda a conta à qual
+   os dados pertencem (`calju_sync`/`bound_email`). Ao entrar: sem dados ou mesma conta → vincula
+   e sincroniza; dados sem vínculo → pergunta "Enviar para a conta" ou "Apagar deste celular";
+   dados de outra conta → "Apagar e entrar" ou cancelar (encerra a sessão nova). Ao sair: tenta
+   enviar o pendente, cancela o trabalho agendado e pergunta "Manter" ou "Apagar deste celular"
+   (o catálogo TACO nunca é apagado).
 
 Conta e aparelho:
 

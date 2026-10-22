@@ -178,7 +178,7 @@
     <string name="account_open">Entrar ou criar conta</string>
     <string name="account_sign_out">Sair da conta</string>
     <string name="account_signed_in_message">Conectado como %1$s</string>
-    <string name="account_signed_out_message">Você saiu da conta. Os dados deste celular continuam aqui.</string>
+    <string name="account_signed_out_message">Você saiu da conta.</string>
     <string name="account_title">Conta do CaLju</string>
     <string name="account_intro">Use seu e-mail. Se ainda não tem conta, enviamos um código para criar uma.</string>
     <string name="account_email">E-mail</string>
@@ -204,4 +204,17 @@
     <string name="sync_offline">Sem conexão com o servidor. Os dados ficam guardados e vão na próxima vez.</string>
     <string name="sync_signed_out">A sessão expirou. Entre de novo para sincronizar.</string>
     <string name="sync_server_error">O servidor não respondeu direito. Tente de novo em instantes.</string>
+    <string name="binding_upload_title">Dados deste celular</string>
+    <string name="binding_upload_message">Você já anotou coisas neste celular. Quer enviar tudo para a conta %1$s? Assim elas ficam guardadas e aparecem nos seus outros aparelhos.</string>
+    <string name="binding_upload_yes">Enviar para a conta</string>
+    <string name="binding_upload_no">Apagar deste celular</string>
+    <string name="binding_other_title">Dados de outra conta</string>
+    <string name="binding_other_message">Este celular tem dados da conta %1$s. Para entrar com %2$s, eles serão apagados daqui. O que já foi sincronizado continua guardado na outra conta.</string>
+    <string name="binding_other_yes">Apagar e entrar</string>
+    <string name="sign_out_title">Sair da conta</string>
+    <string name="sign_out_message">Quer manter os dados neste celular? Se apagar, eles continuam guardados na conta (o que já foi sincronizado).</string>
+    <string name="sign_out_pending">Ainda há %1$d mudança(s) não enviada(s); vamos tentar enviar antes de sair.</string>
+    <string name="sign_out_keep">Manter neste celular</string>
+    <string name="sign_out_wipe">Apagar deste celular</string>
+    <string name="cancel">Cancelar</string>
 </resources>
