@@ -22,6 +22,7 @@ import io.github.lucaslimacelino_dev.calju.diary.dto.LogEntryRequest;
 import io.github.lucaslimacelino_dev.calju.diary.dto.LogEntryResponse;
 import io.github.lucaslimacelino_dev.calju.diary.dto.LogItemDto;
 import io.github.lucaslimacelino_dev.calju.food.dto.NutrientValueDto;
+import io.github.lucaslimacelino_dev.calju.user.UserRepository;
 
 /**
  * Diário. O servidor guarda o snapshot que o app enviou; ele não recalcula nutrientes nem lê o
@@ -36,9 +37,11 @@ public class LogEntryService {
 
     private final LogEntryRepository entries;
     private final NutrientValidator nutrients;
+    private final UserRepository users;
     private final Clock clock;
 
-    public LogEntryService(LogEntryRepository entries, NutrientValidator nutrients, Clock clock) {
+    public LogEntryService(UserRepository users, LogEntryRepository entries, NutrientValidator nutrients, Clock clock) {
+        this.users = users;
         this.entries = entries;
         this.nutrients = nutrients;
         this.clock = clock;
@@ -70,6 +73,7 @@ public class LogEntryService {
      */
     @Transactional
     public Saved<LogEntryResponse> save(UUID ownerId, UUID id, LogEntryRequest request) {
+        users.lockForWrite(ownerId);
         validateItems(request.items());
         Optional<LogEntryEntity> existing = entries.findForUpdate(id);
         boolean created = existing.isEmpty();
@@ -99,6 +103,7 @@ public class LogEntryService {
 
     @Transactional
     public LogEntryResponse delete(UUID ownerId, UUID id, int version) {
+        users.lockForWrite(ownerId);
         LogEntryEntity entry = owned(entries.findForUpdate(id).orElseThrow(() -> new NotFoundException(NOT_FOUND)),
                 ownerId);
         Versions.requireCurrent(version, entry.getVersion());

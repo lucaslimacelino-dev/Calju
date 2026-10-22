@@ -13,6 +13,7 @@ import io.github.lucaslimacelino_dev.calju.common.NotFoundException;
 import io.github.lucaslimacelino_dev.calju.common.Saved;
 import io.github.lucaslimacelino_dev.calju.common.Versions;
 import io.github.lucaslimacelino_dev.calju.goal.dto.GoalRequest;
+import io.github.lucaslimacelino_dev.calju.user.UserRepository;
 
 /** Regras das metas. Toda leitura e escrita filtra pelo dono; meta de outro usuário = 404. */
 @Service
@@ -21,9 +22,11 @@ public class GoalService {
     private static final String NOT_FOUND = "Meta não encontrada.";
 
     private final GoalRepository goals;
+    private final UserRepository users;
     private final Clock clock;
 
-    public GoalService(GoalRepository goals, Clock clock) {
+    public GoalService(UserRepository users, GoalRepository goals, Clock clock) {
+        this.users = users;
         this.goals = goals;
         this.clock = clock;
     }
@@ -44,6 +47,7 @@ public class GoalService {
      */
     @Transactional
     public Saved<GoalEntity> save(UUID ownerId, UUID id, GoalRequest request) {
+        users.lockForWrite(ownerId);
         Optional<GoalEntity> existing = goals.findForUpdate(id);
         GoalEntity goal;
         boolean created = existing.isEmpty();

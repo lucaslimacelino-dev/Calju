@@ -119,3 +119,10 @@ objetiva que os sustente.
   iniciais dos limites), etapa 4 (login com Google: verificação do ID token conforme a
   documentação oficial, regra de vínculo por e-mail) e etapa 5 (sessões por aparelho, troca de
   senha, exclusão de conta) e testes escritos pelo assistente.
+
+### Fase 7 — Sincronização
+
+- Envio pelas rotas PUT/DELETE e regras de conflito para alimentos (cópia) e metas (escolha do
+  usuário): opções recomendadas pelo assistente e escolhidas pelo autor.
+- Etapa 1 (sequência de mudanças com gatilho, trava por usuário, `GET /sync/pull`) e testes
+  escritos pelo assistente.

@@ -24,7 +24,8 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 4e | Visual "Caju conversa" com o mascote Caju e boas-vindas | Concluída |
 | 5 | API REST do backend | Concluída |
 | 6 | Conta: cadastro, login (e-mail e Google), tokens | Concluída (backend) |
-| 7–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
+| 7 | Sincronização (backend e app) | Em andamento |
+| 8–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
 

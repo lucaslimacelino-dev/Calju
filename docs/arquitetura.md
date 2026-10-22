@@ -148,7 +148,16 @@ nutrition_goals    (id uuid, owner_user_id, effective_from DATE, kcal, protein_g
 | `sync_state` (PENDING/SYNCED) | Android | o que falta enviar |
 | `change_seq` (bigint) | servidor | cursor do pull (não depende do relógio do celular) |
 
-Protocolo (Fase 7):
+Protocolo (Fase 7). Decisões do autor em 22/10/2026: o envio **reusa as rotas PUT/DELETE**
+de cada recurso (uma requisição por registro, com a versão que o app conhece; 409 = conflito);
+alimento em conflito vira cópia "(conflito)" como as refeições; meta em conflito o usuário
+escolhe, como os registros do diário.
+
+- Recebimento: `GET /api/v1/sync/pull?cursor=&limit=` (padrão 500, máximo 1000) devolve metas,
+  alimentos, refeições e registros com `change_seq` maior que o cursor, inclusive lápides, e o
+  novo cursor + `hasMore`. `change_seq` vem de uma sequência única e é preenchido por gatilho no
+  banco (V8). Toda gravação trava a linha do usuário em `users` antes de mexer nos dados, então
+  os números de um usuário saem na ordem de confirmação e o cursor nunca pula uma mudança.
 
 1. **Push** de linhas `PENDING` com a `version` base; servidor aplica se coincidir,
    senão retorna conflito. UUID pertencente a outro usuário é rejeitado.

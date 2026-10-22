@@ -18,6 +18,7 @@ import io.github.lucaslimacelino_dev.calju.common.Versions;
 import io.github.lucaslimacelino_dev.calju.meal.dto.MealItemDto;
 import io.github.lucaslimacelino_dev.calju.meal.dto.MealRequest;
 import io.github.lucaslimacelino_dev.calju.meal.dto.MealResponse;
+import io.github.lucaslimacelino_dev.calju.user.UserRepository;
 
 /** Refeições salvas, com as mesmas regras de dono, versão e exclusão lógica dos alimentos. */
 @Service
@@ -26,9 +27,11 @@ public class MealService {
     private static final String NOT_FOUND = "Refeição não encontrada.";
 
     private final MealRepository meals;
+    private final UserRepository users;
     private final Clock clock;
 
-    public MealService(MealRepository meals, Clock clock) {
+    public MealService(UserRepository users, MealRepository meals, Clock clock) {
+        this.users = users;
         this.meals = meals;
         this.clock = clock;
     }
@@ -46,6 +49,7 @@ public class MealService {
 
     @Transactional
     public Saved<MealResponse> save(UUID ownerId, UUID id, MealRequest request) {
+        users.lockForWrite(ownerId);
         Optional<MealEntity> existing = meals.findForUpdate(id);
         boolean created = existing.isEmpty();
         MealEntity meal;
@@ -64,6 +68,7 @@ public class MealService {
 
     @Transactional
     public MealResponse delete(UUID ownerId, UUID id, int version) {
+        users.lockForWrite(ownerId);
         MealEntity meal = owned(meals.findForUpdate(id).orElseThrow(() -> new NotFoundException(NOT_FOUND)), ownerId);
         Versions.requireCurrent(version, meal.getVersion());
         meal.markDeleted(clock.instant());

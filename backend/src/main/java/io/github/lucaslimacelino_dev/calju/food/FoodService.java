@@ -15,6 +15,7 @@ import io.github.lucaslimacelino_dev.calju.common.Versions;
 import io.github.lucaslimacelino_dev.calju.food.dto.FoodRequest;
 import io.github.lucaslimacelino_dev.calju.food.dto.FoodResponse;
 import io.github.lucaslimacelino_dev.calju.food.dto.NutrientValueDto;
+import io.github.lucaslimacelino_dev.calju.user.UserRepository;
 
 /**
  * Alimentos do usuário. Exclusão lógica: o registro fica (com deletedAt) para a sincronização.
@@ -27,9 +28,11 @@ public class FoodService {
 
     private final FoodRepository foods;
     private final NutrientValidator nutrients;
+    private final UserRepository users;
     private final Clock clock;
 
-    public FoodService(FoodRepository foods, NutrientValidator nutrients, Clock clock) {
+    public FoodService(UserRepository users, FoodRepository foods, NutrientValidator nutrients, Clock clock) {
+        this.users = users;
         this.foods = foods;
         this.nutrients = nutrients;
         this.clock = clock;
@@ -49,6 +52,7 @@ public class FoodService {
     /** Cria ou substitui o alimento; um PUT num alimento excluído o restaura (desfazer). */
     @Transactional
     public Saved<FoodResponse> save(UUID ownerId, UUID id, FoodRequest request) {
+        users.lockForWrite(ownerId);
         nutrients.requireValid(request.nutrients().stream().map(NutrientValueDto::code).toList());
         Optional<FoodEntity> existing = foods.findForUpdate(id);
         boolean created = existing.isEmpty();
@@ -72,6 +76,7 @@ public class FoodService {
 
     @Transactional
     public FoodResponse delete(UUID ownerId, UUID id, int version) {
+        users.lockForWrite(ownerId);
         FoodEntity food = owned(foods.findForUpdate(id).orElseThrow(() -> new NotFoundException(NOT_FOUND)), ownerId);
         Versions.requireCurrent(version, food.getVersion());
         food.markDeleted(clock.instant());
