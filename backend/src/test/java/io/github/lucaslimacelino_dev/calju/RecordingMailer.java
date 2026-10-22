@@ -24,6 +24,11 @@ public class RecordingMailer implements CodeMailer {
     }
 
     @Override
+    public synchronized void sendResetCode(String email, String code) {
+        sent.add(new Sent(email, "RESET", code));
+    }
+
+    @Override
     public synchronized void sendAlreadyRegistered(String email) {
         sent.add(new Sent(email, "ALREADY_REGISTERED", null));
     }

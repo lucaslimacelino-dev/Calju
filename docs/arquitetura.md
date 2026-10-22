@@ -199,6 +199,14 @@ Conta e aparelho:
   pessoa cadastre o e-mail alheio com a própria senha). Código: 30 min, 5 tentativas, hash
   SHA-256, um novo invalida os anteriores. `POST /auth/login`, `/refresh` (rotação; reuso
   revoga a família), `/logout` (encerra a sessão; idempotente).
+- Redefinir senha: `POST /auth/password-reset {email}` → 202 sempre igual (só conta confirmada
+  recebe código); `POST /auth/password-reset/confirm {email, code, password}` troca a senha,
+  revoga todas as sessões e abre uma nova. Códigos de cadastro e de redefinição não se misturam.
+- Limitação (valores iniciais): janelas fixas em memória (um servidor). Login: 10 por (IP,
+  e-mail) e 100 por IP a cada 15 min; códigos: 10 por (IP, e-mail) e 50 por IP a cada 15 min;
+  pedidos que enviam e-mail: 20 por IP e 5 por e-mail por hora; renovação: 300 por IP a cada
+  15 min. Excedeu → 429 com `Retry-After`. Nunca por e-mail sozinho no login (ninguém tranca a
+  conta alheia). Atrás do proxy (Fase 9), o IP real virá do cabeçalho encaminhado.
 - Senha: 12 a 128 caracteres, sem regras de composição (OWASP ASVS). Login errado, e-mail
   inexistente e conta não confirmada dão o mesmo 401; com e-mail inexistente a senha é conferida
   contra um hash falso, para o tempo de resposta não denunciar.
@@ -213,8 +221,8 @@ Conta e aparelho:
 
 ### Abuso e enumeração
 
-- Limitação progressiva por (IP, e-mail) e por IP; **sem bloqueio de conta** (evita que
-  terceiros tranquem contas alheias).
+- Limitação por (IP, e-mail) e por IP, com janelas fixas (valores na Fase 6 acima); **sem
+  bloqueio de conta** (evita que terceiros tranquem contas alheias).
 - Respostas uniformes em cadastro, recuperação e login.
 - Tokens de e-mail de uso único, armazenados como hash; redefinição de senha válida por 30 min.
 

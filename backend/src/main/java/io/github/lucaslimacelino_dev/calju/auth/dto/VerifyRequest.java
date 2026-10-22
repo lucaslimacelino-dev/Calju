@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
- * Confirmação: e-mail, o código recebido e a senha escolhida (12 a 128 caracteres, sem regras de
- * composição, como recomenda o OWASP ASVS).
+ * Confirmação do cadastro ou da redefinição de senha: e-mail, o código recebido e a senha escolhida
+ * (12 a 128 caracteres, sem regras de composição, como recomenda o OWASP ASVS).
  */
 public record VerifyRequest(
         @NotBlank @Email @Size(max = 254) String email,

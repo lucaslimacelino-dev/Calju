@@ -114,5 +114,6 @@ objetiva que os sustente.
 - Código de 6 dígitos, tokens só após confirmar o e-mail e Mailpit em desenvolvimento: opções
   recomendadas pelo assistente e escolhidas pelo autor. Definir a senha junto com o código (e não
   no cadastro): ajuste de segurança proposto pelo assistente durante a implementação.
-- Etapa 1 (cadastro, confirmação por código, login, renovação com rotação e detecção de reuso,
-  logout, Argon2id, e-mails) e testes escritos pelo assistente.
+- Etapas 1 a 3 (cadastro, confirmação por código, login, renovação com rotação e detecção de
+  reuso, logout, Argon2id, e-mails, redefinição de senha, limitação de tentativas e os valores
+  iniciais dos limites) e testes escritos pelo assistente.

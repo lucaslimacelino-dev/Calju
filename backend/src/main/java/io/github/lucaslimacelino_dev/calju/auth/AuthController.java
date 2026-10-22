@@ -1,5 +1,6 @@
 package io.github.lucaslimacelino_dev.calju.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -26,31 +27,53 @@ public class AuthController {
 
     private final AuthService auth;
     private final TokenService tokens;
+    private final AuthRateLimits limits;
 
-    public AuthController(AuthService auth, TokenService tokens) {
+    public AuthController(AuthService auth, TokenService tokens, AuthRateLimits limits) {
         this.auth = auth;
         this.tokens = tokens;
+        this.limits = limits;
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public AcceptedResponse register(@Valid @RequestBody RegisterRequest request) {
+    public AcceptedResponse register(@Valid @RequestBody RegisterRequest request, HttpServletRequest http) {
+        limits.emailRequest("register", http.getRemoteAddr(), request.email());
         auth.register(request.email());
         return new AcceptedResponse(CODE_SENT);
     }
 
     @PostMapping("/verify")
-    public TokenResponse verify(@Valid @RequestBody VerifyRequest request) {
+    public TokenResponse verify(@Valid @RequestBody VerifyRequest request, HttpServletRequest http) {
+        limits.codeAttempt(http.getRemoteAddr(), request.email());
         return auth.verify(request);
     }
 
+    @PostMapping("/password-reset")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public AcceptedResponse requestPasswordReset(@Valid @RequestBody RegisterRequest request,
+                                                 HttpServletRequest http) {
+        limits.emailRequest("reset", http.getRemoteAddr(), request.email());
+        auth.requestPasswordReset(request.email());
+        return new AcceptedResponse(CODE_SENT);
+    }
+
+    /** Mesmo corpo da confirmação do cadastro: e-mail, código e a senha nova. */
+    @PostMapping("/password-reset/confirm")
+    public TokenResponse resetPassword(@Valid @RequestBody VerifyRequest request, HttpServletRequest http) {
+        limits.codeAttempt(http.getRemoteAddr(), request.email());
+        return auth.resetPassword(request);
+    }
+
     @PostMapping("/login")
-    public TokenResponse login(@Valid @RequestBody LoginRequest request) {
+    public TokenResponse login(@Valid @RequestBody LoginRequest request, HttpServletRequest http) {
+        limits.login(http.getRemoteAddr(), request.email());
         return auth.login(request);
     }
 
     @PostMapping("/refresh")
-    public TokenResponse refresh(@Valid @RequestBody RefreshRequest request) {
+    public TokenResponse refresh(@Valid @RequestBody RefreshRequest request, HttpServletRequest http) {
+        limits.refresh(http.getRemoteAddr());
         return tokens.refresh(request.refreshToken());
     }
 

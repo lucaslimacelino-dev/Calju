@@ -29,6 +29,18 @@ public class SmtpCodeMailer implements CodeMailer {
     }
 
     @Override
+    public void sendResetCode(String email, String code) {
+        send(email, "Redefinir a senha do CaLju: " + code, """
+                Olá! Aqui é o Caju.
+
+                Seu código para criar uma senha nova no CaLju é: %s
+
+                Ele vale por 30 minutos. Ao trocar a senha, todos os aparelhos conectados saem da conta.
+                Se não foi você que pediu, ignore este e-mail: sua senha continua a mesma.
+                """.formatted(code));
+    }
+
+    @Override
     public void sendAlreadyRegistered(String email) {
         send(email, "Tentativa de cadastro no CaLju", """
                 Olá! Aqui é o Caju.

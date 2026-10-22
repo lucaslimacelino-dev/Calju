@@ -76,6 +76,28 @@ public class AuthService {
         return tokens.openSession(user.getId(), request.deviceLabel());
     }
 
+    /** Só conta confirmada recebe código; para qualquer outro e-mail nada acontece (resposta igual). */
+    @Transactional
+    public void requestPasswordReset(String rawEmail) {
+        users.findByEmail(Emails.normalize(rawEmail))
+                .filter(UserEntity::isEmailVerified)
+                .ifPresent(user -> mailer.sendResetCode(user.getEmail(), codes.issue(user.getId(), CodePurpose.RESET)));
+    }
+
+    /** Código certo: senha nova, todas as sessões antigas encerradas e uma sessão nova aberta. */
+    @Transactional(noRollbackFor = BadRequestException.class)
+    public TokenResponse resetPassword(VerifyRequest request) {
+        UserEntity user = users.findByEmail(Emails.normalize(request.email()))
+                .filter(UserEntity::isEmailVerified)
+                .orElseThrow(() -> new BadRequestException(INVALID_CODE));
+        if (!codes.consume(user.getId(), CodePurpose.RESET, request.code())) {
+            throw new BadRequestException(INVALID_CODE);
+        }
+        user.changePasswordHash(passwords.encode(request.password()), clock.instant());
+        tokens.revokeAll(user.getId());
+        return tokens.openSession(user.getId(), request.deviceLabel());
+    }
+
     @Transactional
     public TokenResponse login(LoginRequest request) {
         Optional<UserEntity> user = users.findByEmail(Emails.normalize(request.email()))
