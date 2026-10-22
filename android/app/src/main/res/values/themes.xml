@@ -33,6 +33,19 @@
         <item name="elevationOverlayEnabled">false</item>
     </style>
 
+    <style name="ThemeOverlay.CaLju.Summary" parent="ThemeOverlay.Material3">
+        <item name="colorPrimary">@color/on_summary</item>
+        <item name="colorSecondary">@color/summary_accent</item>
+        <item name="colorSecondaryContainer">@color/summary_accent</item>
+        <item name="colorOnSecondaryContainer">@color/on_summary_accent</item>
+        <item name="colorSurface">@color/summary_track</item>
+        <item name="colorSurfaceContainer">@color/summary_tile</item>
+        <item name="colorOnSurface">@color/on_summary</item>
+        <item name="colorOnSurfaceVariant">@color/on_summary_variant</item>
+        <item name="android:textColorPrimary">@color/on_summary</item>
+        <item name="android:textColorSecondary">@color/on_summary_variant</item>
+    </style>
+
     <style name="Widget.CaLju.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="cardBackgroundColor">?attr/colorSurface</item>
         <item name="cardCornerRadius">20dp</item>

@@ -25,7 +25,7 @@
     <string name="about_title">Sobre</string>
     <string name="about_version">CaLju, versão %1$s</string>
 
-    <string name="diary_empty">Nenhum registro neste dia. Digite abaixo o que você comeu.</string>
+    <string name="diary_empty">Nenhum registro neste dia. Toque em + numa refeição ou digite abaixo o que você comeu.</string>
     <string name="history_empty">Os dias com registro aparecerão aqui.</string>
     <string name="history_average_title">Média dos últimos 7 dias</string>
     <string name="history_average_value">%1$s kcal por dia</string>
@@ -36,6 +36,8 @@
     <string name="history_open_day">Abrir %1$s no diário</string>
 
     <string name="food_input_hint">O que você comeu?</string>
+    <string name="food_input_hint_for">O que você comeu no %1$s?</string>
+    <string name="section_add">Adicionar ao %1$s</string>
     <string name="food_input_send">Escolher o primeiro alimento sugerido</string>
     <string name="suggestion_ask_quantity">Toque para informar a quantidade</string>
     <string name="suggestion_per_100g">%1$s kcal em 100 g</string>
@@ -75,7 +77,6 @@
     <string name="macro_fat">Gordura</string>
     <string name="value_grams">%1$s g</string>
     <string name="value_at_least">≥ %1$s</string>
-    <string name="entry_tag">%1$s · %2$s</string>
     <string name="entry_kcal">%1$s kcal</string>
 
     <string name="micronutrients_show">Ver micronutrientes</string>

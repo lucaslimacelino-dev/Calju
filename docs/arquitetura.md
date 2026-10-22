@@ -226,7 +226,8 @@ Conta e aparelho:
 
 ## 6. Identidade visual e UX
 
-Revisada em 20/10/2026 (paleta "castanha e caju" e tela inicial v3, aprovadas pelo autor).
+Revisada em 20/10/2026 (paleta "castanha e caju" e tela inicial v3, aprovadas pelo autor) e em
+21/10/2026 (tela inicial v4, no estilo de diários como o Foodvisor: layout híbrido aprovado pelo autor).
 
 ### Paleta "castanha e caju"
 
@@ -244,28 +245,48 @@ Revisada em 20/10/2026 (paleta "castanha e caju" e tela inicial v3, aprovadas pe
 | outline | `#E6DDD4` | `#3A312B` | Divisórias |
 | error | `#B3261E` | `#F2B8B5` | Erros |
 
-- Contraste medido (WCAG): todas as combinações de texto acima de 5:1.
-- Macros: proteína em vermelho caju, carboidrato em amarelo (`#E9A93A` / `#F2C46B`),
-  gordura em castanha; sempre com rótulo e número (nunca só cor).
+Cartão de resumo (fundo castanho nos dois temas) e refeições:
+
+| Token | Claro | Escuro | Uso |
+|---|---|---|---|
+| summaryBackground | `#5E3A22` | `#3A2416` | Fundo do cartão de resumo |
+| summaryTile | `#6F4A31` | `#4A3020` | Blocos dos macros, trilha do anel |
+| onSummary / onSummaryVariant | `#FFF6EE` / `#E9D3C1` | `#FFF6EE` / `#D9C2B0` | Textos no resumo |
+| summaryAccent | `#FF8A70` | `#FF8A70` | Anel de kcal, "Definir meta" |
+| café da manhã | `#9A6200` sobre `#FCEBC8` | `#F2C46B` sobre `#4A3A1A` | Ícone da seção |
+| almoço | `#C7402A` sobre `#FBDCD3` | `#FF8A70` sobre `#4A2219` | Ícone da seção |
+| jantar | `#6B4429` sobre `#F2DFCF` | `#E8BE9C` sobre `#4A2F1C` | Ícone da seção |
+| lanche (folha do cajueiro) | `#4C7A34` sobre `#DDEBD3` | `#A9D18E` sobre `#26361E` | Ícone da seção |
+
+- Contraste medido (WCAG): todas as combinações de texto acima de 5:1; ícones das seções
+  acima de 3:1 (mínimo para elementos gráficos).
+- Macros no resumo: proteína em caju (`#FF8A70`), carboidrato em amarelo (`#F5C766`),
+  gordura em creme (`#F2DFCF`), com bolinha colorida ao lado do nome; sempre com rótulo e
+  número (nunca só cor).
+- Ícones das refeições e da barra inferior: Material Icons (Google, Apache License 2.0).
 - Roboto do sistema, escala Material 3, algarismos tabulares.
 - Cartões com cantos arredondados e sombra suave; sheets com cantos de 26 dp.
 - Tema escuro no MVP.
 - Símbolo: forma geométrica inspirada no caju; sem mascote (Fase 8).
 
-### Tela inicial (Diário)
+### Tela inicial (Diário) — v4
 
 ```
 Hoje                                   ‹ ›
 terça, 20 de outubro
-┌ Painel do dia ──────────────────────────┐
-│        anel grande: 1.240 kcal          │
-│        restantes · 760 de 2.000         │
-│  [Proteína]  [Carboidrato]  [Gordura]   │  um cartão por macro: valor, meta, barra
-│        Ver micronutrientes ›            │
-└─────────────────────────────────────────┘
+┏ Resumo (castanho) ━━━━━━━━━━━━━━━━━━━━━┓
+┃        anel grande: 1.240 kcal          ┃
+┃        restantes · 760 de 2.000         ┃
+┃  [•Proteína] [•Carboidrato] [•Gordura]  ┃  valor, meta, barra
+┃        Ver micronutrientes              ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┌ (☕) Café da manhã       320 kcal  (+) ┐   uma seção por refeição, sempre visível
+│      Banana, prata, crua    150 g · 147 │   registros da refeição
+└───────────────────────────────────────┘
+┌ (🍔) Almoço                       (+) ┐
+┌ (🍝) Jantar                       (+) ┐
+┌ (🥐) Lanche                       (+) ┐
 ┌ ★ Refeições prontas            3 ▾ ┐       seção recolhível
-└────────────────────────────────────┘
-Registros de hoje (cartões por ocasião, com horário e kcal)
 ( O que você comeu?                    ↑ )   campo fixo embaixo
 Diário | Histórico | Perfil                  barra inferior
 ```
@@ -288,7 +309,9 @@ Diário | Histórico | Perfil                  barra inferior
    - só o nome: 1 porção padrão, se o alimento tiver uma (`banana`);
    - sem porção padrão e sem gramas: o app pergunta a quantidade.
    O peso calculado aparece antes de confirmar, sempre editável.
-4. A ocasião (café, almoço, jantar, lanche) é sugerida pelo horário e pode ser trocada.
+4. A ocasião (café, almoço, jantar, lanche) é sugerida pelo horário e pode ser trocada. O "+"
+   de uma seção prepara o campo para aquela refeição ("O que você comeu no almoço?"), e ela
+   vem marcada na tela de quantidade.
 5. "Adicionar" registra o item; o painel anima até os novos totais; snackbar com "Desfazer".
 6. Tocar num registro abre a edição (quantidade, ocasião, remoção).
 

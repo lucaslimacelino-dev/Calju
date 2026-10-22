@@ -52,6 +52,8 @@ public class DiaryViewModel extends ViewModel {
     private final MutableLiveData<Boolean> mealsExpanded = new MutableLiveData<>(false);
     private final MutableLiveData<List<Suggestion>> suggestions = new MutableLiveData<>(Collections.emptyList());
     private final MutableLiveData<SelectedFood> selected = new MutableLiveData<>();
+    /** Refeição escolhida pelo "+" de uma seção; nula = sugerir pelo horário. */
+    private final MutableLiveData<Occasion> target = new MutableLiveData<>();
     private final MutableLiveData<DiaryEvent> events = new MutableLiveData<>();
     private final MutableLiveData<List<NutrientEntity>> nutrients = new MutableLiveData<>();
     /** Cada busca recebe um número; resultados de buscas antigas são descartados. */
@@ -119,6 +121,18 @@ public class DiaryViewModel extends ViewModel {
         return selected;
     }
 
+    public LiveData<Occasion> target() {
+        return target;
+    }
+
+    public void setTarget(Occasion occasion) {
+        target.setValue(occasion);
+    }
+
+    public void clearTarget() {
+        target.setValue(null);
+    }
+
     public LiveData<DiaryEvent> events() {
         return events;
     }
@@ -167,7 +181,7 @@ public class DiaryViewModel extends ViewModel {
     }
 
     public void select(Suggestion suggestion) {
-        Occasion occasion = suggestedOccasion();
+        Occasion occasion = occasionForNewEntry();
         executor.execute(() -> selected.postValue(new SelectedFood(suggestion.foodId(),
                 catalog.food(suggestion.foodId()), suggestion.grams(), occasion, null, null)));
     }
@@ -195,9 +209,9 @@ public class DiaryViewModel extends ViewModel {
         });
     }
 
-    /** "+" na lista: adiciona a refeição salva como está, na ocasião sugerida pelo horário. */
+    /** "+" na lista: adiciona a refeição salva como está, na ocasião escolhida ou sugerida pelo horário. */
     public void addMealAsIs(String mealId) {
-        Occasion occasion = suggestedOccasion();
+        Occasion occasion = occasionForNewEntry();
         LocalDate day = currentDate();
         executor.execute(() -> {
             MealWithItems meal = meals.byId(mealId);
@@ -283,8 +297,9 @@ public class DiaryViewModel extends ViewModel {
         });
     }
 
-    private Occasion suggestedOccasion() {
-        return Occasion.suggestFor(LocalTime.now(clock));
+    private Occasion occasionForNewEntry() {
+        Occasion chosen = target.getValue();
+        return chosen != null ? chosen : Occasion.suggestFor(LocalTime.now(clock));
     }
 
     private LocalDate currentDate() {

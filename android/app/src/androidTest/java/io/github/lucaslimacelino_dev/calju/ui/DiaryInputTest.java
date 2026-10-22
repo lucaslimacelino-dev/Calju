@@ -5,8 +5,11 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -72,7 +75,7 @@ public class DiaryInputTest {
     private static void openEntry(String title) {
         Waits.untilPresent(inEntries(withText(title)));
         Waits.untilSnackbarGone();
-        onView(inEntries(withText(title))).perform(scrollTo(), click());
+        Waits.scrollAndTap(inEntries(withText(title)));
     }
 
     @Test
@@ -137,5 +140,23 @@ public class DiaryInputTest {
 
         onView(withText(R.string.quantity_invalid)).check(matches(isDisplayed()));
         onView(withId(R.id.add_button)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void maisDaSecaoRegistraNaquelaRefeicao() {
+        Waits.untilDayLoaded();
+        Waits.scrollAndTap(allOf(withId(R.id.add), withContentDescription("Adicionar ao lanche")));
+        onView(withId(R.id.food_input)).check(matches(withHint("O que você comeu no lanche?")));
+
+        onView(withId(R.id.food_input)).perform(replaceText("arroz tipo 1 cozido"));
+        Waits.untilDisplayed(inSuggestions(withText(ARROZ)));
+        onView(inSuggestions(withText(ARROZ))).perform(click());
+        Waits.untilDisplayed(withId(R.id.occasion_snack));
+        onView(withId(R.id.occasion_snack)).check(matches(isChecked()));
+        onView(withId(R.id.grams)).perform(replaceText("100"));
+        onView(withId(R.id.add_button)).perform(click());
+
+        Waits.untilDisplayed(withText("Adicionado: lanche"));
+        onView(withId(R.id.food_input)).check(matches(withHint(R.string.food_input_hint)));
     }
 }

@@ -75,15 +75,15 @@ public class MealFlowTest {
     }
 
     private static void openMeals() {
-        Waits.untilDisplayed(withId(R.id.meals_header));
-        onView(withId(R.id.meals_header)).perform(scrollTo(), click());
+        Waits.untilDayLoaded();
+        Waits.scrollAndTap(withId(R.id.meals_header));
     }
 
     /** Toca num elemento depois que o aviso sumir (ele cobre a parte de baixo da tela). */
     private static void tapWhenFree(Matcher<View> matcher) {
         Waits.untilPresent(matcher);
         Waits.untilSnackbarGone();
-        onView(matcher).perform(scrollTo(), click());
+        Waits.scrollAndTap(matcher);
     }
 
     private static void includeInEditor(String text, String foodName) {

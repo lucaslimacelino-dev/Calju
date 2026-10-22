@@ -85,3 +85,7 @@ objetiva que os sustente.
   backend): opção recomendada pelo assistente e escolhida pelo autor.
 - Histórico (dias com totais, meta do dia, média semanal, abrir o dia no Diário) e
   "Salvar como refeição" escritos e testados pelo assistente.
+- Tela inicial v4 (resumo grande em castanho, seções por refeição com ícones e "+", campo fixo
+  mantido): pedido de estilo e escolha do layout híbrido feitos pelo autor entre opções
+  apresentadas pelo assistente; implementação, cores, medição de contraste e testes pelo
+  assistente.

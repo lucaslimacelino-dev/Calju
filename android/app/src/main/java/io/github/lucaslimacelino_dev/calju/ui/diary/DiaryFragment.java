@@ -1,5 +1,6 @@
 package io.github.lucaslimacelino_dev.calju.ui.diary;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,18 +26,23 @@ import com.google.android.material.snackbar.Snackbar;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Locale;
 import java.util.function.Function;
 
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.databinding.FragmentDiaryBinding;
+import io.github.lucaslimacelino_dev.calju.databinding.ItemLogEntryBinding;
+import io.github.lucaslimacelino_dev.calju.databinding.ItemOccasionSectionBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.ItemSavedMealBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.ViewMacroCardBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
+import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.ui.DateRequest;
 import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
@@ -48,7 +55,7 @@ public class DiaryFragment extends Fragment {
     private FragmentDiaryBinding binding;
     private DiaryViewModel viewModel;
     private SuggestionAdapter suggestionAdapter;
-    private EntryAdapter entryAdapter;
+    private final Map<Occasion, ItemOccasionSectionBinding> sectionCards = new EnumMap<>(Occasion.class);
 
     @Nullable
     @Override
@@ -67,11 +74,13 @@ public class DiaryFragment extends Fragment {
         binding.protein.label.setText(R.string.macro_protein);
         binding.carbohydrate.label.setText(R.string.macro_carbohydrate);
         binding.fat.label.setText(R.string.macro_fat);
+        tintDot(binding.protein, R.color.summary_protein);
+        tintDot(binding.carbohydrate, R.color.summary_carbohydrate);
+        tintDot(binding.fat, R.color.summary_fat);
 
         suggestionAdapter = new SuggestionAdapter(viewModel::select);
+        createSections();
         binding.suggestions.setAdapter(suggestionAdapter);
-        entryAdapter = new EntryAdapter(this::onEntryClicked);
-        binding.entries.setAdapter(entryAdapter);
 
         viewModel.dayState().observe(getViewLifecycleOwner(), this::showDay);
         viewModel.date().observe(getViewLifecycleOwner(), this::showDate);
@@ -83,6 +92,9 @@ public class DiaryFragment extends Fragment {
             }
         });
         viewModel.suggestions().observe(getViewLifecycleOwner(), this::showSuggestions);
+        viewModel.target().observe(getViewLifecycleOwner(), occasion -> binding.foodInput.setHint(occasion == null
+                ? getString(R.string.food_input_hint)
+                : getString(R.string.food_input_hint_for, lowerLabel(occasion))));
         viewModel.events().observe(getViewLifecycleOwner(), this::showEvent);
         viewModel.mealSummaries().observe(getViewLifecycleOwner(), meals ->
                 showMeals(meals, Boolean.TRUE.equals(viewModel.mealsExpanded().getValue())));
@@ -147,14 +159,74 @@ public class DiaryFragment extends Fragment {
     private void showDay(DayState state) {
         showEnergy(state.kcal(), state.goal());
         Goal goal = state.goal();
-        macro(binding.protein, state.protein(), goal == null ? null : goal.proteinG(), R.color.secondary);
+        macro(binding.protein, state.protein(), goal == null ? null : goal.proteinG(), R.color.summary_protein);
         macro(binding.carbohydrate, state.carbohydrate(), goal == null ? null : goal.carbohydrateG(),
-                R.color.macro_carbohydrate);
-        macro(binding.fat, state.fat(), goal == null ? null : goal.fatG(), R.color.primary);
+                R.color.summary_carbohydrate);
+        macro(binding.fat, state.fat(), goal == null ? null : goal.fatG(), R.color.summary_fat);
 
-        List<EntryRow> entries = state.entries();
-        entryAdapter.submitList(entries);
-        binding.emptyState.setVisibility(entries.isEmpty() ? View.VISIBLE : View.GONE);
+        binding.emptyState.setVisibility(state.entries().isEmpty() ? View.VISIBLE : View.GONE);
+        showSections(OccasionSection.group(state.entries()));
+    }
+
+    /** As quatro seções são criadas uma vez; as atualizações só trocam o conteúdo (a tela não pula). */
+    private void createSections() {
+        sectionCards.clear();
+        for (Occasion occasion : Occasion.values()) {
+            ItemOccasionSectionBinding card = ItemOccasionSectionBinding.inflate(getLayoutInflater(),
+                    binding.entries, true);
+            card.icon.setImageResource(Occasions.icon(occasion));
+            card.icon.setImageTintList(colorList(Occasions.color(occasion)));
+            card.icon.setBackgroundTintList(colorList(Occasions.container(occasion)));
+            card.title.setText(Occasions.label(occasion));
+            card.add.setContentDescription(getString(R.string.section_add, lowerLabel(occasion)));
+            card.add.setOnClickListener(v -> startAdding(occasion));
+            sectionCards.put(occasion, card);
+        }
+    }
+
+    private void showSections(List<OccasionSection> sections) {
+        for (OccasionSection section : sections) {
+            ItemOccasionSectionBinding card = sectionCards.get(section.occasion());
+            card.kcal.setVisibility(section.isEmpty() ? View.GONE : View.VISIBLE);
+            card.kcal.setText(getString(R.string.entry_kcal, mark(section.complete(), R.string.value_at_least,
+                    value -> Formats.amount(value, NutrientUnit.KCAL)).apply(section.kcal())));
+            card.items.removeAllViews();
+            card.items.setVisibility(section.isEmpty() ? View.GONE : View.VISIBLE);
+            for (EntryRow row : section.entries()) {
+                bindEntry(ItemLogEntryBinding.inflate(getLayoutInflater(), card.items, true), row);
+            }
+        }
+    }
+
+    private void bindEntry(ItemLogEntryBinding item, EntryRow row) {
+        item.foodName.setText(row.title());
+        String grams = Formats.grams(row.totalGrams());
+        item.grams.setText(row.isSingleItem() ? grams
+                : getResources().getQuantityString(R.plurals.entry_items, row.itemCount(), row.itemCount(), grams));
+        item.kcal.setText(row.kcal() == null
+                ? getString(R.string.value_unknown)
+                : getString(R.string.entry_kcal, Formats.amount(row.kcal(), NutrientUnit.KCAL)));
+        item.getRoot().setOnClickListener(v -> onEntryClicked(row));
+    }
+
+    /** "+" de uma seção: o próximo registro vai para essa refeição; o campo abre com o teclado. */
+    private void startAdding(Occasion occasion) {
+        viewModel.setTarget(occasion);
+        binding.foodInput.requestFocus();
+        WindowCompat.getInsetsController(requireActivity().getWindow(), binding.foodInput)
+                .show(WindowInsetsCompat.Type.ime());
+    }
+
+    private String lowerLabel(Occasion occasion) {
+        return getString(Occasions.label(occasion)).toLowerCase(PT_BR);
+    }
+
+    private ColorStateList colorList(int colorRes) {
+        return ColorStateList.valueOf(ContextCompat.getColor(requireContext(), colorRes));
+    }
+
+    private void tintDot(ViewMacroCardBinding card, int colorRes) {
+        TextViewCompat.setCompoundDrawableTintList(card.label, colorList(colorRes));
     }
 
     /**
@@ -218,9 +290,9 @@ public class DiaryFragment extends Fragment {
             case ADDED:
                 binding.foodInput.setText("");
                 viewModel.clearSuggestions();
+                viewModel.clearTarget();
                 hideKeyboard();
-                message = getString(R.string.event_added,
-                        getString(Occasions.label(event.occasion())).toLowerCase(PT_BR));
+                message = getString(R.string.event_added, lowerLabel(event.occasion()));
                 break;
             case MEAL_SAVED:
                 message = getString(R.string.event_meal_saved, event.name());
@@ -308,6 +380,7 @@ public class DiaryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        sectionCards.clear();
         binding = null;
     }
 }

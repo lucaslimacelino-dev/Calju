@@ -14,8 +14,25 @@
     <color name="outline">#3A312B</color>
     <color name="error">#F2B8B5</color>
     <color name="on_error">#601410</color>
-    <color name="macro_carbohydrate">#F2C46B</color>
     <color name="inverse_surface">#EFE6DF</color>
     <color name="inverse_on_surface">#2A211B</color>
     <color name="inverse_primary">#6B4429</color>
+    <color name="summary_background">#3A2416</color>
+    <color name="summary_tile">#4A3020</color>
+    <color name="summary_track">#5C3D29</color>
+    <color name="on_summary">#FFF6EE</color>
+    <color name="on_summary_variant">#D9C2B0</color>
+    <color name="summary_accent">#FF8A70</color>
+    <color name="on_summary_accent">#3E0D02</color>
+    <color name="summary_protein">#FF8A70</color>
+    <color name="summary_carbohydrate">#F5C766</color>
+    <color name="summary_fat">#F2DFCF</color>
+    <color name="breakfast">#F2C46B</color>
+    <color name="breakfast_container">#4A3A1A</color>
+    <color name="lunch">#FF8A70</color>
+    <color name="lunch_container">#4A2219</color>
+    <color name="dinner">#E8BE9C</color>
+    <color name="dinner_container">#4A2F1C</color>
+    <color name="snack">#A9D18E</color>
+    <color name="snack_container">#26361E</color>
 </resources>

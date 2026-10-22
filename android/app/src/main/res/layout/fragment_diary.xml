@@ -74,25 +74,29 @@
                 </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/summary_card"
                     style="@style/Widget.CaLju.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="14dp"
                     android:layout_marginTop="12dp"
-                    app:cardCornerRadius="26dp">
+                    android:theme="@style/ThemeOverlay.CaLju.Summary"
+                    app:cardBackgroundColor="@color/summary_background"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingHorizontal="14dp"
-                        android:paddingTop="18dp"
-                        android:paddingBottom="6dp">
+                        android:paddingTop="22dp"
+                        android:paddingBottom="8dp">
 
                         <FrameLayout
                             android:id="@+id/ring_container"
-                            android:layout_width="180dp"
-                            android:layout_height="180dp"
+                            android:layout_width="210dp"
+                            android:layout_height="210dp"
                             android:layout_gravity="center_horizontal"
                             android:focusable="true">
 
@@ -108,14 +112,15 @@
                                 android:layout_gravity="center"
                                 android:gravity="center_horizontal"
                                 android:importantForAccessibility="noHideDescendants"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:paddingHorizontal="24dp">
 
                                 <TextView
                                     android:id="@+id/kcal_value"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFeatureSettings="tnum"
-                                    android:textAppearance="?attr/textAppearanceDisplaySmall"
+                                    android:textAppearance="?attr/textAppearanceDisplayMedium"
                                     android:textColor="?attr/colorOnSurface"
                                     android:textStyle="bold" />
 
@@ -123,6 +128,7 @@
                                     android:id="@+id/kcal_caption"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
                                     android:text="@string/kcal_consumed"
                                     android:textAppearance="?attr/textAppearanceBodySmall"
                                     android:textColor="?attr/colorOnSurfaceVariant" />
@@ -144,7 +150,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
+                            android:layout_marginTop="18dp"
                             android:baselineAligned="false"
                             android:orientation="horizontal">
 
@@ -177,11 +183,25 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="4dp"
                             android:text="@string/micronutrients_show" />
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/empty_state"
+                    style="@style/Widget.CaLju.EmptyState"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="4dp"
+                    android:text="@string/diary_empty" />
+
+                <LinearLayout
+                    android:id="@+id/entries"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/meals_card"
@@ -189,7 +209,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="14dp"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -243,20 +264,6 @@
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
-
-                <TextView
-                    android:id="@+id/empty_state"
-                    style="@style/Widget.CaLju.EmptyState"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/diary_empty" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/entries"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </LinearLayout>
 
