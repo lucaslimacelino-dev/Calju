@@ -53,6 +53,7 @@ public class CustomFoodFlowTest {
         container.database.runInTransaction(() -> {
             container.database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM log_entries");
             container.database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM meals");
+            container.database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM nutrition_goals");
             container.database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM foods WHERE is_custom = 1");
         });
     }

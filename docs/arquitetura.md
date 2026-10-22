@@ -273,8 +273,17 @@ Conta e aparelho:
 
 ### Android
 
-- Sem tráfego em texto puro (exceção: `10.0.2.2` apenas em debug); sem pinning de
-  certificado no MVP.
+- Sem tráfego em texto puro (exceção: `10.0.2.2` apenas em debug, por
+  `src/debug/res/xml/network_security_config.xml`); sem pinning de certificado no MVP.
+- Rede (Fase 7): Retrofit 3.0.0 + converter-gson 3.0.0 + OkHttp 4.12.0 (a versão que o Retrofit
+  3.0.0 pede). `ApiClient` tem dois clientes: um para `/auth` (sem renovação automática) e um
+  para os dados, que põe o token de acesso e, no 401, renova uma vez (renovação sincronizada,
+  para não gastar o mesmo refresh token duas vezes). Endereço por `BuildConfig.API_BASE_URL`
+  (debug: `http://10.0.2.2:8080/`; release: definido na Fase 9). DTOs mantidos pelo R8.
+- Conta no app: seção "Conta e backup" no Perfil e `AccountSheet` (e-mail → senha, ou código +
+  senha nova para criar conta e para redefinir). Token de acesso só na memória; refresh token em
+  `KeystoreSessionStore` (AES-GCM, chave no Android Keystore), arquivo `calju_auth` fora do
+  backup e da transferência entre aparelhos.
 - Refresh token cifrado com AES-GCM e chave no Android Keystore
   (`security-crypto` foi descontinuada pelo Google).
 - Banco local protegido pelo sandbox do app + criptografia de arquivos do Android;

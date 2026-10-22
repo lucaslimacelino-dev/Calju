@@ -27,6 +27,7 @@ import io.github.lucaslimacelino_dev.calju.databinding.ItemCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
+import io.github.lucaslimacelino_dev.calju.ui.account.AccountSheet;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
 public class ProfileFragment extends Fragment {
@@ -60,6 +61,15 @@ public class ProfileFragment extends Fragment {
         });
         binding.saveGoals.setOnClickListener(v -> save());
 
+        viewModel.signedInEmail().observe(getViewLifecycleOwner(), this::showAccount);
+        getChildFragmentManager().setFragmentResultListener(AccountSheet.RESULT_KEY, getViewLifecycleOwner(),
+                (key, result) -> {
+                    String email = viewModel.signedInEmail().getValue();
+                    if (email != null) {
+                        message(getString(R.string.account_signed_in_message, email)).show();
+                    }
+                });
+
         viewModel.customFoods().observe(getViewLifecycleOwner(), this::showFoods);
         binding.newFood.setOnClickListener(v -> openFood(CustomFoodSheet.newFood("")));
         getChildFragmentManager().setFragmentResultListener(CustomFoodSheet.RESULT_KEY, getViewLifecycleOwner(),
@@ -74,6 +84,26 @@ public class ProfileFragment extends Fragment {
                         message(getString(R.string.food_saved, name)).show();
                     }
                 });
+    }
+
+    /** Sem conta: convite para entrar. Com conta: e-mail e "Sair". */
+    private void showAccount(String email) {
+        if (email == null) {
+            binding.accountStatus.setText(R.string.account_section_signed_out);
+            binding.accountButton.setText(R.string.account_open);
+            binding.accountButton.setOnClickListener(v -> {
+                if (getChildFragmentManager().findFragmentByTag(AccountSheet.TAG) == null) {
+                    new AccountSheet().show(getChildFragmentManager(), AccountSheet.TAG);
+                }
+            });
+        } else {
+            binding.accountStatus.setText(getString(R.string.account_section_signed_in, email));
+            binding.accountButton.setText(R.string.account_sign_out);
+            binding.accountButton.setOnClickListener(v -> {
+                viewModel.signOut();
+                message(getString(R.string.account_signed_out_message)).show();
+            });
+        }
     }
 
     private Snackbar message(String text) {

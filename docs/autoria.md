@@ -124,5 +124,6 @@ objetiva que os sustente.
 
 - Envio pelas rotas PUT/DELETE e regras de conflito para alimentos (cópia) e metas (escolha do
   usuário): opções recomendadas pelo assistente e escolhidas pelo autor.
-- Etapa 1 (sequência de mudanças com gatilho, trava por usuário, `GET /sync/pull`) e testes
-  escritos pelo assistente.
+- Etapa 1 (sequência de mudanças com gatilho, trava por usuário, `GET /sync/pull`) e etapa 2
+  (rede no app, guarda cifrada da sessão, telas de conta) e testes escritos pelo assistente;
+  teste de ponta a ponta no emulador contra o backend local feito pelo assistente.

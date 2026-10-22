@@ -32,7 +32,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            // O emulador enxerga o computador em 10.0.2.2 (backend local, sem HTTPS só em debug).
+            buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/\"")
+        }
         release {
+            // Endereço de produção definido na Fase 9; até lá a versão final não tem servidor.
+            buildConfigField("String", "API_BASE_URL", "\"https://api.calju.invalid/\"")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -68,8 +74,13 @@ dependencies {
     implementation(libs.lifecycle.livedata)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
 
     testImplementation(libs.junit)
+    testImplementation(libs.okhttp.mockwebserver)
+    testImplementation(libs.arch.core.testing)
 
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)

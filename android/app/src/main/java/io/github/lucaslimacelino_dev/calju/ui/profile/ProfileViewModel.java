@@ -16,6 +16,7 @@ import java.util.concurrent.Executor;
 
 import io.github.lucaslimacelino_dev.calju.AppContainer;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
+import io.github.lucaslimacelino_dev.calju.data.repository.AccountRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
@@ -31,15 +32,20 @@ public class ProfileViewModel extends ViewModel {
 
     private final GoalRepository goals;
     private final CatalogRepository catalog;
+    private final AccountRepository account;
     private final Executor executor;
+    private final Executor networkExecutor;
     private final LiveData<Goal> currentGoal;
     private final MutableLiveData<Boolean> saved = new MutableLiveData<>(false);
     private final MediatorLiveData<List<FoodSummary>> customFoods = new MediatorLiveData<>();
 
-    public ProfileViewModel(GoalRepository goals, CatalogRepository catalog, Executor executor) {
+    public ProfileViewModel(GoalRepository goals, CatalogRepository catalog, AccountRepository account,
+                            Executor executor, Executor networkExecutor) {
         this.goals = goals;
         this.catalog = catalog;
+        this.account = account;
         this.executor = executor;
+        this.networkExecutor = networkExecutor;
         this.currentGoal = Transformations.map(goals.observeAll(),
                 list -> Goal.forDate(list, goals.today()).orElse(null));
         // As kcal ficam em outra tabela; a leitura é feita fora da thread da tela.
@@ -49,6 +55,16 @@ public class ProfileViewModel extends ViewModel {
 
     public LiveData<List<FoodSummary>> customFoods() {
         return customFoods;
+    }
+
+    /** E-mail da conta conectada; nulo = sem conta. */
+    public LiveData<String> signedInEmail() {
+        return account.signedInEmail();
+    }
+
+    /** Sai da conta; os dados deste aparelho continuam. */
+    public void signOut() {
+        networkExecutor.execute(account::signOut);
     }
 
     public void restoreFood(String foodId) {
@@ -94,7 +110,7 @@ public class ProfileViewModel extends ViewModel {
             @SuppressWarnings("unchecked")
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new ProfileViewModel(container.goalRepository, container.catalogRepository,
-                        container.databaseExecutor);
+                        container.accountRepository, container.databaseExecutor, container.networkExecutor);
             }
         };
     }
