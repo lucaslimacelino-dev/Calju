@@ -24,6 +24,8 @@
     <string name="sources_icons">Ícones: Material Icons (Google), licença Apache 2.0. Fonte: Nunito (The Nunito Project Authors), SIL Open Font License 1.1.</string>
     <string name="about_title">Sobre</string>
     <string name="about_version">CaLju, versão %1$s</string>
+    <string name="about_health_disclaimer">O CaLju não é um dispositivo médico e não diagnostica, trata, cura nem previne nenhuma doença. As metas e os valores servem para acompanhamento pessoal; para orientação sobre saúde e alimentação, procure um nutricionista ou médico.</string>
+    <string name="about_privacy">Seus registros ficam só neste celular: o app não tem conta, não envia dados pela internet e não mostra anúncios.</string>
 
     <string name="history_empty">Os dias com registro aparecerão aqui.</string>
     <string name="history_average_title">Média dos últimos 7 dias</string>
