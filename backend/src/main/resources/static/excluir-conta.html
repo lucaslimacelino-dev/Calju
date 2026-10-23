@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Excluir conta do CaLju</title>
+    <style>
+        :root {
+            --fundo: #FFF6EE;
+            --cartao: #FFFFFF;
+            --texto: #2A1607;
+            --texto-suave: #6B4E3A;
+            --caju: #C7402A;
+            --borda: #E9D3C1;
+            --erro: #B3261E;
+            --ok: #2E6B1F;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --fundo: #1E140D;
+                --cartao: #2B1D14;
+                --texto: #FFF6EE;
+                --texto-suave: #D9C2B0;
+                --caju: #FF8A70;
+                --borda: #4A3020;
+                --erro: #FFB4AB;
+                --ok: #A9D18E;
+            }
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 24px 16px;
+            background: var(--fundo);
+            color: var(--texto);
+            font: 16px/1.5 system-ui, sans-serif;
+        }
+        main {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 24px;
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 20px;
+        }
+        h1 { margin: 0 0 12px; font-size: 1.5rem; }
+        p, li { color: var(--texto-suave); }
+        label { display: block; margin-top: 16px; font-weight: 600; }
+        input[type=email], input[type=text] {
+            width: 100%;
+            margin-top: 6px;
+            padding: 12px;
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--texto);
+            font: inherit;
+        }
+        .confirmar { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; }
+        .confirmar input { margin-top: 5px; }
+        button {
+            width: 100%;
+            min-height: 48px;
+            margin-top: 20px;
+            border: 0;
+            border-radius: 16px;
+            background: var(--caju);
+            color: #FFFFFF;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        @media (prefers-color-scheme: dark) { button { color: #2A1607; } }
+        button:disabled { opacity: .6; cursor: default; }
+        .aviso { margin-top: 16px; font-weight: 600; }
+        .erro { color: var(--erro); }
+        .ok { color: var(--ok); }
+        [hidden] { display: none; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Excluir a conta do CaLju</h1>
+    <p>Aqui você apaga a sua conta sem precisar do app. Ao confirmar, são apagados de vez do servidor:</p>
+    <ul>
+        <li>a conta (e-mail, senha e vínculo com o Google) e as sessões abertas;</li>
+        <li>tudo o que foi sincronizado: diário, metas, refeições prontas e alimentos criados.</li>
+    </ul>
+    <p>O que está guardado só no celular continua lá. Para apagar também, use "Sair da conta" →
+        "Apagar deste celular" no app, ou desinstale o app.</p>
+
+    <form id="pedido">
+        <label for="email">E-mail da conta</label>
+        <input id="email" name="email" type="email" autocomplete="email" required maxlength="254">
+        <button type="submit">Enviar código</button>
+    </form>
+
+    <form id="confirmacao" hidden>
+        <p>Se houver uma conta com esse e-mail, enviamos um código de 6 dígitos. Ele vale por 30 minutos.</p>
+        <label for="codigo">Código recebido</label>
+        <input id="codigo" name="codigo" type="text" inputmode="numeric" autocomplete="one-time-code"
+               pattern="\d{6}" maxlength="6" required>
+        <label class="confirmar">
+            <input id="ciente" type="checkbox" required>
+            Entendo que a exclusão é permanente e não pode ser desfeita.
+        </label>
+        <button type="submit">Excluir a conta</button>
+    </form>
+
+    <p id="mensagem" class="aviso" role="status" aria-live="polite"></p>
+</main>
+<script src="excluir-conta.js"></script>
+</body>
+</html>

@@ -67,6 +67,7 @@ public class ProfileFragment extends Fragment {
         });
         binding.saveGoals.setOnClickListener(v -> save());
 
+        binding.accountCard.setVisibility(BuildConfig.ACCOUNT_ENABLED ? View.VISIBLE : View.GONE);
         viewModel.signedInEmail().observe(getViewLifecycleOwner(), this::showAccount);
         binding.syncButton.setOnClickListener(v -> viewModel.syncNow());
         viewModel.syncing().observe(getViewLifecycleOwner(),

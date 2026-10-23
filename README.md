@@ -24,8 +24,10 @@ Projeto em desenvolvimento, ainda sem versão publicada.
 | 4e | Visual "Caju conversa" com o mascote Caju e boas-vindas | Concluída |
 | 5 | API REST do backend | Concluída |
 | 6 | Conta: cadastro, login (e-mail e Google), tokens | Concluída (backend) |
-| 7 | Sincronização (backend e app) | Em andamento |
-| 8–10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
+| 7 | Sincronização (backend e app) | Concluída |
+| 8 | Ícone, fonte Nunito, unidade ml e acessibilidade | Concluída |
+| 9 | APK de release (sem conta enquanto não há servidor de produção) | Concluída (falta criar a chave e testar no celular) |
+| 10 | Ver [docs/arquitetura.md](docs/arquitetura.md#10-sequência-de-implementação) | A fazer |
 
 ## Funcionalidades previstas para o MVP
 
@@ -100,6 +102,24 @@ cd backend
 
 Verificação: `http://localhost:8080/actuator/health` deve responder `{"status":"UP", ...}`.
 
+Página pública de exclusão de conta (sem app e sem senha, com código por e-mail):
+`http://localhost:8080/excluir-conta.html`.
+
+#### Imagem Docker de produção
+
+O backend ainda não está publicado. A imagem fica pronta para quando houver um servidor:
+
+```powershell
+docker build -t calju-backend backend
+```
+
+Ela roda no perfil `prod`, como usuário sem privilégios, e exige estas variáveis de ambiente
+(sem valor padrão; faltando alguma, o servidor não sobe): `POSTGRES_HOST`, `POSTGRES_DB`,
+`POSTGRES_USER`, `POSTGRES_PASSWORD`, `CALJU_JWT_SECRET`, `MAIL_HOST`, `MAIL_USERNAME`,
+`MAIL_PASSWORD` e `MAIL_FROM` (opcionais: `POSTGRES_PORT`, `MAIL_PORT`, `CALJU_GOOGLE_CLIENT_ID`).
+O e-mail exige TLS (STARTTLS). O HTTPS fica num proxy reverso na frente do contêiner; o IP
+real do cliente é lido do `X-Forwarded-For` só quando a conexão vem da rede interna.
+
 ### Catálogo de alimentos
 
 Gerado a partir da planilha oficial da TACO (ver [docs/fontes-de-dados.md](docs/fontes-de-dados.md)):
@@ -121,6 +141,53 @@ cd android
 .\gradlew assembleDebug                # gera app/build/outputs/apk/debug/app-debug.apk
 .\gradlew connectedDebugAndroidTest    # testes de interface (emulador ligado)
 ```
+
+### APK de release (versão final)
+
+A versão final é 100% offline: sem conta, sem sincronização e sem permissão de internet,
+até existir um servidor de produção. Ela é assinada com uma chave que **nunca** entra no
+repositório. Perder a chave impede instalar atualizações por cima da versão já instalada;
+guarde uma cópia de segurança dela e das senhas fora deste computador.
+
+1. Criar a chave (uma vez só), numa pasta fora do repositório. O `keytool` vem com o JDK e
+   pede a senha no terminal (no formato PKCS12, a senha da chave é a mesma do arquivo):
+
+   ```powershell
+   New-Item -ItemType Directory -Force $HOME\.android-keys
+   keytool -genkeypair -v -keystore $HOME\.android-keys\calju-release.jks -storetype PKCS12 `
+       -alias calju -keyalg RSA -keysize 4096 -validity 10000
+   ```
+
+2. Informar ao Gradle onde está a chave, no arquivo do usuário
+   `%USERPROFILE%\.gradle\gradle.properties` (também fora do repositório):
+
+   ```properties
+   CALJU_RELEASE_STORE_FILE=C:/Users/SEU_USUARIO/.android-keys/calju-release.jks
+   CALJU_RELEASE_STORE_PASSWORD=a senha escolhida no passo 1
+   CALJU_RELEASE_KEY_ALIAS=calju
+   CALJU_RELEASE_KEY_PASSWORD=a mesma senha
+   ```
+
+3. Gerar e conferir o APK:
+
+   ```powershell
+   cd android
+   .\gradlew assembleRelease             # app/build/outputs/apk/release/app-release.apk
+   & "$env:LOCALAPPDATA\Android\Sdk\build-tools\36.0.0\apksigner.bat" verify --print-certs `
+       app\build\outputs\apk\release\app-release.apk
+   ```
+
+Sem o passo 2, o `assembleRelease` gera um APK sem assinatura, que o Android não instala.
+
+Verificação de desenvolvedor do Android: no Brasil, desde 30/09/2026, apps cujo nome de pacote
+não está registrado deixam de ser instaláveis em aparelhos certificados. Para distribuir a
+outras pessoas, crie uma conta de distribuição limitada no Android Developer Console (gratuita,
+para estudantes e projetos sem fins comerciais, até 20 aparelhos autorizados) e registre o
+pacote `io.github.lucaslimacelino_dev.calju` com o SHA-256 da sua chave, mostrado por
+`keytool -list -v -keystore $HOME\.android-keys\calju-release.jks`. Para instalar só no seu
+celular, a instalação por adb continua possível.
+Para instalar no celular: copie o APK, permita "instalar apps desconhecidos" para o app que
+vai abri-lo e desinstale antes a versão de desenvolvimento (as assinaturas são diferentes).
 
 ## Segurança
 

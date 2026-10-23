@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+// Assinatura da versão final: a chave e as senhas ficam fora do repositório, em
+// ~/.gradle/gradle.properties (ver README). Sem elas, o APK de release sai sem assinatura.
+val releaseStoreFile = providers.gradleProperty("CALJU_RELEASE_STORE_FILE").orNull
+
 android {
     namespace = "io.github.lucaslimacelino_dev.calju"
     compileSdk = 37
@@ -11,7 +15,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "0.1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -31,14 +35,31 @@ android {
         }
     }
 
+    signingConfigs {
+        if (releaseStoreFile != null) {
+            create("release") {
+                storeFile = file(releaseStoreFile)
+                storePassword = providers.gradleProperty("CALJU_RELEASE_STORE_PASSWORD").get()
+                keyAlias = providers.gradleProperty("CALJU_RELEASE_KEY_ALIAS").get()
+                keyPassword = providers.gradleProperty("CALJU_RELEASE_KEY_PASSWORD").get()
+            }
+        }
+    }
+
     buildTypes {
         debug {
             // O emulador enxerga o computador em 10.0.2.2 (backend local, sem HTTPS só em debug).
             buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/\"")
+            buildConfigField("boolean", "ACCOUNT_ENABLED", "true")
         }
         release {
-            // Endereço de produção definido na Fase 9; até lá a versão final não tem servidor.
+            // Sem servidor de produção por enquanto (decisão do autor em 23/10/2026): a versão
+            // final é 100% offline, sem conta e sem permissão de internet.
             buildConfigField("String", "API_BASE_URL", "\"https://api.calju.invalid/\"")
+            buildConfigField("boolean", "ACCOUNT_ENABLED", "false")
+            if (releaseStoreFile != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

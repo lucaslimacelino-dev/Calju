@@ -141,3 +141,13 @@ objetiva que os sustente.
 - Unidade ml (app e servidor), ajustes para fonte grande, correção da descrição do anel para o
   TalkBack, teste automático de acessibilidade e demais testes escritos pelo assistente;
   verificação visual (tema escuro, fonte 200%, paisagem) feita pelo assistente no emulador.
+
+### Fase 9 — Versão de release e backend pronto para produção
+
+- APK sem conta enquanto não há servidor e chave de assinatura fora do repositório: opções
+  recomendadas pelo assistente e escolhidas pelo autor. A chave de release é criada e guardada
+  pelo autor.
+- Configuração de assinatura, versão final sem permissão de internet, Dockerfile, perfil de
+  produção, exclusão de conta pela web (página e rotas), testes e documentação escritos pelo
+  assistente; teste do APK de release no emulador e do contêiner de produção feitos pelo
+  assistente; regra de verificação de desenvolvedor conferida pelo assistente nas páginas oficiais.

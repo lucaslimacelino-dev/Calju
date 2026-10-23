@@ -34,6 +34,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
+                        // Página pública para pedir a exclusão da conta sem o app.
+                        .requestMatchers(HttpMethod.GET, "/excluir-conta.html", "/excluir-conta.js").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth

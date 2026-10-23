@@ -29,6 +29,11 @@ public class RecordingMailer implements CodeMailer {
     }
 
     @Override
+    public synchronized void sendDeletionCode(String email, String code) {
+        sent.add(new Sent(email, "DELETE", code));
+    }
+
+    @Override
     public synchronized void sendAlreadyRegistered(String email) {
         sent.add(new Sent(email, "ALREADY_REGISTERED", null));
     }

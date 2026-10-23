@@ -250,7 +250,13 @@ Conta e aparelho:
   e-mail) e 100 por IP a cada 15 min; códigos: 10 por (IP, e-mail) e 50 por IP a cada 15 min;
   pedidos que enviam e-mail: 20 por IP e 5 por e-mail por hora; renovação: 300 por IP a cada
   15 min. Excedeu → 429 com `Retry-After`. Nunca por e-mail sozinho no login (ninguém tranca a
-  conta alheia). Atrás do proxy (Fase 9), o IP real virá do cabeçalho encaminhado.
+  conta alheia). Em produção (perfil `prod`), atrás de um proxy reverso, o IP real vem do
+  `X-Forwarded-For`, aceito só de conexões da rede interna (`server.forward-headers-strategy=native`,
+  padrão de proxies internos do Tomcat).
+- Exclusão pela web, sem app e sem senha (Fase 9): página pública `/excluir-conta.html` →
+  `POST /auth/account-deletion {email}` (202 sempre igual; só conta confirmada recebe código de
+  tipo DELETE) → `POST /auth/account-deletion/confirm {email, code}` apaga a conta e, em cascata,
+  os dados. Mesmos limites dos outros pedidos de código.
 - Conta (com token): `GET /account`; `GET /account/sessions` (um item por aparelho, marcando
   o atual pela claim `sid` do token de acesso); `DELETE /account/sessions/{id}`;
   `POST /account/password {currentPassword, newPassword}` (encerra os outros aparelhos);
@@ -536,7 +542,7 @@ O backend é organizado por funcionalidade, com as camadas dentro de cada pacote
 | Erros de arredondamento | `BigDecimal`, arredondar só na exibição, testes de casos-limite |
 | Sincronização "come" o projeto | Só na Fase 7; UUID e versão no esquema desde o início |
 | Autenticação feita à mão | Só componentes do Spring Security; testes de IDOR |
-| Verificação de desenvolvedor do Android (vigente no Brasil desde 30/09/2026, inclusive para APK fora da Play) | Distribuição inicial por APK com conta de distribuição limitada (até 20 aparelhos); reconferir a regra na Fase 9 |
+| Verificação de desenvolvedor do Android (Brasil desde 30/09/2026: nome de pacote não registrado deixa de ser instalável em aparelhos certificados; conferido em 23/10/2026 nas páginas oficiais) | Conta de distribuição limitada no Android Developer Console (gratuita, sem documento de identidade, até 20 aparelhos autorizados) e registro de `io.github.lucaslimacelino_dev.calju` com o SHA-256 da chave de release; para uso próprio, instalação por adb ou pelo "advanced flow" continua possível |
 | Perda da chave de assinatura do APK | Keystore fora do Git, com cópia de segurança; sem ela as atualizações não instalam por cima |
 | Requisitos da Play, se publicar depois | Revisão nas fontes oficiais antes de publicar |
 | Entrega de e-mails | Provedor SMTP transacional; SPF/DKIM |
@@ -580,7 +586,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 6 (concluída) | Spring Security, JWT, refresh, e-mail, limitação, login com Google (backend) | Testes de autenticação, IDOR e enumeração |
 | 7 (concluída) | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 (concluída) | Refino visual, símbolo, acessibilidade; unidade ml | TalkBack, fonte 200%, tema escuro |
-| 9 | APK de release assinado com R8; distribuição limitada; backend de produção se a conta/sync estiver no escopo. Publicação na Play é opcional e posterior | Aparelho real; revisão de dependências |
+| 9 (concluída, falta a parte do autor) | APK de release assinado com R8, 100% offline (sem conta até haver servidor; decisão do autor em 23/10/2026); backend pronto para produção (Dockerfile, perfil `prod`, exclusão de conta pela web), sem publicar. Publicação na Play é opcional e posterior | Release testado no emulador; revisão de dependências; falta o autor criar a chave, registrar o pacote e testar no aparelho real |
 | 10 | Documentação e pacote do INPI | Tag congelada; hash SHA-512 só dessa tag |
 
 ## 11. INPI (resumo; reconferir nas fontes oficiais na Fase 10)

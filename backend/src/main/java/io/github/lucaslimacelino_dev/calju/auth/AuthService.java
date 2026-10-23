@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.github.lucaslimacelino_dev.calju.auth.dto.DeletionConfirmRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.LoginRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.TokenResponse;
 import io.github.lucaslimacelino_dev.calju.auth.dto.VerifyRequest;
@@ -107,6 +108,31 @@ public class AuthService {
         user.changePasswordHash(passwords.encode(request.password()), clock.instant());
         tokens.revokeAll(user.getId());
         return tokens.openSession(user.getId(), request.deviceLabel());
+    }
+
+    /**
+     * Exclusão pela página web: só conta confirmada recebe código; para qualquer outro e-mail
+     * nada acontece (a resposta é a mesma, para não revelar quem tem conta).
+     */
+    @Transactional
+    public void requestAccountDeletion(String rawEmail) {
+        users.findByEmail(Emails.normalize(rawEmail))
+                .filter(UserEntity::isEmailVerified)
+                .ifPresent(user -> mailer.sendDeletionCode(user.getEmail(),
+                        codes.issue(user.getId(), CodePurpose.DELETE)));
+    }
+
+    /** Código certo: a conta e, em cascata, todos os dados dela são apagados. */
+    @Transactional(noRollbackFor = BadRequestException.class)
+    public void confirmAccountDeletion(DeletionConfirmRequest request) {
+        UserEntity user = users.findByEmail(Emails.normalize(request.email()))
+                .filter(UserEntity::isEmailVerified)
+                .orElseThrow(() -> new BadRequestException(INVALID_CODE));
+        if (!codes.consume(user.getId(), CodePurpose.DELETE, request.code())) {
+            throw new BadRequestException(INVALID_CODE);
+        }
+        users.lockForWrite(user.getId());
+        users.delete(user);
     }
 
     /**

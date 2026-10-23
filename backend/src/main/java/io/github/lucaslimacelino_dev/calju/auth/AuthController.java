@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.lucaslimacelino_dev.calju.auth.dto.AcceptedResponse;
+import io.github.lucaslimacelino_dev.calju.auth.dto.DeletionConfirmRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.GoogleLoginRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.LoginRequest;
 import io.github.lucaslimacelino_dev.calju.auth.dto.RefreshRequest;
@@ -82,6 +83,23 @@ public class AuthController {
     public TokenResponse refresh(@Valid @RequestBody RefreshRequest request, HttpServletRequest http) {
         limits.refresh(http.getRemoteAddr());
         return tokens.refresh(request.refreshToken());
+    }
+
+    /** Página web de exclusão (excluir-conta.html): pede o código por e-mail. */
+    @PostMapping("/account-deletion")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public AcceptedResponse requestAccountDeletion(@Valid @RequestBody RegisterRequest request,
+                                                   HttpServletRequest http) {
+        limits.emailRequest("delete", http.getRemoteAddr(), request.email());
+        auth.requestAccountDeletion(request.email());
+        return new AcceptedResponse(CODE_SENT);
+    }
+
+    @PostMapping("/account-deletion/confirm")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void confirmAccountDeletion(@Valid @RequestBody DeletionConfirmRequest request, HttpServletRequest http) {
+        limits.codeAttempt(http.getRemoteAddr(), request.email());
+        auth.confirmAccountDeletion(request);
     }
 
     @PostMapping("/logout")

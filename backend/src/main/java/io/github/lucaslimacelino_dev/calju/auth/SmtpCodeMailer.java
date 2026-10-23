@@ -41,6 +41,19 @@ public class SmtpCodeMailer implements CodeMailer {
     }
 
     @Override
+    public void sendDeletionCode(String email, String code) {
+        send(email, "Excluir a conta do CaLju: " + code, """
+                Olá! Aqui é o Caju.
+
+                Seu código para excluir a conta do CaLju é: %s
+
+                Ele vale por 30 minutos. Ao confirmar, a conta e tudo o que foi sincronizado com ela
+                (diário, metas, refeições e alimentos) são apagados de vez do servidor.
+                Se não foi você que pediu, ignore este e-mail: nada será apagado.
+                """.formatted(code));
+    }
+
+    @Override
     public void sendAlreadyRegistered(String email) {
         send(email, "Tentativa de cadastro no CaLju", """
                 Olá! Aqui é o Caju.

@@ -7,6 +7,8 @@ public interface CodeMailer {
 
     void sendResetCode(String email, String code);
 
+    void sendDeletionCode(String email, String code);
+
     /** Alguém tentou cadastrar um e-mail que já tem conta: avisa o dono, sem revelar nada a quem tentou. */
     void sendAlreadyRegistered(String email);
 }
