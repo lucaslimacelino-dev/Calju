@@ -9,13 +9,13 @@ import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 
 /** Liga cada ocasião ao seu texto, ícone, cores e ao chip da tela de quantidade. */
-final class Occasions {
+public final class Occasions {
 
     private Occasions() {
     }
 
     @StringRes
-    static int label(Occasion occasion) {
+    public static int label(Occasion occasion) {
         switch (occasion) {
             case BREAKFAST:
                 return R.string.occasion_breakfast;

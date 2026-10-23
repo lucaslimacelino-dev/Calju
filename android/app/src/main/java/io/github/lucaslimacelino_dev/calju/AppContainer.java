@@ -16,6 +16,7 @@ import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.MealRepository;
+import io.github.lucaslimacelino_dev.calju.data.sync.ConflictResolver;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncCoordinator;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncPrefs;
@@ -37,6 +38,7 @@ public class AppContainer {
     public final AccountRepository accountRepository;
     public final SyncEngine syncEngine;
     public final SyncCoordinator syncCoordinator;
+    public final ConflictResolver conflictResolver;
     public final Clock clock = Clock.systemDefaultZone();
 
     public AppContainer(Context context) {
@@ -50,6 +52,7 @@ public class AppContainer {
         accountRepository = new AccountRepository(apiClient, Build.MODEL);
         SyncPrefs syncPrefs = new SyncPrefs(context);
         syncEngine = new SyncEngine(database, catalogRepository, apiClient.data(), apiClient.session(), syncPrefs);
+        conflictResolver = new ConflictResolver(database, apiClient.data());
         syncCoordinator = new SyncCoordinator(database, catalogRepository, accountRepository, syncEngine,
                 new SyncScheduler(context), syncPrefs, databaseExecutor);
     }

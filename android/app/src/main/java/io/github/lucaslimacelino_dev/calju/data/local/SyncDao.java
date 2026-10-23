@@ -1,5 +1,6 @@
 package io.github.lucaslimacelino_dev.calju.data.local;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -63,6 +64,52 @@ public interface SyncDao {
     @Query("UPDATE foods SET sync_state = :state WHERE id = :id")
     void foodState(String id, String state);
 
+    // Nova base: a versão do servidor passa a ser {@code serverVersion} e o registro volta a ser
+    // enviado (0 = o servidor não tem o registro; o envio o cria).
+
+    @Query("UPDATE log_entries SET server_version = :serverVersion, sync_state = 'PENDING' WHERE id = :id")
+    void entryRebase(String id, int serverVersion);
+
+    @Query("UPDATE meals SET server_version = :serverVersion, sync_state = 'PENDING' WHERE id = :id")
+    void mealRebase(String id, int serverVersion);
+
+    @Query("UPDATE nutrition_goals SET server_version = :serverVersion, sync_state = 'PENDING' WHERE id = :id")
+    void goalRebase(String id, int serverVersion);
+
+    @Query("UPDATE foods SET server_version = :serverVersion, sync_state = 'PENDING' WHERE id = :id")
+    void foodRebase(String id, int serverVersion);
+
+    // Conflitos para o usuário decidir e registros recusados
+
+    @Transaction
+    @Query("SELECT * FROM log_entries WHERE sync_state = 'CONFLICT' ORDER BY log_date, created_at")
+    List<EntryWithItems> conflictEntries();
+
+    @Query("SELECT * FROM nutrition_goals WHERE sync_state = 'CONFLICT' ORDER BY effective_from")
+    List<NutritionGoalEntity> conflictGoals();
+
+    @Query("SELECT (SELECT COUNT(*) FROM log_entries WHERE sync_state = 'CONFLICT') "
+            + "+ (SELECT COUNT(*) FROM nutrition_goals WHERE sync_state = 'CONFLICT')")
+    LiveData<Integer> observeConflictCount();
+
+    @Query("SELECT (SELECT COUNT(*) FROM log_entries WHERE sync_state = 'FAILED') "
+            + "+ (SELECT COUNT(*) FROM meals WHERE sync_state = 'FAILED') "
+            + "+ (SELECT COUNT(*) FROM nutrition_goals WHERE sync_state = 'FAILED') "
+            + "+ (SELECT COUNT(*) FROM foods WHERE is_custom = 1 AND sync_state = 'FAILED')")
+    LiveData<Integer> observeFailedCount();
+
+    @Query("UPDATE log_entries SET sync_state = 'PENDING' WHERE sync_state = 'FAILED'")
+    void retryFailedEntries();
+
+    @Query("UPDATE meals SET sync_state = 'PENDING' WHERE sync_state = 'FAILED'")
+    void retryFailedMeals();
+
+    @Query("UPDATE nutrition_goals SET sync_state = 'PENDING' WHERE sync_state = 'FAILED'")
+    void retryFailedGoals();
+
+    @Query("UPDATE foods SET sync_state = 'PENDING' WHERE is_custom = 1 AND sync_state = 'FAILED'")
+    void retryFailedFoods();
+
     // Leitura para aplicar o que veio do servidor
 
     @Query("SELECT * FROM log_entries WHERE id = :id")
@@ -70,6 +117,14 @@ public interface SyncDao {
 
     @Query("SELECT * FROM meals WHERE id = :id")
     MealEntity meal(String id);
+
+    @Transaction
+    @Query("SELECT * FROM meals WHERE id = :id")
+    MealWithItems mealWithItems(String id);
+
+    @Transaction
+    @Query("SELECT * FROM log_entries WHERE id = :id")
+    EntryWithItems entryWithItems(String id);
 
     @Query("SELECT * FROM nutrition_goals WHERE id = :id")
     NutritionGoalEntity goal(String id);

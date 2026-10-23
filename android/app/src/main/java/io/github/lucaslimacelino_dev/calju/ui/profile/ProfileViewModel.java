@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,13 @@ import java.util.Optional;
 import java.util.concurrent.Executor;
 
 import io.github.lucaslimacelino_dev.calju.AppContainer;
+import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.AccountRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
 import io.github.lucaslimacelino_dev.calju.data.sync.AccountBinding;
+import io.github.lucaslimacelino_dev.calju.data.sync.ConflictResolver;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncCoordinator;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
@@ -38,6 +41,11 @@ public class ProfileViewModel extends ViewModel {
     private final AccountRepository account;
     private final SyncEngine syncEngine;
     private final SyncCoordinator coordinator;
+    private final ConflictResolver conflicts;
+    private final LiveData<Integer> conflictCount;
+    private final LiveData<Integer> failedCount;
+    private final MutableLiveData<ConflictResolver.Choice> conflictChoice = new MutableLiveData<>();
+    private final MutableLiveData<Integer> conflictMessage = new MutableLiveData<>();
     private final MutableLiveData<AccountBinding.Decision> bindingDecision = new MutableLiveData<>();
     private final MutableLiveData<Integer> signOutPending = new MutableLiveData<>();
     private final MutableLiveData<SyncEngine.Result> syncResult = new MutableLiveData<>();
@@ -49,13 +57,16 @@ public class ProfileViewModel extends ViewModel {
     private final MediatorLiveData<List<FoodSummary>> customFoods = new MediatorLiveData<>();
 
     public ProfileViewModel(GoalRepository goals, CatalogRepository catalog, AccountRepository account,
-                            SyncEngine syncEngine, SyncCoordinator coordinator, Executor executor,
-                            Executor networkExecutor) {
+                            SyncEngine syncEngine, SyncCoordinator coordinator, ConflictResolver conflicts,
+                            Executor executor, Executor networkExecutor) {
         this.goals = goals;
         this.catalog = catalog;
         this.account = account;
         this.syncEngine = syncEngine;
         this.coordinator = coordinator;
+        this.conflicts = conflicts;
+        this.conflictCount = conflicts.conflictCount();
+        this.failedCount = conflicts.failedCount();
         this.executor = executor;
         this.networkExecutor = networkExecutor;
         this.currentGoal = Transformations.map(goals.observeAll(),
@@ -148,6 +159,69 @@ public class ProfileViewModel extends ViewModel {
         signOutPending.setValue(null);
     }
 
+    public LiveData<Integer> conflictCount() {
+        return conflictCount;
+    }
+
+    public LiveData<Integer> failedCount() {
+        return failedCount;
+    }
+
+    /** Conflito a mostrar (nulo = nenhum aberto). */
+    public LiveData<ConflictResolver.Choice> conflictChoice() {
+        return conflictChoice;
+    }
+
+    /** Aviso único (texto em recurso) sobre a busca de conflitos; nulo depois de mostrado. */
+    public LiveData<Integer> conflictMessage() {
+        return conflictMessage;
+    }
+
+    public void conflictMessageShown() {
+        conflictMessage.setValue(null);
+    }
+
+    /** Busca o próximo conflito com a versão da conta. */
+    public void resolveNext() {
+        networkExecutor.execute(() -> {
+            try {
+                ConflictResolver.Choice choice = conflicts.next();
+                conflictChoice.postValue(choice);
+                if (choice == null) {
+                    conflictMessage.postValue(R.string.conflict_none);
+                }
+            } catch (IOException e) {
+                conflictChoice.postValue(null);
+                conflictMessage.postValue(R.string.conflict_load_error);
+            }
+        });
+    }
+
+    /** Aplica a escolha e já abre o próximo conflito, se houver. */
+    public void choose(ConflictResolver.Choice choice, boolean keepLocal) {
+        conflictChoice.setValue(null);
+        networkExecutor.execute(() -> {
+            if (keepLocal) {
+                conflicts.keepLocal(choice);
+            } else {
+                conflicts.useServer(choice);
+            }
+            try {
+                conflictChoice.postValue(conflicts.next());
+            } catch (IOException e) {
+                conflictMessage.postValue(R.string.conflict_load_error);
+            }
+        });
+    }
+
+    public void chooseLater() {
+        conflictChoice.setValue(null);
+    }
+
+    public void retryFailed() {
+        executor.execute(conflicts::retryFailed);
+    }
+
     public void restoreFood(String foodId) {
         executor.execute(() -> catalog.restoreCustomFood(foodId));
     }
@@ -192,7 +266,7 @@ public class ProfileViewModel extends ViewModel {
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
                 return (T) new ProfileViewModel(container.goalRepository, container.catalogRepository,
                         container.accountRepository, container.syncEngine, container.syncCoordinator,
-                        container.databaseExecutor, container.networkExecutor);
+                        container.conflictResolver, container.databaseExecutor, container.networkExecutor);
             }
         };
     }

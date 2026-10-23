@@ -1,5 +1,7 @@
 package io.github.lucaslimacelino_dev.calju.data.remote;
 
+import java.util.List;
+
 import io.github.lucaslimacelino_dev.calju.data.remote.dto.AccountResponse;
 import io.github.lucaslimacelino_dev.calju.data.remote.dto.AuthBodies;
 import io.github.lucaslimacelino_dev.calju.data.remote.dto.SyncDtos;
@@ -65,4 +67,21 @@ public interface CaljuApi {
 
     @DELETE("api/v1/log-entries/{id}")
     Call<SyncDtos.LogEntry> deleteLogEntry(@Path("id") String id, @Query("version") int version);
+
+    // Cópia atual do servidor, para resolver conflitos (inclui excluídos).
+
+    @GET("api/v1/goals")
+    Call<List<SyncDtos.Goal>> goals();
+
+    @GET("api/v1/goals/{id}")
+    Call<SyncDtos.Goal> goal(@Path("id") String id);
+
+    @GET("api/v1/foods/{id}")
+    Call<SyncDtos.Food> food(@Path("id") String id);
+
+    @GET("api/v1/meals/{id}")
+    Call<SyncDtos.Meal> meal(@Path("id") String id);
+
+    @GET("api/v1/log-entries/{id}")
+    Call<SyncDtos.LogEntry> logEntry(@Path("id") String id);
 }

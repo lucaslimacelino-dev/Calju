@@ -3,18 +3,16 @@ package io.github.lucaslimacelino_dev.calju.data.sync;
 import androidx.annotation.WorkerThread;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
 import io.github.lucaslimacelino_dev.calju.data.local.CatalogDao;
-import io.github.lucaslimacelino_dev.calju.data.local.DiaryDao;
 import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodEntity;
-import io.github.lucaslimacelino_dev.calju.data.local.FoodPortionEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.LogEntryEntity;
-import io.github.lucaslimacelino_dev.calju.data.local.LogItemEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.MealEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.MealWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.NutritionGoalEntity;
@@ -30,8 +28,11 @@ import retrofit2.Response;
 /**
  * Sincroniza o aparelho com a conta: primeiro envia o que mudou aqui (PUT/DELETE por registro,
  * com a versão do servidor que o aparelho conhece), depois recebe o que mudou no servidor pelo
- * cursor. Nunca sobrescreve em silêncio: 409 marca conflito; mudança local ainda não enviada não
- * é trocada pela do servidor. Roda fora da thread da tela.
+ * cursor. Nunca sobrescreve em silêncio. No conflito (409/404) busca a cópia do servidor: conteúdo
+ * igual → só adota a versão; alimento ou refeição diferente → a versão do servidor fica e a do
+ * aparelho vira uma cópia "(conflito)"; registro do diário ou meta diferente → fica em conflito
+ * para o usuário escolher. Mudança local ainda não enviada não é trocada pela do servidor.
+ * Roda fora da thread da tela.
  */
 public class SyncEngine {
 
@@ -60,12 +61,12 @@ public class SyncEngine {
 
     private final CaljuDatabase database;
     private final SyncDao sync;
-    private final DiaryDao diary;
     private final CatalogDao catalogDao;
     private final CatalogRepository catalog;
     private final CaljuApi api;
     private final SessionManager session;
     private final SyncPrefs prefs;
+    private final SyncWriter writer;
     private int sent;
     private int received;
     private int conflicts;
@@ -74,12 +75,12 @@ public class SyncEngine {
                       SyncPrefs prefs) {
         this.database = database;
         this.sync = database.syncDao();
-        this.diary = database.diaryDao();
         this.catalogDao = database.catalogDao();
         this.catalog = catalog;
         this.api = api;
         this.session = session;
         this.prefs = prefs;
+        this.writer = new SyncWriter(database, Clock.systemUTC());
     }
 
     @WorkerThread
@@ -114,12 +115,13 @@ public class SyncEngine {
                     ? () -> api.deleteFood(food.id, food.serverVersion)
                     : () -> api.putFood(food.id, SyncMapper.foodBody(food, catalogDao.nutrientsOf(food.id),
                     catalogDao.defaultPortionOf(food.id))));
-            String state = stateFor(response);
-            if (state == null) {
+            if (accepted(response)) {
                 sync.foodSent(food.id, response.body().version(), food.version);
                 sent++;
+            } else if (isConflict(response)) {
+                resolveFood(food);
             } else {
-                sync.foodState(food.id, state);
+                sync.foodState(food.id, SyncStates.FAILED);
             }
         }
     }
@@ -134,12 +136,13 @@ public class SyncEngine {
             Response<SyncDtos.Meal> response = execute(m.deletedAt != null
                     ? () -> api.deleteMeal(m.id, m.serverVersion)
                     : () -> api.putMeal(m.id, SyncMapper.mealBody(meal)));
-            String state = stateFor(response);
-            if (state == null) {
+            if (accepted(response)) {
                 sync.mealSent(m.id, response.body().version(), m.version);
                 sent++;
+            } else if (isConflict(response)) {
+                resolveMeal(meal);
             } else {
-                sync.mealState(m.id, state);
+                sync.mealState(m.id, SyncStates.FAILED);
             }
         }
     }
@@ -147,12 +150,13 @@ public class SyncEngine {
     private void pushGoals() throws Stop {
         for (NutritionGoalEntity goal : sync.pendingGoals()) {
             Response<SyncDtos.Goal> response = execute(() -> api.putGoal(goal.id, SyncMapper.goalBody(goal)));
-            String state = stateFor(response);
-            if (state == null) {
+            if (accepted(response)) {
                 sync.goalSent(goal.id, response.body().version(), goal.version);
                 sent++;
+            } else if (isConflict(response)) {
+                resolveGoal(goal);
             } else {
-                sync.goalState(goal.id, state);
+                sync.goalState(goal.id, SyncStates.FAILED);
             }
         }
     }
@@ -167,26 +171,151 @@ public class SyncEngine {
             Response<SyncDtos.LogEntry> response = execute(e.deletedAt != null
                     ? () -> api.deleteLogEntry(e.id, e.serverVersion)
                     : () -> api.putLogEntry(e.id, SyncMapper.entryBody(entry)));
-            String state = stateFor(response);
-            if (state == null) {
+            if (accepted(response)) {
                 sync.entrySent(e.id, response.body().version(), e.version);
                 sent++;
+            } else if (isConflict(response)) {
+                resolveEntry(entry);
             } else {
-                sync.entryState(e.id, state);
+                sync.entryState(e.id, SyncStates.FAILED);
             }
         }
     }
 
-    /** Nulo = aceito. 409/404 = conflito (o servidor tem outra versão ou não tem o registro). */
-    private String stateFor(Response<?> response) {
-        if (response.isSuccessful() && response.body() != null) {
+    private static boolean accepted(Response<?> response) {
+        return response.isSuccessful() && response.body() != null;
+    }
+
+    /** 409: o servidor tem outra versão. 404: o servidor não tem o registro. */
+    private static boolean isConflict(Response<?> response) {
+        return response.code() == 409 || response.code() == 404;
+    }
+
+    // Conflitos no envio
+
+    private void resolveFood(FoodEntity food) throws Stop {
+        SyncDtos.Food remote = fetch(() -> api.food(food.id));
+        if (remote == null) {
+            notOnServer(food.serverVersion, () -> sync.foodRebase(food.id, 0),
+                    () -> sync.foodState(food.id, SyncStates.FAILED));
+            return;
+        }
+        boolean deleted = food.deletedAt != null;
+        if (SyncMapper.sameFood(SyncMapper.foodBody(food, catalogDao.nutrientsOf(food.id),
+                catalogDao.defaultPortionOf(food.id)), deleted, remote)) {
+            sync.foodSent(food.id, remote.version(), food.version);
+            return;
+        }
+        database.runInTransaction(() -> {
+            if (!deleted) {
+                writer.copyFood(food);
+            }
+            writer.food(remote);
+        });
+        catalog.invalidateSearch();
+    }
+
+    private void resolveMeal(MealWithItems meal) throws Stop {
+        MealEntity m = meal.meal;
+        SyncDtos.Meal remote = fetch(() -> api.meal(m.id));
+        if (remote == null) {
+            notOnServer(m.serverVersion, () -> sync.mealRebase(m.id, 0),
+                    () -> sync.mealState(m.id, SyncStates.FAILED));
+            return;
+        }
+        boolean deleted = m.deletedAt != null;
+        if (SyncMapper.sameMeal(SyncMapper.mealBody(meal), deleted, remote)) {
+            sync.mealSent(m.id, remote.version(), m.version);
+            return;
+        }
+        database.runInTransaction(() -> {
+            if (!deleted && !meal.items.isEmpty()) {
+                writer.copyMeal(meal);
+            }
+            writer.meal(remote);
+        });
+    }
+
+    private void resolveGoal(NutritionGoalEntity goal) throws Stop {
+        SyncDtos.Goal remote = remoteGoal(goal);
+        if (remote == null) {
+            notOnServer(goal.serverVersion, () -> sync.goalRebase(goal.id, 0),
+                    () -> sync.goalState(goal.id, SyncStates.FAILED));
+            return;
+        }
+        if (!SyncMapper.sameGoal(goal, remote)) {
+            sync.goalState(goal.id, SyncStates.CONFLICT);
+            conflicts++;
+        } else if (remote.id().equals(goal.id)) {
+            sync.goalSent(goal.id, remote.version(), goal.version);
+        } else {
+            // A mesma meta criada em dois aparelhos: fica a do servidor.
+            database.runInTransaction(() -> {
+                sync.deleteGoal(goal.id);
+                writer.goal(remote);
+            });
+        }
+    }
+
+    private void resolveEntry(EntryWithItems entry) throws Stop {
+        LogEntryEntity e = entry.entry;
+        SyncDtos.LogEntry remote = fetch(() -> api.logEntry(e.id));
+        if (remote == null) {
+            notOnServer(e.serverVersion, () -> sync.entryRebase(e.id, 0),
+                    () -> sync.entryState(e.id, SyncStates.FAILED));
+            return;
+        }
+        if (SyncMapper.sameEntry(SyncMapper.entryBody(entry), e.deletedAt != null, remote)) {
+            sync.entrySent(e.id, remote.version(), e.version);
+        } else {
+            sync.entryState(e.id, SyncStates.CONFLICT);
+            conflicts++;
+        }
+    }
+
+    /**
+     * A meta do servidor com o mesmo id ou, se não houver, a que começa no mesmo dia (o servidor
+     * aceita uma meta por dia).
+     */
+    private SyncDtos.Goal remoteGoal(NutritionGoalEntity goal) throws Stop {
+        SyncDtos.Goal byId = fetch(() -> api.goal(goal.id));
+        if (byId != null) {
+            return byId;
+        }
+        Response<List<SyncDtos.Goal>> all = execute(api::goals);
+        if (!accepted(all)) {
+            throw new Stop(Outcome.SERVER_ERROR);
+        }
+        for (SyncDtos.Goal remote : all.body()) {
+            if (remote.effectiveFrom().equals(goal.effectiveFrom.toString())) {
+                return remote;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * O servidor não tem o registro. Se o aparelho achava que tinha (versão > 0), ele volta a ser
+     * novo e é criado no próximo envio; se já era novo, o id é de outra conta: fica recusado.
+     */
+    private static void notOnServer(int serverVersion, Runnable rebase, Runnable fail) {
+        if (serverVersion > 0) {
+            rebase.run();
+        } else {
+            fail.run();
+        }
+    }
+
+    /** Cópia atual do servidor; nula se ele não tem o registro. */
+    private <T> T fetch(Supplier<Call<T>> call) throws Stop {
+        Response<T> response = execute(call);
+        if (response.code() == 404) {
             return null;
         }
-        if (response.code() == 409 || response.code() == 404) {
-            conflicts++;
-            return SyncStates.CONFLICT;
+        if (!accepted(response)) {
+            throw new Stop(Outcome.SERVER_ERROR);
         }
-        return SyncStates.FAILED;
+        return response.body();
     }
 
     // Recebimento
@@ -218,22 +347,14 @@ public class SyncEngine {
         for (SyncDtos.Food dto : page.foods()) {
             FoodEntity local = sync.food(dto.id());
             if (shouldApply(local == null ? null : local.syncState, local == null ? 0 : local.serverVersion, dto.version())) {
-                sync.deleteFood(dto.id());
-                catalogDao.insertFood(SyncMapper.food(dto));
-                catalogDao.insertFoodNutrients(SyncMapper.foodValues(dto));
-                FoodPortionEntity portion = SyncMapper.foodPortion(dto);
-                if (portion != null) {
-                    catalogDao.insertPortions(Collections.singletonList(portion));
-                }
+                writer.food(dto);
                 received++;
             }
         }
         for (SyncDtos.Meal dto : page.meals()) {
             MealEntity local = sync.meal(dto.id());
             if (shouldApply(local == null ? null : local.syncState, local == null ? 0 : local.serverVersion, dto.version())) {
-                sync.deleteMeal(dto.id());
-                database.mealDao().insertMeal(SyncMapper.meal(dto));
-                database.mealDao().insertItems(SyncMapper.mealItems(dto));
+                writer.meal(dto);
                 received++;
             }
         }
@@ -253,19 +374,13 @@ public class SyncEngine {
                     continue;
                 }
             }
-            sync.deleteGoal(dto.id());
-            database.goalDao().insert(SyncMapper.goal(dto));
+            writer.goal(dto);
             received++;
         }
         for (SyncDtos.LogEntry dto : page.logEntries()) {
             LogEntryEntity local = sync.entry(dto.id());
             if (shouldApply(local == null ? null : local.syncState, local == null ? 0 : local.serverVersion, dto.version())) {
-                sync.deleteEntry(dto.id());
-                diary.insertEntry(SyncMapper.entry(dto));
-                for (LogItemEntity item : SyncMapper.entryItems(dto)) {
-                    diary.insertItem(item);
-                }
-                diary.insertItemNutrients(SyncMapper.entryItemNutrients(dto));
+                writer.entry(dto);
                 received++;
             }
         }

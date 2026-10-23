@@ -1,11 +1,13 @@
 package io.github.lucaslimacelino_dev.calju.data.sync;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
@@ -162,6 +164,83 @@ final class SyncMapper {
             }
         }
         return values;
+    }
+
+    // Mesmo conteúdo nos dois lados (ex.: reenvio depois de uma resposta perdida) não é conflito.
+    // Excluído dos dois lados também não; excluído de um lado só é diferente.
+
+    static boolean sameFood(SyncDtos.FoodBody local, boolean localDeleted, SyncDtos.Food remote) {
+        return sameDeleted(localDeleted, remote.deletedAt()) && (localDeleted
+                || (text(local.name()) + "|" + text(local.brand()) + "|" + nutrientsKey(local.nutrients()) + "|"
+                + portionKey(local.portion())).equals(text(remote.name()) + "|" + text(remote.brand()) + "|"
+                + nutrientsKey(remote.nutrients()) + "|" + portionKey(remote.portion())));
+    }
+
+    static boolean sameMeal(SyncDtos.MealBody local, boolean localDeleted, SyncDtos.Meal remote) {
+        return sameDeleted(localDeleted, remote.deletedAt()) && (localDeleted
+                || (text(local.name()) + "|" + mealItemsKey(local.items()))
+                .equals(text(remote.name()) + "|" + mealItemsKey(remote.items())));
+    }
+
+    static boolean sameGoal(NutritionGoalEntity local, SyncDtos.Goal remote) {
+        return (local.effectiveFrom + "|" + number(local.kcal) + "|" + number(local.proteinG) + "|"
+                + number(local.carbsG) + "|" + number(local.fatG)).equals(remote.effectiveFrom() + "|"
+                + number(remote.kcal()) + "|" + number(remote.proteinG()) + "|" + number(remote.carbohydrateG())
+                + "|" + number(remote.fatG()));
+    }
+
+    static boolean sameEntry(SyncDtos.LogEntryBody local, boolean localDeleted, SyncDtos.LogEntry remote) {
+        return sameDeleted(localDeleted, remote.deletedAt()) && (localDeleted
+                || entryKey(local.logDate(), local.occasion(), local.title(), local.sourceMealId(), local.createdAt(),
+                local.items()).equals(entryKey(remote.logDate(), remote.occasion(), remote.title(),
+                remote.sourceMealId(), remote.createdAt(), remote.items())));
+    }
+
+    private static boolean sameDeleted(boolean localDeleted, String remoteDeletedAt) {
+        return localDeleted == (remoteDeletedAt != null);
+    }
+
+    private static String entryKey(String date, String occasion, String title, String sourceMealId, String createdAt,
+                                   List<SyncDtos.LogItem> items) {
+        StringBuilder key = new StringBuilder(date + "|" + occasion + "|" + text(title) + "|" + text(sourceMealId)
+                + "|" + Instant.parse(createdAt).toEpochMilli());
+        for (SyncDtos.LogItem item : items) {
+            key.append("|").append(item.id()).append(",").append(item.foodId()).append(",")
+                    .append(text(item.foodName())).append(",").append(text(item.brand())).append(",")
+                    .append(text(item.source())).append(",").append(number(item.quantityG())).append(",")
+                    .append(text(item.portionLabel())).append(",").append(nutrientsKey(item.nutrients()));
+        }
+        return key.toString();
+    }
+
+    private static String mealItemsKey(List<SyncDtos.MealItem> items) {
+        StringBuilder key = new StringBuilder();
+        for (SyncDtos.MealItem item : items) {
+            key.append(item.id()).append(",").append(item.foodId()).append(",").append(number(item.quantityG()))
+                    .append(";");
+        }
+        return key.toString();
+    }
+
+    private static String nutrientsKey(List<SyncDtos.NutrientValue> values) {
+        TreeSet<String> sorted = new TreeSet<>();
+        for (SyncDtos.NutrientValue value : values) {
+            sorted.add(value.code() + "=" + number(value.amount()) + ":" + text(value.qualifier()));
+        }
+        return sorted.toString();
+    }
+
+    private static String portionKey(SyncDtos.Portion portion) {
+        return portion == null ? "-" : text(portion.label()) + "=" + number(portion.grams());
+    }
+
+    /** 150 e 150.0000 são o mesmo número; vazio e nulo são o mesmo texto. */
+    private static String number(BigDecimal value) {
+        return value == null ? "-" : value.stripTrailingZeros().toPlainString();
+    }
+
+    private static String text(String value) {
+        return value == null || value.isBlank() ? "-" : value.trim();
     }
 
     private static long millis(String instant) {

@@ -173,6 +173,17 @@ escolhe, como os registros do diário.
 3. **Idempotência:** upsert por UUID + versão; reenvio não duplica.
 4. **Conflitos nunca sobrescrevem em silêncio:** refeição → cópia "(conflito)";
    registro do diário → usuário escolhe.
+   No app (etapa 4): no 409/404 o `SyncEngine` busca a cópia do servidor (`GET /{id}`; meta
+   também por dia em `GET /goals`). Conteúdo igual (comparação normalizada em `SyncMapper`:
+   150 = 150.0000, vazio = nulo, ordem dos nutrientes ignorada) → só adota a versão: o reenvio
+   depois de uma resposta perdida não duplica nem vira conflito. Alimento ou refeição diferente →
+   a versão do servidor fica e a do aparelho vira cópia nova "(conflito)" (`SyncWriter`; exclusão
+   aqui contra edição lá → fica a edição, sem cópia). Registro ou meta diferente → CONFLICT; o
+   Perfil mostra quantos e o `ConflictResolver` abre um por vez com as duas versões: "Ficar com a
+   deste celular" (reenvia sobre a versão atual da conta; meta de outro id no mesmo dia passa a
+   usar o id da conta) ou "Ficar com a da conta" (substitui a daqui). 404 com versão > 0 → o
+   registro volta a ser novo; 404 com versão 0 → FAILED. FAILED não é reenviado em laço; o
+   Perfil oferece "Tentar de novo".
 5. **Exclusões** como lápides; limpeza física posterior no servidor.
 6. **Falhas de rede:** WorkManager com restrição de rede e backoff; UI nunca bloqueia.
    No app (etapa 3b): `SyncScheduler` agenda o `SyncWorker` no WorkManager 2.12.0 — uma rodada
@@ -552,7 +563,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 4e (concluída) | Visual "Caju conversa" e storytelling com o mascote (antecipado da Fase 8 por decisão do autor em 22/10/2026) | Testes de UI continuam passando; mensagens do Caju testadas sem Android |
 | 5 (concluída) | API REST, DTOs, validação, ProblemDetail (já protegida por token; decisão do autor em 22/10/2026) | Testes de integração |
 | 6 (concluída) | Spring Security, JWT, refresh, e-mail, limitação, login com Google (backend) | Testes de autenticação, IDOR e enumeração |
-| 7 | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
+| 7 (concluída) | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 | Refino visual, símbolo, acessibilidade | TalkBack, fonte 200%, tema escuro |
 | 9 | APK de release assinado com R8; distribuição limitada; backend de produção se a conta/sync estiver no escopo. Publicação na Play é opcional e posterior | Aparelho real; revisão de dependências |
 | 10 | Documentação e pacote do INPI | Tag congelada; hash SHA-512 só dessa tag |

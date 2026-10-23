@@ -28,9 +28,12 @@ import io.github.lucaslimacelino_dev.calju.databinding.ItemCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.data.sync.AccountBinding;
+import io.github.lucaslimacelino_dev.calju.data.sync.ConflictResolver;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
+import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.account.AccountSheet;
+import io.github.lucaslimacelino_dev.calju.ui.diary.Occasions;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
 public class ProfileFragment extends Fragment {
@@ -80,6 +83,18 @@ public class ProfileFragment extends Fragment {
         viewModel.bindingDecision().observe(getViewLifecycleOwner(), this::askBinding);
         viewModel.signOutPending().observe(getViewLifecycleOwner(), this::askSignOut);
 
+        viewModel.conflictCount().observe(getViewLifecycleOwner(), count -> showSyncIssues());
+        viewModel.failedCount().observe(getViewLifecycleOwner(), count -> showSyncIssues());
+        binding.resolveButton.setOnClickListener(v -> viewModel.resolveNext());
+        binding.retryButton.setOnClickListener(v -> viewModel.retryFailed());
+        viewModel.conflictChoice().observe(getViewLifecycleOwner(), this::askConflict);
+        viewModel.conflictMessage().observe(getViewLifecycleOwner(), text -> {
+            if (text != null) {
+                viewModel.conflictMessageShown();
+                message(getString(text)).show();
+            }
+        });
+
         viewModel.customFoods().observe(getViewLifecycleOwner(), this::showFoods);
         binding.newFood.setOnClickListener(v -> openFood(CustomFoodSheet.newFood("")));
         getChildFragmentManager().setFragmentResultListener(CustomFoodSheet.RESULT_KEY, getViewLifecycleOwner(),
@@ -115,6 +130,78 @@ public class ProfileFragment extends Fragment {
                     .setNegativeButton(R.string.cancel, (d, w) -> viewModel.cancelSignIn());
         }
         dialog.show();
+    }
+
+    /** Conflitos para decidir e itens recusados pelo servidor, com os botões de cada caso. */
+    private void showSyncIssues() {
+        int conflicts = valueOf(viewModel.conflictCount().getValue());
+        int failed = valueOf(viewModel.failedCount().getValue());
+        StringBuilder text = new StringBuilder();
+        if (conflicts > 0) {
+            text.append(getResources().getQuantityString(R.plurals.sync_conflict_count, conflicts, conflicts));
+        }
+        if (failed > 0) {
+            if (text.length() > 0) {
+                text.append('\n');
+            }
+            text.append(getResources().getQuantityString(R.plurals.sync_failed_count, failed, failed));
+        }
+        boolean any = conflicts > 0 || failed > 0;
+        binding.syncIssues.setVisibility(any ? View.VISIBLE : View.GONE);
+        binding.syncIssues.setText(text);
+        binding.syncIssueButtons.setVisibility(any ? View.VISIBLE : View.GONE);
+        binding.resolveButton.setVisibility(conflicts > 0 ? View.VISIBLE : View.GONE);
+        binding.retryButton.setVisibility(failed > 0 ? View.VISIBLE : View.GONE);
+    }
+
+    private static int valueOf(Integer count) {
+        return count == null ? 0 : count;
+    }
+
+    /** Um conflito por vez: a versão deste celular e a da conta, e a pessoa escolhe qual fica. */
+    private void askConflict(ConflictResolver.Choice choice) {
+        if (choice == null) {
+            return;
+        }
+        String title = choice.kind() == ConflictResolver.Kind.ENTRY
+                ? getString(R.string.conflict_entry_title, getString(Occasions.label(choice.occasion())),
+                Dates.full(choice.date()))
+                : getString(R.string.conflict_goal_title, Dates.full(choice.date()));
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(title)
+                .setMessage(getString(R.string.conflict_message, describe(choice.local()),
+                        describe(choice.remote())))
+                .setPositiveButton(R.string.conflict_keep_local, (d, w) -> viewModel.choose(choice, true))
+                .setNegativeButton(R.string.conflict_use_server, (d, w) -> viewModel.choose(choice, false))
+                .setNeutralButton(R.string.conflict_later, (d, w) -> viewModel.chooseLater())
+                .setOnCancelListener(d -> viewModel.chooseLater())
+                .show();
+    }
+
+    private String describe(ConflictResolver.Side side) {
+        if (side.missing()) {
+            return getString(R.string.conflict_side_missing);
+        }
+        if (side.deleted()) {
+            return getString(R.string.conflict_side_deleted);
+        }
+        String kcal = Formats.amount(side.kcal(), NutrientUnit.KCAL);
+        if (side.items().isEmpty()) {
+            return getString(R.string.conflict_side_goal, kcal, optionalGrams(side.proteinG()),
+                    optionalGrams(side.carbsG()), optionalGrams(side.fatG()));
+        }
+        StringBuilder items = new StringBuilder();
+        for (ConflictResolver.Item item : side.items()) {
+            if (items.length() > 0) {
+                items.append(", ");
+            }
+            items.append(item.name()).append(' ').append(Formats.grams(item.grams()));
+        }
+        return getString(R.string.conflict_side_entry, items, kcal);
+    }
+
+    private static String optionalGrams(BigDecimal grams) {
+        return grams == null ? "—" : Formats.grams(grams);
     }
 
     /** Sair: manter ou apagar os dados deste celular (avisando se há algo ainda não enviado). */

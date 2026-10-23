@@ -25,6 +25,7 @@ import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
 import io.github.lucaslimacelino_dev.calju.data.local.CatalogImporter;
 import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.MealEntity;
+import io.github.lucaslimacelino_dev.calju.data.local.MealWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.SyncStates;
 import io.github.lucaslimacelino_dev.calju.data.remote.ApiClient;
 import io.github.lucaslimacelino_dev.calju.data.remote.SessionStore;
@@ -154,15 +155,25 @@ public class SyncEngineTest {
     }
 
     @Test
-    public void conflitoNaoSobrescreveEFicaMarcado() {
+    public void refeicaoEmConflitoFicaComADoServidorEADaquiViraCopia() throws Exception {
         String id = newMeal();
         server.enqueue(json(409, "{\"status\":409,\"detail\":\"mudou\",\"currentVersion\":3}"));
+        server.enqueue(json(200, meal(id, "Marmita do outro celular", 3, null, arroz)));
         server.enqueue(json(200, EMPTY_PAGE));
 
         SyncEngine.Result result = engine.run();
 
-        assertEquals(1, result.conflicts());
-        assertEquals(SyncStates.CONFLICT, database.syncDao().meal(id).syncState);
+        assertEquals(0, result.conflicts());
+        server.takeRequest();
+        assertEquals("GET", server.takeRequest().getMethod());
+        MealEntity stored = database.syncDao().meal(id);
+        assertEquals("Marmita do outro celular", stored.name);
+        assertEquals(SyncStates.SYNCED, stored.syncState);
+        assertEquals(3, stored.serverVersion);
+        MealWithItems copy = meals.all().stream().filter(m -> m.meal.name.equals("Marmita (conflito)"))
+                .findFirst().get();
+        assertEquals(SyncStates.PENDING, copy.meal.syncState);
+        assertEquals(1, copy.items.size());
     }
 
     @Test
@@ -195,16 +206,18 @@ public class SyncEngineTest {
                 + "\"brand\":null,\"source\":\"TACO-4\",\"quantityG\":150,\"portionLabel\":null,\"nutrients\":["
                 + "{\"code\":\"ENERC\",\"amount\":128,\"qualifier\":\"VALUE\"}]}],\"version\":1,"
                 + "\"updatedAt\":\"2026-10-22T12:40:00Z\",\"deletedAt\":null}";
-        // 2ª rodada: o servidor também mudou a refeição local (não pode pisar na edição daqui),
+        // 2ª rodada: o servidor também mudou a refeição local (a edição daqui vira cópia),
         // apagou a "synced" e trouxe uma refeição e um registro novos.
         server.enqueue(json(409, "{\"status\":409,\"detail\":\"mudou\"}"));
+        server.enqueue(json(200, meal(pendingLocal, "Marmita do servidor", 2, null, arroz)));
         server.enqueue(json(200, page(20, false, "[" + meal(pendingLocal, "Marmita do servidor", 2, null, arroz) + ","
                 + meal(synced, "Café", 2, "2026-10-22T13:00:00Z", arroz) + ","
                 + meal(remoteNew, "Lanche", 1, null, arroz) + "]", "[" + entryJson + "]")));
 
         engine.run();
 
-        assertEquals("Marmita editada aqui", database.syncDao().meal(pendingLocal).name);
+        assertEquals("Marmita do servidor", database.syncDao().meal(pendingLocal).name);
+        assertTrue(meals.all().stream().anyMatch(m -> m.meal.name.equals("Marmita editada aqui (conflito)")));
         assertNotNull(database.syncDao().meal(synced).deletedAt);
         assertEquals("Lanche", database.syncDao().meal(remoteNew).name);
         EntryWithItems received = database.diaryDao().day(LocalDate.of(2026, 10, 22)).get(0);

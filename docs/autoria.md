@@ -127,5 +127,7 @@ objetiva que os sustente.
 - Etapa 1 (sequência de mudanças com gatilho, trava por usuário, `GET /sync/pull`) e etapa 2
   (rede no app, guarda cifrada da sessão, telas de conta) e testes escritos pelo assistente;
   etapa 3a (motor de sincronização, banco v6) e etapa 3b (sincronização automática com
-  WorkManager, vínculo dos dados do aparelho com a conta) e testes escritos pelo assistente;
+  WorkManager, vínculo dos dados do aparelho com a conta) e etapa 4 (conflitos: cópia
+  "(conflito)", escolha do usuário, reenvio sem duplicar, recusados) e testes escritos pelo
+  assistente;
   testes de ponta a ponta no emulador contra o backend local feitos pelo assistente.

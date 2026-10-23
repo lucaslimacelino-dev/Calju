@@ -217,4 +217,26 @@
     <string name="sign_out_keep">Manter neste celular</string>
     <string name="sign_out_wipe">Apagar deste celular</string>
     <string name="cancel">Cancelar</string>
+    <plurals name="sync_conflict_count">
+        <item quantity="one">%d registro precisa da sua decisão.</item>
+        <item quantity="other">%d registros precisam da sua decisão.</item>
+    </plurals>
+    <plurals name="sync_failed_count">
+        <item quantity="one">%d item foi recusado pelo servidor.</item>
+        <item quantity="other">%d itens foram recusados pelo servidor.</item>
+    </plurals>
+    <string name="conflict_resolve">Resolver</string>
+    <string name="sync_retry">Tentar de novo</string>
+    <string name="conflict_entry_title">%1$s de %2$s</string>
+    <string name="conflict_goal_title">Meta a partir de %1$s</string>
+    <string name="conflict_message">Ele mudou neste celular e na conta. Qual fica?\n\nNeste celular: %1$s\n\nNa conta: %2$s</string>
+    <string name="conflict_side_missing">não existe</string>
+    <string name="conflict_side_deleted">excluído</string>
+    <string name="conflict_side_entry">%1$s (%2$s kcal)</string>
+    <string name="conflict_side_goal">%1$s kcal; proteína %2$s, carboidrato %3$s, gordura %4$s</string>
+    <string name="conflict_keep_local">Ficar com a deste celular</string>
+    <string name="conflict_use_server">Ficar com a da conta</string>
+    <string name="conflict_later">Decidir depois</string>
+    <string name="conflict_load_error">Não deu para buscar a versão da conta. Confira a conexão e tente de novo.</string>
+    <string name="conflict_none">Nenhum conflito para resolver.</string>
 </resources>
