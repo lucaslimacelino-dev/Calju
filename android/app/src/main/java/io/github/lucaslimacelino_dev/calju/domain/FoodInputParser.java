@@ -16,7 +16,8 @@ import java.util.regex.Pattern;
 public final class FoodInputParser {
 
     private static final String NUMBER = "(\\d+(?:[.,]\\d+)?)";
-    private static final String GRAM_UNIT = "(?:g|gr|grama|gramas)";
+    // ml conta como g (ver QuantityUnit): "leite 200 ml" = 200.
+    private static final String GRAM_UNIT = "(?:g|gr|grama|gramas|ml|mililitro|mililitros)";
 
     private static final Pattern LEADING_GRAMS = Pattern.compile(
             "^" + NUMBER + "\\s*" + GRAM_UNIT + "\\s+(?:de\\s+)?(.+)$", Pattern.CASE_INSENSITIVE);

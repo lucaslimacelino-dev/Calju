@@ -56,9 +56,9 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add"
             style="@style/Widget.CaLju.SectionAdd"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
             app:icon="@drawable/ic_add" />
 
     </LinearLayout>

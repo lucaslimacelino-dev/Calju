@@ -12,11 +12,12 @@ import java.util.List;
 import org.junit.Test;
 
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 public class OccasionSectionTest {
 
     private static EntryRow row(String id, Occasion occasion, String kcal) {
-        return new EntryRow(id, occasion, 0L, "Registro " + id, 1, new BigDecimal("100"),
+        return new EntryRow(id, occasion, 0L, "Registro " + id, 1, new BigDecimal("100"), QuantityUnit.GRAM,
                 kcal == null ? null : new BigDecimal(kcal), "item-" + id, null);
     }
 

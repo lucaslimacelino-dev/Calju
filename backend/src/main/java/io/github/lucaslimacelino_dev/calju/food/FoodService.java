@@ -69,7 +69,7 @@ public class FoodService {
         String brand = request.brand() == null || request.brand().isBlank() ? null : request.brand().trim();
         FoodPortion portion = request.portion() == null ? null
                 : new FoodPortion(request.portion().label().trim(), request.portion().grams());
-        food.apply(request.name().trim(), brand,
+        food.apply(request.name().trim(), brand, request.unit() == null ? "g" : request.unit(),
                 request.nutrients().stream().map(NutrientValueDto::toAmount).toList(), portion, clock.instant());
         return new Saved<>(FoodResponse.from(foods.saveAndFlush(food)), created);
     }

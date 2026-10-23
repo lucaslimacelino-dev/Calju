@@ -26,6 +26,7 @@ import io.github.lucaslimacelino_dev.calju.data.local.SyncStates;
 import io.github.lucaslimacelino_dev.calju.data.remote.dto.SyncDtos;
 import io.github.lucaslimacelino_dev.calju.domain.FoodMatcher;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 /**
  * Converte entre as tabelas do aparelho e o formato da API. Ida: o corpo enviado leva a versão do
@@ -44,7 +45,7 @@ final class SyncMapper {
     }
 
     static SyncDtos.FoodBody foodBody(FoodEntity food, List<FoodNutrientEntity> values, FoodPortionEntity portion) {
-        return new SyncDtos.FoodBody(food.name, food.brand, nutrients(values),
+        return new SyncDtos.FoodBody(food.name, food.brand, food.unit, nutrients(values),
                 portion == null ? null : new SyncDtos.Portion(portion.label, portion.grams), food.serverVersion);
     }
 
@@ -69,7 +70,7 @@ final class SyncMapper {
             }
             LogItemEntity it = item.item;
             items.add(new SyncDtos.LogItem(it.id, it.foodId, it.foodNameSnap, it.brandSnap, it.sourceSnap,
-                    it.quantityG, it.portionLabelSnap, values));
+                    it.quantityG, it.unit, it.portionLabelSnap, values));
         }
         LogEntryEntity e = entry.entry;
         return new SyncDtos.LogEntryBody(e.logDate.toString(), e.occasion.name(), e.title, e.sourceMealId,
@@ -100,6 +101,7 @@ final class SyncMapper {
                 millis(dto.updatedAt()), dto.deletedAt() == null ? null : millis(dto.deletedAt()), dto.version(),
                 SyncStates.SYNCED);
         food.serverVersion = dto.version();
+        food.unit = QuantityUnit.fromSymbol(dto.unit()).symbol();
         return food;
     }
 
@@ -150,8 +152,10 @@ final class SyncMapper {
         List<LogItemEntity> items = new ArrayList<>();
         for (int i = 0; i < dto.items().size(); i++) {
             SyncDtos.LogItem item = dto.items().get(i);
-            items.add(new LogItemEntity(item.id(), dto.id(), item.foodId(), item.foodName(), item.brand(),
-                    item.source(), item.quantityG(), item.portionLabel(), i));
+            LogItemEntity entity = new LogItemEntity(item.id(), dto.id(), item.foodId(), item.foodName(),
+                    item.brand(), item.source(), item.quantityG(), item.portionLabel(), i);
+            entity.unit = QuantityUnit.fromSymbol(item.unit()).symbol();
+            items.add(entity);
         }
         return items;
     }
@@ -171,9 +175,10 @@ final class SyncMapper {
 
     static boolean sameFood(SyncDtos.FoodBody local, boolean localDeleted, SyncDtos.Food remote) {
         return sameDeleted(localDeleted, remote.deletedAt()) && (localDeleted
-                || (text(local.name()) + "|" + text(local.brand()) + "|" + nutrientsKey(local.nutrients()) + "|"
-                + portionKey(local.portion())).equals(text(remote.name()) + "|" + text(remote.brand()) + "|"
-                + nutrientsKey(remote.nutrients()) + "|" + portionKey(remote.portion())));
+                || (text(local.name()) + "|" + text(local.brand()) + "|" + unit(local.unit()) + "|"
+                + nutrientsKey(local.nutrients()) + "|" + portionKey(local.portion())).equals(text(remote.name())
+                + "|" + text(remote.brand()) + "|" + unit(remote.unit()) + "|" + nutrientsKey(remote.nutrients())
+                + "|" + portionKey(remote.portion())));
     }
 
     static boolean sameMeal(SyncDtos.MealBody local, boolean localDeleted, SyncDtos.Meal remote) {
@@ -208,6 +213,7 @@ final class SyncMapper {
             key.append("|").append(item.id()).append(",").append(item.foodId()).append(",")
                     .append(text(item.foodName())).append(",").append(text(item.brand())).append(",")
                     .append(text(item.source())).append(",").append(number(item.quantityG())).append(",")
+                    .append(unit(item.unit())).append(",")
                     .append(text(item.portionLabel())).append(",").append(nutrientsKey(item.nutrients()));
         }
         return key.toString();
@@ -237,6 +243,10 @@ final class SyncMapper {
     /** 150 e 150.0000 são o mesmo número; vazio e nulo são o mesmo texto. */
     private static String number(BigDecimal value) {
         return value == null ? "-" : value.stripTrailingZeros().toPlainString();
+    }
+
+    private static String unit(String value) {
+        return QuantityUnit.fromSymbol(value).symbol();
     }
 
     private static String text(String value) {

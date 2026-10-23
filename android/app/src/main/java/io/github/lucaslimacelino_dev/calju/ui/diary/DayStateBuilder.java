@@ -9,6 +9,7 @@ import java.util.List;
 import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.ItemWithNutrients;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.Intake;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
@@ -32,17 +33,19 @@ public final class DayStateBuilder {
             items.sort(Comparator.comparingInt(item -> item.item.position));
             List<Intake> entryIntakes = new ArrayList<>();
             BigDecimal grams = BigDecimal.ZERO;
+            boolean allMl = true;
             for (ItemWithNutrients item : items) {
                 Intake intake = DiaryRepository.toIntake(item);
                 entryIntakes.add(intake);
                 grams = grams.add(intake.grams());
+                allMl &= intake.food().unit() == QuantityUnit.MILLILITER;
             }
             intakes.addAll(entryIntakes);
             NutrientTotal kcal = NutritionCalculator.total(entryIntakes, Nutrients.ENERGY);
             boolean single = items.size() == 1;
             String title = entry.entry.title != null ? entry.entry.title : items.get(0).item.foodNameSnap;
             rows.add(new EntryRow(entry.entry.id, entry.entry.occasion, entry.entry.createdAt, title, items.size(),
-                    grams, kcal.complete() ? kcal.amount() : null,
+                    grams, allMl ? QuantityUnit.MILLILITER : QuantityUnit.GRAM, kcal.complete() ? kcal.amount() : null,
                     single ? items.get(0).item.id : null, single ? entryIntakes.get(0).food() : null));
         }
         rows.sort(Comparator.comparing(EntryRow::occasion).thenComparingLong(EntryRow::createdAt));

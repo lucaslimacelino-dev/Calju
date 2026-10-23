@@ -12,6 +12,7 @@ import org.junit.Test;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 public class CajuMessagesTest {
 
@@ -23,7 +24,7 @@ public class CajuMessagesTest {
 
     // Valores fictícios: só a escolha da fala importa.
     private static DayState day(LocalDate date, int entries, String kcal, String protein, Goal goal) {
-        EntryRow row = new EntryRow("e", Occasion.LUNCH, 0L, "Registro", 1, BigDecimal.TEN, BigDecimal.ONE, "i", null);
+        EntryRow row = new EntryRow("e", Occasion.LUNCH, 0L, "Registro", 1, BigDecimal.TEN, QuantityUnit.GRAM, BigDecimal.ONE, "i", null);
         List<EntryRow> rows = entries == 0 ? Collections.emptyList() : Collections.nCopies(entries, row);
         return new DayState(date, total(kcal), total(protein), total("0"), total("0"), rows,
                 Collections.emptyList(), goal);

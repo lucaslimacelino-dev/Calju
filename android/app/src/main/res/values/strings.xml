@@ -21,7 +21,7 @@
     <string name="sources_title">Fontes dos dados</string>
     <string name="sources_taco">Composição dos alimentos: NÚCLEO DE ESTUDOS E PESQUISAS EM ALIMENTAÇÃO — NEPA/UNICAMP. Tabela brasileira de composição de alimentos — TACO. 4. ed. rev. e ampl. Campinas: NEPA-UNICAMP, 2011.</string>
     <string name="sources_ibge" tools:ignore="TypographyDashes">Peso das porções (ex.: 1 banana): IBGE. Pesquisa de orçamentos familiares 2008-2009: tabela de medidas referidas para os alimentos consumidos no Brasil. Rio de Janeiro: IBGE, 2011.</string>
-    <string name="sources_icons">Ícones: Material Icons (Google), licença Apache 2.0.</string>
+    <string name="sources_icons">Ícones: Material Icons (Google), licença Apache 2.0. Fonte: Nunito (The Nunito Project Authors), SIL Open Font License 1.1.</string>
     <string name="about_title">Sobre</string>
     <string name="about_version">CaLju, versão %1$s</string>
 
@@ -39,7 +39,7 @@
     <string name="section_add">Adicionar ao %1$s</string>
     <string name="food_input_send">Escolher o primeiro alimento sugerido</string>
     <string name="suggestion_ask_quantity">Toque para informar a quantidade</string>
-    <string name="suggestion_per_100g">%1$s kcal em 100 g</string>
+    <string name="suggestion_per_100g">%1$s kcal em 100 %2$s</string>
     <string name="suggestion_with_kcal">%1$s · %2$s kcal</string>
 
     <string name="quantity_label">Quantidade</string>
@@ -118,12 +118,17 @@
     <string name="food_name">Nome</string>
     <string name="food_brand">Marca (opcional)</string>
     <string name="food_label_title">Tabela nutricional da embalagem</string>
-    <string name="food_basis_100g">Por 100 g</string>
+    <string name="food_basis_100g">Por 100 %1$s</string>
+    <string name="food_unit_title">O produto é medido em</string>
+    <string name="food_unit_g">Gramas (g)</string>
+    <string name="food_unit_ml">Mililitros (ml)</string>
+    <string name="food_unit_ml_note">Bebidas: o app conta 1 ml como 1 g.</string>
     <string name="food_basis_portion">Por porção</string>
     <string name="food_portion_label">Porção</string>
     <string name="food_portion_label_hint">Ex.: 1 unidade</string>
     <string name="food_portion_label_default">1 porção</string>
     <string name="food_portion_grams">Peso da porção</string>
+    <string name="food_portion_ml">Volume da porção</string>
     <string name="food_portion_optional">Porção (opcional): permite digitar \"2 unidades\" no campo do Diário.</string>
     <string name="food_kcal">Valor energético</string>
     <string name="food_protein">Proteínas</string>
@@ -136,7 +141,7 @@
     <string name="food_delete">Excluir alimento</string>
     <string name="food_required">Obrigatório</string>
     <string name="food_invalid_number">Número inválido</string>
-    <string name="food_portion_required">Informe o peso da porção</string>
+    <string name="food_portion_required">Informe o tamanho da porção</string>
     <string name="food_macros_exceed">Proteínas, carboidratos e gorduras somam mais que o peso de referência. Confira os valores.</string>
     <string name="food_create">Criar alimento \"%1$s\"</string>
     <string name="food_saved">Alimento salvo: %1$s</string>
@@ -145,8 +150,8 @@
     <string name="my_foods_empty">Nenhum alimento criado. Use para produtos de embalagem que não estão na TACO.</string>
     <string name="my_foods_new">Novo alimento</string>
     <string name="my_food_edit">Editar %1$s</string>
-    <string name="my_food_detail">%1$s kcal em 100 g</string>
-    <string name="my_food_detail_brand">%1$s · %2$s kcal em 100 g</string>
+    <string name="my_food_detail">%1$s kcal em 100 %2$s</string>
+    <string name="my_food_detail_brand">%1$s · %2$s kcal em 100 %3$s</string>
     <string name="section_empty">Nada ainda</string>
     <string name="caju_empty_today">Ainda não anotei nada hoje. Me conta a primeira refeição?</string>
     <string name="caju_empty_past">Nada anotado neste dia.</string>
@@ -199,8 +204,11 @@
     <string name="account_code_invalid">O código tem 6 números</string>
     <string name="account_password_short">Use pelo menos 12 caracteres</string>
     <string name="sync_now">Sincronizar agora</string>
-    <string name="sync_done">Sincronizado: %1$d enviados, %2$d recebidos.</string>
-    <string name="sync_done_conflicts">Sincronizado, mas %1$d registro(s) precisam da sua decisão.</string>
+    <string name="sync_done">Sincronizado. Enviados: %1$d. Recebidos: %2$d.</string>
+    <plurals name="sync_done_conflicts">
+        <item quantity="one">Sincronizado, mas %1$d registro precisa da sua decisão.</item>
+        <item quantity="other">Sincronizado, mas %1$d registros precisam da sua decisão.</item>
+    </plurals>
     <string name="sync_offline">Sem conexão com o servidor. Os dados ficam guardados e vão na próxima vez.</string>
     <string name="sync_signed_out">A sessão expirou. Entre de novo para sincronizar.</string>
     <string name="sync_server_error">O servidor não respondeu direito. Tente de novo em instantes.</string>
@@ -213,7 +221,10 @@
     <string name="binding_other_yes">Apagar e entrar</string>
     <string name="sign_out_title">Sair da conta</string>
     <string name="sign_out_message">Quer manter os dados neste celular? Se apagar, eles continuam guardados na conta (o que já foi sincronizado).</string>
-    <string name="sign_out_pending">Ainda há %1$d mudança(s) não enviada(s); vamos tentar enviar antes de sair.</string>
+    <plurals name="sign_out_pending">
+        <item quantity="one">Ainda há %1$d mudança não enviada; vamos tentar enviar antes de sair.</item>
+        <item quantity="other">Ainda há %1$d mudanças não enviadas; vamos tentar enviar antes de sair.</item>
+    </plurals>
     <string name="sign_out_keep">Manter neste celular</string>
     <string name="sign_out_wipe">Apagar deste celular</string>
     <string name="cancel">Cancelar</string>

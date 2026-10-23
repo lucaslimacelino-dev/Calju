@@ -6,6 +6,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 /** Números no formato brasileiro (1.240; 37,5). O arredondamento acontece só aqui, na exibição. */
 public final class Formats {
@@ -17,7 +18,12 @@ public final class Formats {
 
     /** Gramas com até 1 casa decimal: 150 → "150 g", 37,5 → "37,5 g". */
     public static String grams(BigDecimal grams) {
-        return pattern("#,##0.#").format(NutrientUnit.GRAM.roundForDisplay(grams)) + " g";
+        return quantity(grams, QuantityUnit.GRAM);
+    }
+
+    /** Quantidade com a unidade do alimento: "150 g" ou "200 ml". */
+    public static String quantity(BigDecimal amount, QuantityUnit unit) {
+        return pattern("#,##0.#").format(NutrientUnit.GRAM.roundForDisplay(amount)) + " " + unit.symbol();
     }
 
     /** Quantidade de unidades: 2 → "2", 1,5 → "1,5". */

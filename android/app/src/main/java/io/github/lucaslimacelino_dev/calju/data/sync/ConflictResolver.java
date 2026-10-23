@@ -22,6 +22,7 @@ import io.github.lucaslimacelino_dev.calju.data.remote.CaljuApi;
 import io.github.lucaslimacelino_dev.calju.data.remote.dto.SyncDtos;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -36,7 +37,7 @@ public class ConflictResolver {
         GOAL
     }
 
-    public record Item(String name, BigDecimal grams) {
+    public record Item(String name, BigDecimal grams, QuantityUnit unit) {
     }
 
     /** Um lado do conflito. {@code missing}: não existe nesse lado. Metas usam kcal e macros; registros, itens e kcal. */
@@ -186,7 +187,7 @@ public class ConflictResolver {
         List<Item> items = new ArrayList<>();
         BigDecimal kcal = BigDecimal.ZERO;
         for (ItemWithNutrients item : local.items) {
-            items.add(new Item(item.item.foodNameSnap, item.item.quantityG));
+            items.add(new Item(item.item.foodNameSnap, item.item.quantityG, QuantityUnit.fromSymbol(item.item.unit)));
             for (LogItemNutrientEntity value : item.nutrients) {
                 if (Nutrients.ENERGY.equals(value.nutrientCode) && value.amountPer100g != null) {
                     kcal = kcal.add(value.amountPer100g.multiply(item.item.quantityG));
@@ -203,7 +204,7 @@ public class ConflictResolver {
         List<Item> items = new ArrayList<>();
         BigDecimal kcal = BigDecimal.ZERO;
         for (SyncDtos.LogItem item : remote.items()) {
-            items.add(new Item(item.foodName(), item.quantityG()));
+            items.add(new Item(item.foodName(), item.quantityG(), QuantityUnit.fromSymbol(item.unit())));
             for (SyncDtos.NutrientValue value : item.nutrients()) {
                 if (Nutrients.ENERGY.equals(value.code()) && value.amount() != null) {
                     kcal = kcal.add(value.amount().multiply(item.quantityG()));

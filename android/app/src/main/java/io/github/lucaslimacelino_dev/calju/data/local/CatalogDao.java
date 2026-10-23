@@ -66,6 +66,9 @@ public interface CatalogDao {
             + "version = version + 1, sync_state = 'PENDING' WHERE id = :id AND is_custom = 1")
     void updateCustomFood(String id, String name, String searchName, String brand, long now);
 
+    @Query("UPDATE foods SET unit = :unit WHERE id = :id AND is_custom = 1")
+    void setCustomFoodUnit(String id, String unit);
+
     @Query("DELETE FROM food_nutrients WHERE food_id = :foodId")
     void deleteNutrientsOf(String foodId);
 

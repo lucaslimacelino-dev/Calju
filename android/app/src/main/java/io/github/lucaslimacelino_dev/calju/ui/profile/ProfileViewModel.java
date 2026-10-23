@@ -29,11 +29,12 @@ import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 public class ProfileViewModel extends ViewModel {
 
     /** Linha de "Meus alimentos"; {@code kcalPer100g} é nula se a energia não estiver gravada. */
-    public record FoodSummary(String id, String name, String brand, BigDecimal kcalPer100g) {
+    public record FoodSummary(String id, String name, String brand, BigDecimal kcalPer100g, QuantityUnit unit) {
     }
 
     private final GoalRepository goals;
@@ -232,7 +233,7 @@ public class ProfileViewModel extends ViewModel {
             Food food = catalog.food(entity.id);
             Optional<NutrientAmount> kcal = food == null ? Optional.empty() : food.nutrient(Nutrients.ENERGY);
             result.add(new FoodSummary(entity.id, entity.name, entity.brand,
-                    kcal.map(NutrientAmount::amount).orElse(null)));
+                    kcal.map(NutrientAmount::amount).orElse(null), QuantityUnit.fromSymbol(entity.unit)));
         }
         return result;
     }

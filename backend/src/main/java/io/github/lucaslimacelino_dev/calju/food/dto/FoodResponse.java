@@ -9,7 +9,7 @@ import io.github.lucaslimacelino_dev.calju.food.FoodEntity;
 import io.github.lucaslimacelino_dev.calju.food.FoodPortion;
 
 /** {@code deletedAt} preenchido = alimento excluído (só aparece ao buscar pelo id). */
-public record FoodResponse(UUID id, String name, String brand, List<NutrientValueDto> nutrients,
+public record FoodResponse(UUID id, String name, String brand, String unit, List<NutrientValueDto> nutrients,
                            PortionDto portion, int version, Instant updatedAt, Instant deletedAt) {
 
     public static FoodResponse from(FoodEntity food) {
@@ -18,7 +18,7 @@ public record FoodResponse(UUID id, String name, String brand, List<NutrientValu
                 .sorted(Comparator.comparing(NutrientValueDto::code))
                 .toList();
         FoodPortion portion = food.getPortion();
-        return new FoodResponse(food.getId(), food.getName(), food.getBrand(), nutrients,
+        return new FoodResponse(food.getId(), food.getName(), food.getBrand(), food.getUnit(), nutrients,
                 portion == null ? null : new PortionDto(portion.getLabel(), portion.getGrams()),
                 food.getVersion(), food.getUpdatedAt(), food.getDeletedAt());
     }

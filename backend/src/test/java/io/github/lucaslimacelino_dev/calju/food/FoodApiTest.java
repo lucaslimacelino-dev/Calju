@@ -64,6 +64,32 @@ class FoodApiTest extends ApiTest {
     }
 
     @Test
+    void unidadePadraoEGramaEMlEGuardada() {
+        UUID user = newUser();
+        UUID granola = UUID.randomUUID();
+        UUID suco = UUID.randomUUID();
+
+        assertThat(put(user, granola, GRANOLA.formatted(0))).bodyJson().extractingPath("$.unit").isEqualTo("g");
+        MvcTestResult result = put(user, suco, """
+                {"name":"Suco de caju","brand":null,"unit":"ml",
+                 "nutrients":[{"code":"ENERC","amount":45,"qualifier":"VALUE"}],
+                 "portion":{"label":"1 copo","grams":200},"version":0}
+                """);
+
+        assertThat(result).hasStatus(HttpStatus.CREATED);
+        assertThat(get(user, "/api/v1/foods/{id}", suco)).bodyJson().extractingPath("$.unit").isEqualTo("ml");
+    }
+
+    @Test
+    void unidadeDesconhecidaERecusada() {
+        MvcTestResult result = put(newUser(), UUID.randomUUID(), """
+                {"name":"Suco","unit":"kg","nutrients":[],"portion":null,"version":0}
+                """);
+
+        assertThat(result).hasStatus(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
     void atualizarSubstituiOsNutrientesEOQueSaiFicaDesconhecido() {
         UUID user = newUser();
         UUID food = UUID.randomUUID();

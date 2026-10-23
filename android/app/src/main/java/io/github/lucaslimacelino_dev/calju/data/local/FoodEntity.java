@@ -62,6 +62,11 @@ public class FoodEntity {
     @ColumnInfo(name = "server_version", defaultValue = "0")
     public int serverVersion;
 
+    /** "g" ou "ml" (ver QuantityUnit); os valores são por 100 da unidade. */
+    @ColumnInfo(defaultValue = "g")
+    @NonNull
+    public String unit = "g";
+
     public FoodEntity(@NonNull String id, @NonNull String name, @NonNull String searchName,
                       @Nullable String category, @Nullable String sourceId, @Nullable Integer sourceNumber,
                       @Nullable String brand, boolean custom, @Nullable Long updatedAt, @Nullable Long deletedAt,

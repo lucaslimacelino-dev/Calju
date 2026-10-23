@@ -27,11 +27,12 @@ public final class SyncDtos {
                        BigDecimal carbohydrateG, BigDecimal fatG, int version, String updatedAt) {
     }
 
-    public record FoodBody(String name, String brand, List<NutrientValue> nutrients, Portion portion, int version) {
+    public record FoodBody(String name, String brand, String unit, List<NutrientValue> nutrients, Portion portion,
+                           int version) {
     }
 
-    public record Food(String id, String name, String brand, List<NutrientValue> nutrients, Portion portion,
-                       int version, String updatedAt, String deletedAt) {
+    public record Food(String id, String name, String brand, String unit, List<NutrientValue> nutrients,
+                       Portion portion, int version, String updatedAt, String deletedAt) {
     }
 
     public record MealItem(String id, String foodId, BigDecimal quantityG) {
@@ -45,7 +46,7 @@ public final class SyncDtos {
     }
 
     public record LogItem(String id, String foodId, String foodName, String brand, String source,
-                          BigDecimal quantityG, String portionLabel, List<NutrientValue> nutrients) {
+                          BigDecimal quantityG, String unit, String portionLabel, List<NutrientValue> nutrients) {
     }
 
     public record LogEntryBody(String logDate, String occasion, String title, String sourceMealId,

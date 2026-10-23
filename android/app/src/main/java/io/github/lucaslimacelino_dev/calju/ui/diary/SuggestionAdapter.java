@@ -45,9 +45,10 @@ public class SuggestionAdapter extends ListAdapter<Suggestion, SuggestionAdapter
         if (s.grams() == null) {
             return s.kcalPer100g() == null
                     ? context.getString(R.string.suggestion_ask_quantity)
-                    : context.getString(R.string.suggestion_per_100g, Formats.amount(s.kcalPer100g(), NutrientUnit.KCAL));
+                    : context.getString(R.string.suggestion_per_100g, Formats.amount(s.kcalPer100g(), NutrientUnit.KCAL),
+                    s.unit().symbol());
         }
-        String grams = Formats.grams(s.grams());
+        String grams = Formats.quantity(s.grams(), s.unit());
         String quantity = s.portionText() == null ? grams : s.portionText() + " · " + grams;
         return s.kcal() == null
                 ? quantity

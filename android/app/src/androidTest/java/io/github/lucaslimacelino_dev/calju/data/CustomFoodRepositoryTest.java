@@ -38,6 +38,7 @@ import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.domain.PortionSource;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 @RunWith(AndroidJUnit4.class)
 public class CustomFoodRepositoryTest {
@@ -91,6 +92,24 @@ public class CustomFoodRepositoryTest {
         assertFalse("fibra não informada é desconhecida", food.nutrient(Nutrients.FIBER).isPresent());
         assertEquals("1 xícara", food.defaultPortion().label());
         assertEquals(PortionSource.USER, food.defaultPortion().source());
+    }
+
+    @Test
+    public void alimentoEmMlGuardaAUnidadeNoAlimentoENoRegistro() {
+        CustomFoodData g = granola("45");
+        String id = catalog.createCustomFood(new CustomFoodData("Suco de caju", null, g.per100g(), "1 copo",
+                new BigDecimal("200"), QuantityUnit.MILLILITER));
+        diary.addFood(DAY, Occasion.LUNCH, id, new BigDecimal("200"));
+
+        assertEquals(QuantityUnit.MILLILITER, catalog.food(id).unit());
+        assertEquals(QuantityUnit.MILLILITER, catalog.customFood(id).unit());
+        EntryWithItems entry = diary.day(DAY).get(0);
+        assertEquals("ml", entry.items.get(0).item.unit);
+        assertEquals(0, new BigDecimal("90").compareTo(kcalOf(entry)));
+
+        catalog.updateCustomFood(id, granola("45"));
+        assertEquals(QuantityUnit.GRAM, catalog.food(id).unit());
+        assertEquals("o registro já feito mantém a unidade", "ml", diary.day(DAY).get(0).items.get(0).item.unit);
     }
 
     @Test

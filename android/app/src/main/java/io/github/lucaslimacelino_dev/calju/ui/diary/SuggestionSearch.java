@@ -59,7 +59,7 @@ final class SuggestionSearch {
         BigDecimal kcalPer100g = per100g.isPresent() && per100g.get().qualifier() == Qualifier.VALUE
                 ? per100g.get().amount() : null;
         String name = row.brand == null ? row.name : row.name + " · " + row.brand;
-        return new Suggestion(row.id, name, grams.orElse(null), kcal, portionText, kcalPer100g);
+        return new Suggestion(row.id, name, grams.orElse(null), kcal, portionText, kcalPer100g, food.unit());
     }
 
     private static BigDecimal knownKcal(Food food, BigDecimal grams) {

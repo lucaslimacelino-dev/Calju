@@ -367,7 +367,13 @@ Cartão de resumo (fundo castanho nos dois temas) e refeições:
   gordura em creme (`#F2DFCF`), com bolinha colorida ao lado do nome; sempre com rótulo e
   número (nunca só cor).
 - Ícones das refeições e da barra inferior: Material Icons (Google, Apache License 2.0).
-- Roboto do sistema, escala Material 3, algarismos tabulares.
+- Fonte Nunito (SIL Open Font License 1.1, do repositório google/fonts), embutida no app: pesos
+  400, 500 e 700 gerados da versão variável com fontTools e reduzidos ao alfabeto latino
+  (~52 KB cada); licença em `assets/licenses/Nunito-OFL.txt` e no próprio arquivo da fonte.
+  Escala do Material 3 com a Nunito (`values/type.xml`); os algarismos da Nunito já têm
+  largura igual.
+- Ícone do app: rosto do Caju sobre fundo pêssego (`mipmap-anydpi/ic_launcher`, adaptativo),
+  com versão monocromática para os ícones temáticos do Android 13+.
 - Cartões com cantos arredondados e sombra suave; sheets com cantos de 26 dp.
 - Tema escuro no MVP.
 - Mascote: **Caju**, personagem original (caju com a castanha como boina), em 4 humores:
@@ -384,8 +390,7 @@ Cartão de resumo (fundo castanho nos dois temas) e refeições:
   (comemorando), acima da meta (sem alarme), dia passado.
 - Registro feito: aviso "Anotado no almoço!" com o Caju comemorando e "Desfazer".
 - Busca sem resultado: "Criar alimento" com o Caju pensando.
-- Fonte: Roboto do sistema; a Nunito (proposta) depende de conferir o suporte a fonte
-  variável no Android e fica para depois.
+- Fonte: Nunito (ver Paleta e tipografia).
 
 ### Tela inicial (Diário) — v5 "Caju conversa"
 
@@ -466,8 +471,11 @@ Vários alimentos numa única frase e interpretação por IA ficam para depois d
   feitos (snapshot). Excluir é lógico (`deleted_at`): some da busca e da lista.
 - Localmente, `foods` ganhou `brand`, `is_custom`, `updated_at`, `deleted_at`, `version` e
   `sync_state` (banco v5); `owner_user_id` fica para o servidor (Fase 5+).
-- Unidade de referência só em gramas por enquanto; produtos rotulados em ml são digitados
-  como se 1 ml = 1 g (limitação conhecida).
+- Unidade: o usuário escolhe gramas ou mililitros ao criar o alimento (decisão do autor em
+  23/10/2026). Em ml, a tabela é "por 100 ml", a porção é um volume e as telas mostram "200 ml";
+  os cálculos contam 1 ml = 1 g (aproximação aceita). A unidade fica em `foods.unit` e é copiada
+  para o registro (`log_items.unit`), no app (banco v7) e no servidor (V9). O campo também aceita
+  "suco 200 ml".
 
 ### Navegação
 
@@ -491,7 +499,14 @@ traço), `EmptyState`.
   funcionar em paisagem e redimensionados.
 - `adjustResize` para o teclado (o campo fixo sobe junto).
 - Alvos de toque ≥ 48 dp, texto em `sp`, testes com fonte em 200%.
-- Descrições para TalkBack (o anel anuncia "1.240 kcal restantes de 2.000").
+- Descrições para TalkBack (o anel anuncia "1.240 kcal restantes de 2.000"), montadas com o
+  valor final, não com o número no meio da animação.
+- `AccessibilityTest` roda as verificações do Accessibility Test Framework do Google (área de
+  toque, contraste, rótulos) nas três abas; verificado também no tema escuro.
+- Fonte do sistema em 130% ou mais: os blocos de macros ficam empilhados; no anel (tamanho
+  fixo) o número e a legenda encolhem para caber, sem quebrar palavra.
+- Limitação conhecida: `accessibilityHeading` só vale do Android 9 em diante; no 8 os títulos
+  não são anunciados como cabeçalho.
 - Animações curtas e desativadas quando o sistema pede redução de movimento.
 
 ## 7. Estrutura do repositório
@@ -564,7 +579,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 5 (concluída) | API REST, DTOs, validação, ProblemDetail (já protegida por token; decisão do autor em 22/10/2026) | Testes de integração |
 | 6 (concluída) | Spring Security, JWT, refresh, e-mail, limitação, login com Google (backend) | Testes de autenticação, IDOR e enumeração |
 | 7 (concluída) | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
-| 8 | Refino visual, símbolo, acessibilidade | TalkBack, fonte 200%, tema escuro |
+| 8 (concluída) | Refino visual, símbolo, acessibilidade; unidade ml | TalkBack, fonte 200%, tema escuro |
 | 9 | APK de release assinado com R8; distribuição limitada; backend de produção se a conta/sync estiver no escopo. Publicação na Play é opcional e posterior | Aparelho real; revisão de dependências |
 | 10 | Documentação e pacote do INPI | Tag congelada; hash SHA-512 só dessa tag |
 

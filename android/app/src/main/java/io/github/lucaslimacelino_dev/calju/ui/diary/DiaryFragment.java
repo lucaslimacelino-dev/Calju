@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,9 @@ import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
 public class DiaryFragment extends Fragment {
 
+    /** Fonte do sistema em 130% ou mais. */
+    private static final float LARGE_FONT_SCALE = 1.3f;
+
     private static final Locale PT_BR = Locale.forLanguageTag("pt-BR");
 
     private FragmentDiaryBinding binding;
@@ -75,6 +79,9 @@ public class DiaryFragment extends Fragment {
                 DiaryViewModel.factory(((CaLjuApp) requireActivity().getApplication()).container()))
                 .get(DiaryViewModel.class);
 
+        if (getResources().getConfiguration().fontScale >= LARGE_FONT_SCALE) {
+            stackMacros();
+        }
         binding.protein.label.setText(R.string.macro_protein);
         binding.carbohydrate.label.setText(R.string.macro_carbohydrate);
         binding.fat.label.setText(R.string.macro_fat);
@@ -266,7 +273,7 @@ public class DiaryFragment extends Fragment {
 
     private void bindEntry(ItemLogEntryBinding item, EntryRow row) {
         item.foodName.setText(row.title());
-        String grams = Formats.grams(row.totalGrams());
+        String grams = Formats.quantity(row.totalGrams(), row.unit());
         item.grams.setText(row.isSingleItem() ? grams
                 : getResources().getQuantityString(R.plurals.entry_items, row.itemCount(), row.itemCount(), grams));
         item.kcal.setText(row.kcal() == null
@@ -319,14 +326,16 @@ public class DiaryFragment extends Fragment {
         binding.goalValue.setText(getString(R.string.summary_goal_value, target));
         BigDecimal remaining = goal.kcal().subtract(kcal.amount());
         boolean over = remaining.signum() < 0;
-        NumberAnimator.animate(binding.kcalValue, remaining.abs(), mark(kcal.complete(),
+        Function<BigDecimal, String> format = mark(kcal.complete(),
                 over ? R.string.value_at_least : R.string.value_at_most,
-                value -> Formats.amount(value, NutrientUnit.KCAL)));
-        binding.kcalCaption.setText(over ? R.string.kcal_over : R.string.kcal_remaining);
+                value -> Formats.amount(value, NutrientUnit.KCAL));
+        NumberAnimator.animate(binding.kcalValue, remaining.abs(), format);
+        int caption = over ? R.string.kcal_over : R.string.kcal_remaining;
+        binding.kcalCaption.setText(caption);
         binding.ring.setProgress(kcal.amount().floatValue() / goal.kcal().floatValue());
-        binding.ringContainer.setContentDescription(
-                getString(R.string.kcal_ring_description_goal, consumed, target) + ". "
-                        + binding.kcalValue.getText() + " " + binding.kcalCaption.getText());
+        // Valor final (o número na tela pode estar no meio da animação).
+        binding.ringContainer.setContentDescription(getString(R.string.kcal_ring_description_goal, consumed, target)
+                + ". " + format.apply(remaining.abs()) + " " + getString(caption));
     }
 
     private void macro(ViewMacroCardBinding card, NutrientTotal total, BigDecimal goalGrams, int color) {
@@ -340,6 +349,23 @@ public class DiaryFragment extends Fragment {
             card.bar.setIndicatorColor(ContextCompat.getColor(requireContext(), color));
             int percent = Math.min(100, Math.round(total.amount().floatValue() / goalGrams.floatValue() * 100));
             card.bar.setProgressCompat(percent, true);
+        }
+    }
+
+    /**
+     * Fonte grande: os três blocos de macros ficam um embaixo do outro, com a largura toda, para
+     * que "Carboidrato" e "42,1 g" não quebrem no meio.
+     */
+    private void stackMacros() {
+        binding.macros.setOrientation(LinearLayout.VERTICAL);
+        int gap = getResources().getDimensionPixelSize(R.dimen.macro_stack_gap);
+        for (int i = 0; i < binding.macros.getChildCount(); i++) {
+            View card = binding.macros.getChildAt(i);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) card.getLayoutParams();
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.weight = 0;
+            params.topMargin = i == 0 ? 0 : gap;
+            card.setLayoutParams(params);
         }
     }
 

@@ -32,6 +32,15 @@ public class FoodInputParserTest {
     }
 
     @Test
+    public void mililitrosContamComoGramas() {
+        assertSameValue("200", FoodInputParser.parse("suco 200 ml").grams());
+        assertSameValue("200", FoodInputParser.parse("suco 200ml").grams());
+        FoodInput input = FoodInputParser.parse("200 ml de suco");
+        assertEquals("suco", input.query());
+        assertSameValue("200", input.grams());
+    }
+
+    @Test
     public void gramasAntesDoNome() {
         FoodInput input = FoodInputParser.parse("150 g de arroz");
         assertEquals("arroz", input.query());

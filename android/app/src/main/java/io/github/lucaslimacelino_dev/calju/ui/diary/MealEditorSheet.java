@@ -167,6 +167,7 @@ public class MealEditorSheet extends BottomSheetDialogFragment {
             ItemEditorRowBinding row = ItemEditorRowBinding.inflate(getLayoutInflater(), binding.items, true);
             row.name.setText(item.food.name());
             row.grams.setText(item.gramsText);
+            row.unit.setText(item.food.unit().symbol());
             row.grams.addTextChangedListener(afterTextChanged(text -> {
                 row.grams.setError(null);
                 editor.gramsChanged(item.key, text);

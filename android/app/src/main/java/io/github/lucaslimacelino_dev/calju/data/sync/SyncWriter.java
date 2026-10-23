@@ -70,8 +70,10 @@ final class SyncWriter {
         String id = UUID.randomUUID().toString();
         String name = conflictName(food.name);
         String searchName = FoodMatcher.normalize(food.brand == null ? name : name + " " + food.brand);
-        database.catalogDao().insertFood(new FoodEntity(id, name, searchName, null, null, null, food.brand, true,
-                clock.millis(), null, 1, SyncStates.PENDING));
+        FoodEntity copy = new FoodEntity(id, name, searchName, null, null, null, food.brand, true, clock.millis(),
+                null, 1, SyncStates.PENDING);
+        copy.unit = food.unit;
+        database.catalogDao().insertFood(copy);
         List<FoodNutrientEntity> values = new ArrayList<>();
         for (FoodNutrientEntity value : database.catalogDao().nutrientsOf(food.id)) {
             values.add(new FoodNutrientEntity(id, value.nutrientCode, value.amountPer100g, value.qualifier));

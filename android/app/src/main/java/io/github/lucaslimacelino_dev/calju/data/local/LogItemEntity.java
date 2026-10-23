@@ -55,6 +55,11 @@ public class LogItemEntity {
 
     public int position;
 
+    /** Unidade do alimento no momento do registro ("g" ou "ml"); a quantidade fica em quantity_g. */
+    @ColumnInfo(defaultValue = "g")
+    @NonNull
+    public String unit = "g";
+
     public LogItemEntity(@NonNull String id, @NonNull String entryId, @Nullable String foodId,
                          @NonNull String foodNameSnap, @Nullable String brandSnap, @Nullable String sourceSnap,
                          @NonNull BigDecimal quantityG, @Nullable String portionLabelSnap, int position) {

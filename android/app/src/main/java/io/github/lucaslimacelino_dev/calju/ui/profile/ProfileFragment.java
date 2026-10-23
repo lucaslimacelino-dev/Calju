@@ -195,7 +195,7 @@ public class ProfileFragment extends Fragment {
             if (items.length() > 0) {
                 items.append(", ");
             }
-            items.append(item.name()).append(' ').append(Formats.grams(item.grams()));
+            items.append(item.name()).append(' ').append(Formats.quantity(item.grams(), item.unit()));
         }
         return getString(R.string.conflict_side_entry, items, kcal);
     }
@@ -211,7 +211,7 @@ public class ProfileFragment extends Fragment {
         }
         String text = getString(R.string.sign_out_message);
         if (pending > 0) {
-            text += "\n\n" + getString(R.string.sign_out_pending, pending);
+            text += "\n\n" + getResources().getQuantityString(R.plurals.sign_out_pending, pending, pending);
         }
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.sign_out_title)
@@ -236,7 +236,9 @@ public class ProfileFragment extends Fragment {
         String text;
         switch (result.outcome()) {
             case DONE:
-                text = result.conflicts() > 0 ? getString(R.string.sync_done_conflicts, result.conflicts())
+                text = result.conflicts() > 0
+                        ? getResources().getQuantityString(R.plurals.sync_done_conflicts, result.conflicts(),
+                        result.conflicts())
                         : getString(R.string.sync_done, result.sent(), result.received());
                 break;
             case OFFLINE:
@@ -289,8 +291,9 @@ public class ProfileFragment extends Fragment {
             row.name.setText(food.name());
             String kcal = food.kcalPer100g() == null ? getString(R.string.value_unknown)
                     : Formats.amount(food.kcalPer100g(), NutrientUnit.KCAL);
-            row.detail.setText(food.brand() == null ? getString(R.string.my_food_detail, kcal)
-                    : getString(R.string.my_food_detail_brand, food.brand(), kcal));
+            String unit = food.unit().symbol();
+            row.detail.setText(food.brand() == null ? getString(R.string.my_food_detail, kcal, unit)
+                    : getString(R.string.my_food_detail_brand, food.brand(), kcal, unit));
             row.edit.setContentDescription(getString(R.string.my_food_edit, food.name()));
             row.edit.setOnClickListener(v -> openFood(CustomFoodSheet.edit(food.id())));
         }

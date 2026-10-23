@@ -12,6 +12,7 @@ import androidx.room.TypeConverters;
  * Versão 2: tabelas do diário. Versão 3: metas. Versão 4: refeições salvas.
  * Versão 5: alimentos do usuário (marca, exclusão lógica e controle de sincronização em foods).
  * Versão 6: server_version (última versão confirmada pelo servidor) nas tabelas sincronizadas.
+ * Versão 7: unidade ("g" ou "ml") em foods e log_items.
  * As migrações são geradas pelo Room comparando
  * os esquemas exportados em app/schemas.
  */
@@ -29,13 +30,14 @@ import androidx.room.TypeConverters;
                 MealEntity.class,
                 MealItemEntity.class
         },
-        version = 6,
+        version = 7,
         autoMigrations = {
                 @AutoMigration(from = 1, to = 2),
                 @AutoMigration(from = 2, to = 3),
                 @AutoMigration(from = 3, to = 4),
                 @AutoMigration(from = 4, to = 5),
-                @AutoMigration(from = 5, to = 6)
+                @AutoMigration(from = 5, to = 6),
+                @AutoMigration(from = 6, to = 7)
         })
 @TypeConverters(Converters.class)
 public abstract class CaljuDatabase extends RoomDatabase {

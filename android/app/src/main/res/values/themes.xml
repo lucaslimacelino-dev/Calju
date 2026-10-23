@@ -31,6 +31,24 @@
         <item name="colorPrimaryInverse">@color/inverse_primary</item>
         <!-- Cartões na cor exata de "surface", sem o tingimento automático por elevação. -->
         <item name="elevationOverlayEnabled">false</item>
+        <!-- Nunito em todo o app (textos sem estilo próprio e a escala do Material 3). -->
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.CaLju.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.CaLju.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.CaLju.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.CaLju.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.CaLju.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.CaLju.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.CaLju.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.CaLju.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.CaLju.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.CaLju.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.CaLju.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.CaLju.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.CaLju.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.CaLju.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.CaLju.LabelSmall</item>
     </style>
 
     <style name="ThemeOverlay.CaLju.Summary" parent="ThemeOverlay.Material3">

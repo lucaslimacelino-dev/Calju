@@ -106,11 +106,12 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
         binding.foodName.setText(food.name());
         binding.addButton.setText(value.isEdit() ? R.string.quantity_save : R.string.quantity_add);
         binding.removeButton.setVisibility(value.isEdit() ? View.VISIBLE : View.GONE);
+        binding.gramsLayout.setSuffixText(food.unit().symbol());
         if (food.portion().isPresent()) {
             Portion portion = food.portion().get();
             binding.portionButton.setVisibility(View.VISIBLE);
             binding.portionButton.setText(getString(R.string.quantity_use_portion,
-                    portion.label(), Formats.grams(portion.grams())));
+                    portion.label(), Formats.quantity(portion.grams(), food.unit())));
             binding.portionButton.setOnClickListener(v -> setGrams(portion.grams()));
         }
         if (!filled) {

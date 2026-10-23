@@ -27,6 +27,7 @@ import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
 import io.github.lucaslimacelino_dev.calju.domain.Portion;
 import io.github.lucaslimacelino_dev.calju.domain.PortionSource;
 import io.github.lucaslimacelino_dev.calju.domain.Qualifier;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 /**
  * Catálogo de alimentos: os da TACO e os criados pelo usuário. Métodos acessam o banco: chamar
@@ -84,7 +85,7 @@ public class CatalogRepository {
         Portion defaultPortion = portion == null ? null
                 : new Portion(portion.label, portion.grams,
                 "USER".equals(portion.source) ? PortionSource.USER : PortionSource.REFERENCE);
-        return new Food(entity.name, nutrients, defaultPortion);
+        return new Food(entity.name, nutrients, defaultPortion, QuantityUnit.fromSymbol(entity.unit));
     }
 
     public LiveData<List<FoodEntity>> observeCustomFoods() {
@@ -97,8 +98,10 @@ public class CatalogRepository {
         String name = requireName(data.name());
         String brand = blankToNull(data.brand());
         database.runInTransaction(() -> {
-            dao.insertFood(new FoodEntity(id, name, searchName(name, brand), null, null, null, brand, true,
-                    clock.millis(), null, 1, LogEntryEntity.SYNC_PENDING));
+            FoodEntity food = new FoodEntity(id, name, searchName(name, brand), null, null, null, brand, true,
+                    clock.millis(), null, 1, LogEntryEntity.SYNC_PENDING);
+            food.unit = data.unit().symbol();
+            dao.insertFood(food);
             insertValues(id, data);
         });
         searchIndex = null;
@@ -112,6 +115,7 @@ public class CatalogRepository {
         String brand = blankToNull(data.brand());
         database.runInTransaction(() -> {
             dao.updateCustomFood(id, name, searchName(name, brand), brand, clock.millis());
+            dao.setCustomFoodUnit(id, data.unit().symbol());
             dao.deleteNutrientsOf(id);
             dao.deletePortionsOf(id);
             insertValues(id, data);
@@ -134,7 +138,8 @@ public class CatalogRepository {
         }
         FoodPortionEntity portion = dao.defaultPortionOf(id);
         return new CustomFoodData(food.name, food.brand, values,
-                portion == null ? null : portion.label, portion == null ? null : portion.grams);
+                portion == null ? null : portion.label, portion == null ? null : portion.grams,
+                QuantityUnit.fromSymbol(food.unit));
     }
 
     /** Alimentos mudaram por fora (sincronização): a busca recarrega a lista na próxima vez. */

@@ -131,3 +131,13 @@ objetiva que os sustente.
   "(conflito)", escolha do usuário, reenvio sem duplicar, recusados) e testes escritos pelo
   assistente;
   testes de ponta a ponta no emulador contra o backend local feitos pelo assistente.
+
+### Fase 8 — Refino visual, símbolo e acessibilidade
+
+- Ícone com o rosto do Caju, fonte Nunito embutida e unidade ml contando 1 ml = 1 g: opções
+  recomendadas pelo assistente e escolhidas pelo autor.
+- Ícone adaptativo gerado pelo assistente a partir do desenho do Caju; pesos estáticos da Nunito
+  gerados pelo assistente com fontTools a partir da fonte oficial (OFL).
+- Unidade ml (app e servidor), ajustes para fonte grande, correção da descrição do anel para o
+  TalkBack, teste automático de acessibilidade e demais testes escritos pelo assistente;
+  verificação visual (tema escuro, fonte 200%, paisagem) feita pelo assistente no emulador.

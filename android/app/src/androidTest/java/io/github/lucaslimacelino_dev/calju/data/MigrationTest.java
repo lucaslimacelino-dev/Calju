@@ -37,7 +37,7 @@ public class MigrationTest {
 
     private static final String DB = "migration-test.db";
     private static final String SCHEMAS = "io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase/";
-    private static final int CURRENT_VERSION = 6;
+    private static final int CURRENT_VERSION = 7;
 
     private Context context;
 
@@ -99,6 +99,7 @@ public class MigrationTest {
             assertNull(food.deletedAt);
             assertEquals(1, food.version);
             assertEquals(0, food.serverVersion);
+            assertEquals("g", food.unit);
             assertTrue(migrated.diaryDao().day(LocalDate.of(2026, 10, 20)).isEmpty());
             assertTrue(migrated.goalDao().all().isEmpty());
             assertTrue(migrated.mealDao().all().isEmpty());
@@ -131,5 +132,10 @@ public class MigrationTest {
     @Test
     public void daVersao5ParaAAtual() throws Exception {
         assertMigratesToCurrent(5);
+    }
+
+    @Test
+    public void daVersao6ParaAAtual() throws Exception {
+        assertMigratesToCurrent(6);
     }
 }

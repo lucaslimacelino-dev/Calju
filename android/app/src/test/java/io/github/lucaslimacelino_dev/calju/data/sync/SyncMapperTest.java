@@ -21,7 +21,7 @@ public class SyncMapperTest {
 
     private static SyncDtos.LogItem item(String grams, List<SyncDtos.NutrientValue> nutrients) {
         return new SyncDtos.LogItem("item-1", "arroz", "Arroz, tipo 1, cozido", null, "TACO-4", new BigDecimal(grams),
-                null, nutrients);
+                "g", null, nutrients);
     }
 
     private static SyncDtos.LogEntry remote(SyncDtos.LogItem item, String deletedAt) {
@@ -83,10 +83,18 @@ public class SyncMapperTest {
         assertFalse(SyncMapper.sameMeal(new SyncDtos.MealBody("Marmita", List.of(item), 1), false,
                 new SyncDtos.Meal("m", "Marmita 2", List.of(item), 2, "2026-10-22T12:00:00Z", null)));
         SyncDtos.Portion portion = new SyncDtos.Portion("1 xícara", new BigDecimal("40"));
-        assertTrue(SyncMapper.sameFood(new SyncDtos.FoodBody("Granola", null, List.of(KCAL), portion, 1), false,
-                new SyncDtos.Food("f", "Granola", "", List.of(KCAL), portion, 2, "2026-10-22T12:00:00Z", null)));
-        assertFalse(SyncMapper.sameFood(new SyncDtos.FoodBody("Granola", null, List.of(KCAL), portion, 1), false,
-                new SyncDtos.Food("f", "Granola", null, List.of(KCAL), null, 2, "2026-10-22T12:00:00Z", null)));
+        assertTrue(SyncMapper.sameFood(new SyncDtos.FoodBody("Granola", null, "g", List.of(KCAL), portion, 1), false,
+                new SyncDtos.Food("f", "Granola", "", null, List.of(KCAL), portion, 2, "2026-10-22T12:00:00Z", null)));
+        assertFalse(SyncMapper.sameFood(new SyncDtos.FoodBody("Granola", null, "g", List.of(KCAL), portion, 1), false,
+                new SyncDtos.Food("f", "Granola", null, "g", List.of(KCAL), null, 2, "2026-10-22T12:00:00Z", null)));
+    }
+
+    @Test
+    public void unidadeAusenteEGramaEMlEDiferente() {
+        assertTrue(SyncMapper.sameFood(new SyncDtos.FoodBody("Suco", null, "g", List.of(KCAL), null, 1), false,
+                new SyncDtos.Food("f", "Suco", null, null, List.of(KCAL), null, 2, "2026-10-22T12:00:00Z", null)));
+        assertFalse(SyncMapper.sameFood(new SyncDtos.FoodBody("Suco", null, "ml", List.of(KCAL), null, 1), false,
+                new SyncDtos.Food("f", "Suco", null, "g", List.of(KCAL), null, 2, "2026-10-22T12:00:00Z", null)));
     }
 
     @Test

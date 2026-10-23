@@ -35,6 +35,9 @@ public class FoodEntity {
     @Column(length = 200)
     private String brand;
 
+    @Column(nullable = false, length = 2)
+    private String unit = "g";
+
     @ElementCollection
     @CollectionTable(name = "food_nutrients", joinColumns = @JoinColumn(name = "food_id"))
     private List<NutrientAmount> nutrients = new ArrayList<>();
@@ -62,9 +65,11 @@ public class FoodEntity {
     }
 
     /** Substitui tudo (nutriente que não veio passa a ser desconhecido) e reativa se estava excluído. */
-    void apply(String name, String brand, List<NutrientAmount> nutrients, FoodPortion portion, Instant now) {
+    void apply(String name, String brand, String unit, List<NutrientAmount> nutrients, FoodPortion portion,
+               Instant now) {
         this.name = name;
         this.brand = brand;
+        this.unit = unit;
         this.nutrients.clear();
         this.nutrients.addAll(nutrients);
         this.portions.clear();
@@ -99,6 +104,11 @@ public class FoodEntity {
 
     public String getBrand() {
         return brand;
+    }
+
+    /** "g" ou "ml"; os valores são por 100 da unidade. */
+    public String getUnit() {
+        return unit;
     }
 
     public List<NutrientAmount> getNutrients() {

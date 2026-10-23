@@ -68,6 +68,21 @@ class LogEntryApiTest extends ApiTest {
     }
 
     @Test
+    void unidadeDoItemPadraoGramaEMlGuardada() {
+        UUID user = newUser();
+        UUID entry = UUID.randomUUID();
+        String suco = item(UUID.randomUUID(), "Suco de caju", 200).replace("\"quantityG\"", "\"unit\":\"ml\",\"quantityG\"");
+
+        MvcTestResult result = put(user, entry, entry("2026-10-22", "LUNCH", 0,
+                item(UUID.randomUUID(), "Arroz, tipo 1, cozido", 150), suco));
+
+        assertThat(result).hasStatus(HttpStatus.CREATED);
+        assertThat(result).bodyJson().extractingPath("$.items[0].unit").isEqualTo("g");
+        assertThat(get(user, "/api/v1/log-entries/{id}", entry)).bodyJson()
+                .extractingPath("$.items[1].unit").isEqualTo("ml");
+    }
+
+    @Test
     void editarQuantidadeEInverterAOrdemDosItens() {
         UUID user = newUser();
         UUID entry = UUID.randomUUID();

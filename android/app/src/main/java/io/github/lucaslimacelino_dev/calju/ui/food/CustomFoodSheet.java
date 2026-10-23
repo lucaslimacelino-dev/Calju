@@ -28,6 +28,7 @@ import io.github.lucaslimacelino_dev.calju.data.repository.CustomFoodData;
 import io.github.lucaslimacelino_dev.calju.databinding.SheetCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionLabel;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 
 /**
@@ -97,7 +98,9 @@ public class CustomFoodSheet extends BottomSheetDialogFragment {
         }
 
         binding.basisGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> showBasis());
+        binding.unitGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> showUnit());
         showBasis();
+        showUnit();
         binding.sodium.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 save();
@@ -141,6 +144,20 @@ public class CustomFoodSheet extends BottomSheetDialogFragment {
         return binding.basisGroup.getCheckedButtonId() == R.id.basis_portion;
     }
 
+    private QuantityUnit unit() {
+        return binding.unitGroup.getCheckedButtonId() == R.id.unit_ml ? QuantityUnit.MILLILITER : QuantityUnit.GRAM;
+    }
+
+    /** Textos e sufixos acompanham a unidade escolhida (g ou ml). */
+    private void showUnit() {
+        QuantityUnit unit = unit();
+        binding.basis100g.setText(getString(R.string.food_basis_100g, unit.symbol()));
+        binding.portionGramsLayout.setSuffixText(unit.symbol());
+        binding.portionGramsLayout.setHint(unit == QuantityUnit.MILLILITER
+                ? R.string.food_portion_ml : R.string.food_portion_grams);
+        binding.unitNote.setVisibility(unit == QuantityUnit.MILLILITER ? View.VISIBLE : View.GONE);
+    }
+
     /** "Por porção" torna o peso da porção obrigatório; "por 100 g" o deixa opcional. */
     private void showBasis() {
         binding.portionHint.setVisibility(perPortion() ? View.GONE : View.VISIBLE);
@@ -156,6 +173,7 @@ public class CustomFoodSheet extends BottomSheetDialogFragment {
         binding.name.setText(data.name());
         binding.brand.setText(data.brand());
         binding.basisGroup.check(R.id.basis_100g);
+        binding.unitGroup.check(data.unit() == QuantityUnit.MILLILITER ? R.id.unit_ml : R.id.unit_g);
         binding.portionLabel.setText(data.portionLabel());
         set(binding.portionGrams, data.portionGrams());
         Map<String, BigDecimal> values = data.per100g();
@@ -216,7 +234,7 @@ public class CustomFoodSheet extends BottomSheetDialogFragment {
                 .hide(WindowInsetsCompat.Type.ime());
         binding.saveButton.setEnabled(false);
         viewModel.save(foodId, new CustomFoodData(name, text(binding.brand).trim(), label.per100g(),
-                portionGrams == null ? null : portionLabel, portionGrams));
+                portionGrams == null ? null : portionLabel, portionGrams, unit()));
     }
 
     private BigDecimal required(TextInputLayout layout, TextInputEditText field) {

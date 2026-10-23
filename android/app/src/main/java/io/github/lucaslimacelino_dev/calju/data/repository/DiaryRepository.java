@@ -31,6 +31,7 @@ import io.github.lucaslimacelino_dev.calju.domain.Intake;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.domain.Qualifier;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
 /**
  * Diário alimentar. Ao registrar, copia nome e nutrientes por 100 g do catálogo: mudanças
@@ -138,8 +139,10 @@ public class DiaryRepository {
         for (FoodNutrientEntity value : catalog.nutrientsOf(draft.foodId())) {
             snapshot.add(new LogItemNutrientEntity(itemId, value.nutrientCode, value.amountPer100g, value.qualifier));
         }
-        diary.insertItem(new LogItemEntity(itemId, entryId, draft.foodId(), food.name, food.brand, food.sourceId,
-                draft.grams(), portion == null ? null : portion.label, position));
+        LogItemEntity item = new LogItemEntity(itemId, entryId, draft.foodId(), food.name, food.brand,
+                food.sourceId, draft.grams(), portion == null ? null : portion.label, position);
+        item.unit = food.unit;
+        diary.insertItem(item);
         diary.insertItemNutrients(snapshot);
     }
 
@@ -182,6 +185,7 @@ public class DiaryRepository {
                     ? NutrientAmount.trace()
                     : new NutrientAmount(value.amountPer100g, Qualifier.VALUE));
         }
-        return new Intake(new Food(item.item.foodNameSnap, nutrients, null), item.item.quantityG);
+        return new Intake(new Food(item.item.foodNameSnap, nutrients, null,
+                QuantityUnit.fromSymbol(item.item.unit)), item.item.quantityG);
     }
 }
