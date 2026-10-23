@@ -177,10 +177,6 @@ guarde uma cópia de segurança dela e das senhas fora deste computador.
        app\build\outputs\apk\release\app-release.apk
    ```
 
-Para a Google Play, gere o pacote AAB (`.\gradlew bundleRelease`) e siga o roteiro em
-[play/README.md](play/README.md), que também traz os textos e as imagens da ficha da loja.
-A política de privacidade fica em [site/privacidade.html](site/privacidade.html).
-
 Sem o passo 2, o `assembleRelease` gera um APK sem assinatura, que o Android não instala.
 
 Verificação de desenvolvedor do Android: no Brasil, desde 30/09/2026, apps cujo nome de pacote

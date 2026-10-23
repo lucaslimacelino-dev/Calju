@@ -151,8 +151,4 @@ objetiva que os sustente.
   produção, exclusão de conta pela web (página e rotas), testes e documentação escritos pelo
   assistente; teste do APK de release no emulador e do contêiner de produção feitos pelo
   assistente; regra de verificação de desenvolvedor conferida pelo assistente nas páginas oficiais.
-- Preparação para a Google Play (decisão do autor em 23/10/2026: publicar a versão offline primeiro,
-  sem servidor): textos da ficha da loja, política de privacidade, roteiro do Play Console, aviso
-  de saúde no app, ícone de 512 px, imagem de destaque e capturas de tela feitos pelo assistente
-  (imagens geradas a partir dos desenhos do app e de um dia de exemplo no emulador); requisitos
-  da Play conferidos pelo assistente nas páginas de ajuda do Google.
+- Aviso de saúde e texto de privacidade no Perfil → Sobre escritos pelo assistente.
