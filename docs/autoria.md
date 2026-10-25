@@ -152,3 +152,12 @@ objetiva que os sustente.
   assistente; teste do APK de release no emulador e do contêiner de produção feitos pelo
   assistente; regra de verificação de desenvolvedor conferida pelo assistente nas páginas oficiais.
 - Aviso de saúde e texto de privacidade no Perfil → Sobre escritos pelo assistente.
+
+### Fase 10 — Portfólio e preparação do INPI
+
+- README de portfólio, vídeo e capturas de tela do app (gravados no emulador com um dia de
+  exemplo), imagem de pré-visualização do repositório e revisão dos comentários do código
+  feitos pelo assistente, a pedido do autor.
+- Roteiro do registro no INPI e script que gera o pacote do código-fonte e o resumo SHA-512
+  escritos pelo assistente, com as regras conferidas no portal gov.br e no manual e-Software
+  do INPI. O pedido, a escolha da versão registrada e a declaração de autoria cabem ao autor.

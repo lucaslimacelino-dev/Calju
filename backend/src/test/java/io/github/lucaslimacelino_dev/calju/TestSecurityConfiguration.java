@@ -21,7 +21,7 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 /**
  * Segredo dos tokens só para os testes: gerado aleatoriamente a cada execução, nunca gravado.
- * {@link #token} assina tokens de verdade com ele, como o login da Fase 6 fará.
+ * {@link #token} assina tokens de verdade com ele, como o login faz.
  */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestSecurityConfiguration {

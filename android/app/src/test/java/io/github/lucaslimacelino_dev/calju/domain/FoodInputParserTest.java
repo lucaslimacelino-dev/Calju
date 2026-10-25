@@ -98,7 +98,7 @@ public class FoodInputParserTest {
         assertThrows(NullPointerException.class, () -> FoodInputParser.parse(null));
     }
 
-    // Porção fictícia: o peso real virá da tabela do IBGE na Fase 4a.
+    // Porção fictícia: só o comportamento importa.
     private static final Food COM_PORCAO = new Food("Fruta A", Collections.emptyMap(),
             new Portion("1 unidade", new BigDecimal("100"), PortionSource.REFERENCE));
     private static final Food SEM_PORCAO = new Food("Cereal A", Collections.emptyMap(), null);

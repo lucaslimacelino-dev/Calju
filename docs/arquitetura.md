@@ -587,7 +587,7 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 7 (concluída) | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 (concluída) | Refino visual, símbolo, acessibilidade; unidade ml | TalkBack, fonte 200%, tema escuro |
 | 9 (concluída, falta a parte do autor) | APK de release assinado com R8, 100% offline (sem conta até haver servidor; decisão do autor em 23/10/2026); backend pronto para produção (Dockerfile, perfil `prod`, exclusão de conta pela web), sem publicar. Publicação na Play é opcional e posterior | Release testado no emulador; revisão de dependências; falta o autor criar a chave, registrar o pacote e testar no aparelho real |
-| 10 | Documentação e pacote do INPI | Tag congelada; hash SHA-512 só dessa tag |
+| 10 (preparada; o pedido fica com o autor) | Documentação e pacote do INPI ([docs/inpi/README.md](inpi/README.md), `tools/inpi/gerar-pacote.ps1`) | Tag congelada; hash SHA-512 só dessa tag (conferido igual ao CertUtil do manual do INPI) |
 
 ## 11. INPI (resumo; reconferir nas fontes oficiais na Fase 10)
 

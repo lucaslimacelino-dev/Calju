@@ -53,8 +53,8 @@ android {
             buildConfigField("boolean", "ACCOUNT_ENABLED", "true")
         }
         release {
-            // Sem servidor de produção por enquanto (decisão do autor em 23/10/2026): a versão
-            // final é 100% offline, sem conta e sem permissão de internet.
+            // Enquanto não há servidor de produção, a versão final é 100% offline: sem conta e
+            // sem permissão de internet.
             buildConfigField("String", "API_BASE_URL", "\"https://api.calju.invalid/\"")
             buildConfigField("boolean", "ACCOUNT_ENABLED", "false")
             if (releaseStoreFile != null) {

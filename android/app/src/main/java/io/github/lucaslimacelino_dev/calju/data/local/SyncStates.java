@@ -10,7 +10,7 @@ public final class SyncStates {
     public static final String PENDING = "PENDING";
     /** Igual ao servidor. */
     public static final String SYNCED = "SYNCED";
-    /** O servidor tem uma versão diferente: o usuário precisa decidir (etapa de conflitos). */
+    /** O servidor tem uma versão diferente: o usuário precisa decidir. */
     public static final String CONFLICT = "CONFLICT";
     /** O servidor recusou o registro (dado inválido); não é reenviado em laço. */
     public static final String FAILED = "FAILED";

@@ -24,7 +24,7 @@ public class UserEntity {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    /** Nulo em contas que só entram pelo Google (Fase 6, etapa 4) ou ainda não confirmadas. */
+    /** Nulo em contas que só entram pelo Google ou ainda não confirmadas. */
     @Column(name = "password_hash", length = 200)
     private String passwordHash;
 
