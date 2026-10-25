@@ -29,9 +29,18 @@ public class FoodSearchRow {
     @Nullable
     public BigDecimal portionGrams;
 
+    /** Nome do dia a dia, quando o alimento está na lista de comuns. */
+    @Nullable
+    public String displayName;
+
+    public boolean common;
+
+    public boolean custom;
+
     public FoodSearchRow(@NonNull String id, @NonNull String name, @NonNull String searchName,
                          @Nullable String category, @Nullable String brand, @Nullable String portionLabel,
-                         @Nullable BigDecimal portionGrams) {
+                         @Nullable BigDecimal portionGrams, @Nullable String displayName, boolean common,
+                         boolean custom) {
         this.id = id;
         this.name = name;
         this.searchName = searchName;
@@ -39,5 +48,18 @@ public class FoodSearchRow {
         this.brand = brand;
         this.portionLabel = portionLabel;
         this.portionGrams = portionGrams;
+        this.displayName = displayName;
+        this.common = common;
+        this.custom = custom;
+    }
+
+    /** O nome a mostrar: o do dia a dia, se houver. */
+    public String shownName() {
+        return displayName != null ? displayName : name;
+    }
+
+    /** Comuns e criados pelo usuário aparecem primeiro; o resto fica em "Ver mais opções". */
+    public boolean featured() {
+        return common || custom;
     }
 }

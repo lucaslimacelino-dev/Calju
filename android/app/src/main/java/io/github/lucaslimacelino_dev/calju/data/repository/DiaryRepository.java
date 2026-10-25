@@ -30,6 +30,8 @@ import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.Intake;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientAmount;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.Portion;
+import io.github.lucaslimacelino_dev.calju.domain.PortionSource;
 import io.github.lucaslimacelino_dev.calju.domain.Qualifier;
 import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 
@@ -139,9 +141,11 @@ public class DiaryRepository {
         for (FoodNutrientEntity value : catalog.nutrientsOf(draft.foodId())) {
             snapshot.add(new LogItemNutrientEntity(itemId, value.nutrientCode, value.amountPer100g, value.qualifier));
         }
-        LogItemEntity item = new LogItemEntity(itemId, entryId, draft.foodId(), food.name, food.brand,
+        String name = food.displayName != null ? food.displayName : food.name;
+        LogItemEntity item = new LogItemEntity(itemId, entryId, draft.foodId(), name, food.brand,
                 food.sourceId, draft.grams(), portion == null ? null : portion.label, position);
         item.unit = food.unit;
+        item.portionGramsSnap = portion == null ? null : portion.grams;
         diary.insertItem(item);
         diary.insertItemNutrients(snapshot);
     }
@@ -185,7 +189,11 @@ public class DiaryRepository {
                     ? NutrientAmount.trace()
                     : new NutrientAmount(value.amountPer100g, Qualifier.VALUE));
         }
-        return new Intake(new Food(item.item.foodNameSnap, nutrients, null,
-                QuantityUnit.fromSymbol(item.item.unit)), item.item.quantityG);
+        LogItemEntity it = item.item;
+        Portion portion = it.portionLabelSnap != null && it.portionGramsSnap != null
+                && it.portionGramsSnap.signum() > 0
+                ? new Portion(it.portionLabelSnap, it.portionGramsSnap, PortionSource.REFERENCE) : null;
+        return new Intake(new Food(it.foodNameSnap, nutrients, portion, QuantityUnit.fromSymbol(it.unit)),
+                it.quantityG);
     }
 }

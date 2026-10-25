@@ -38,8 +38,8 @@ import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 @RunWith(AndroidJUnit4.class)
 public class MealFlowTest {
 
-    private static final String ARROZ = "Arroz, tipo 1, cozido";
-    private static final String FEIJAO = "Feijão, carioca, cozido";
+    private static final String ARROZ = "Arroz branco cozido";
+    private static final String FEIJAO = "Feijão carioca cozido";
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);

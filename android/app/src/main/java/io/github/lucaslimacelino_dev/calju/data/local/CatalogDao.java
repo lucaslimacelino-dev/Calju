@@ -39,7 +39,8 @@ public interface CatalogDao {
     int countPortions();
 
     @Query("SELECT f.id, f.name, f.search_name AS searchName, f.category, f.brand, "
-            + "p.label AS portionLabel, p.grams AS portionGrams "
+            + "p.label AS portionLabel, p.grams AS portionGrams, f.display_name AS displayName, "
+            + "f.is_common AS common, f.is_custom AS custom "
             + "FROM foods f LEFT JOIN food_portions p ON p.food_id = f.id AND p.is_default = 1 "
             + "WHERE f.deleted_at IS NULL")
     List<FoodSearchRow> allForSearch();

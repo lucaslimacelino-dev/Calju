@@ -135,7 +135,7 @@ public class MealEditorViewModel extends ViewModel {
             return;
         }
         executor.execute(() -> {
-            List<Suggestion> result = SuggestionSearch.search(catalog, text, MAX_SUGGESTIONS);
+            List<Suggestion> result = SuggestionSearch.search(catalog, text, MAX_SUGGESTIONS, SuggestionSearch.Scope.ALL).items();
             if (generation == searchGeneration.get()) {
                 suggestions.postValue(result);
             }

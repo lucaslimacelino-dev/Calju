@@ -46,7 +46,8 @@ public final class SyncDtos {
     }
 
     public record LogItem(String id, String foodId, String foodName, String brand, String source,
-                          BigDecimal quantityG, String unit, String portionLabel, List<NutrientValue> nutrients) {
+                          BigDecimal quantityG, String unit, String portionLabel, BigDecimal portionGrams,
+                          List<NutrientValue> nutrients) {
     }
 
     public record LogEntryBody(String logDate, String occasion, String title, String sourceMealId,

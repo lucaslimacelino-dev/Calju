@@ -161,3 +161,9 @@ objetiva que os sustente.
 - Roteiro do registro no INPI e script que gera o pacote do código-fonte e o resumo SHA-512
   escritos pelo assistente, com as regras conferidas no portal gov.br e no manual e-Software
   do INPI. O pedido, a escolha da versão registrada e a declaração de autoria cabem ao autor.
+
+### Ajustes pedidos pelo autor depois do uso
+
+- Simplificação dos alimentos (lista enxuta com nomes do dia a dia, escolhida pelo autor entre
+  as opções do assistente) e quantidade em porções ("4 unidades"): lista curada de 272 alimentos,
+  código, migrações e testes feitos pelo assistente; a lista fica para revisão do autor.

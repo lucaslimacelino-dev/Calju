@@ -1,0 +1,273 @@
+numero_taco,nome
+1,Arroz integral cozido
+3,Arroz branco cozido
+7,Aveia em flocos
+8,Biscoito maisena
+9,Biscoito recheado de chocolate
+10,Biscoito recheado de morango
+13,Biscoito cream cracker
+15,Bolo de aipim
+16,Bolo de chocolate
+17,Bolo de coco
+18,Bolo de milho
+20,Canjica com leite
+25,Cereal matinal de milho
+26,Cereal matinal de milho com açúcar
+29,Curau de milho verde
+33,Farinha de milho
+35,Farinha de trigo
+37,Lasanha (massa cozida)
+39,Macarrão instantâneo
+40,Macarrão cru (peso seco)
+43,Fubá
+45,Milho verde em lata
+47,Pamonha
+48,Pão de aveia de forma
+52,Pão de forma integral
+53,Pão francês
+54,Pão sovado
+56,Pastel de carne
+58,Pastel de queijo
+61,Pipoca
+62,Polenta
+63,Torrada
+64,Abóbora cabotiá cozida
+68,Abóbora moranga refogada
+70,Abobrinha cozida
+72,Abobrinha refogada
+75,Agrião
+77,Alface americana
+78,Alface crespa
+79,Alface lisa
+86,Mandioquinha cozida
+88,Batata-doce cozida
+90,Batata chips
+91,Batata cozida
+93,Batata frita
+94,Batata sauté
+95,Berinjela cozida
+97,Beterraba cozida
+98,Beterraba crua
+100,Brócolis cozido
+102,Cará cozido
+107,Cebola
+109,Cenoura cozida
+110,Cenoura crua
+112,Chuchu cozido
+115,Couve crua
+116,Couve refogada
+118,Couve-flor cozida
+120,Espinafre refogado
+122,Farinha de mandioca
+129,Mandioca cozida
+131,Farofa
+132,Mandioca frita
+136,Nhoque de batata
+140,Pão de queijo
+142,Pepino
+144,Pimentão
+147,Quiabo
+149,Repolho
+152,Rúcula
+154,Seleta de legumes
+157,Tomate
+159,Molho de tomate
+162,Vagem
+163,Abacate
+164,Abacaxi
+167,Açaí adoçado (polpa com xarope de guaraná)
+168,Açaí (polpa)
+169,Acerola
+172,Ameixa
+175,Banana-da-terra
+178,Banana-maçã
+179,Banana-nanica
+182,Banana-prata
+186,Caju
+189,Caqui
+190,Carambola
+192,Cupuaçu
+197,Goiaba
+198,Goiabada
+203,Jabuticaba
+204,Jaca
+207,Kiwi
+212,Laranja-lima
+214,Laranja
+215,Suco de laranja
+220,Limão
+222,Maçã
+225,Mamão formosa
+226,Mamão papaia
+229,Manga palmer
+231,Manga
+232,Maracujá
+235,Melancia
+236,Melão
+238,Mexerica
+239,Morango
+241,Pequi
+242,Pera
+244,Pêssego
+251,Tangerina
+256,Uva
+260,Azeite de oliva
+261,Manteiga
+263,Margarina
+272,Óleo de soja
+276,Abadejo grelhado
+277,Atum em lata
+280,Bacalhau refogado
+282,Cação cozido
+284,Camarão cozido
+286,Camarão frito
+301,Merluza assada
+303,Merluza frita
+305,Pescada frita
+313,Pintado grelhado
+317,Salmão grelhado
+318,Sardinha assada
+319,Sardinha em lata
+320,Sardinha frita
+323,Apresuntado
+326,Carne moída cozida
+328,Acém cozido
+331,Almôndega frita
+338,Charque cozido
+340,Bife à milanesa
+344,Contra-filé grelhado
+346,Contra-filé magro grelhado
+347,Costela bovina assada
+351,Carne cozida (coxão mole)
+353,Cupim assado
+356,Fígado bovino grelhado
+358,Filé mignon grelhado
+361,Fraldinha cozida
+363,Lagarto cozido
+368,Maminha grelhada
+370,Alcatra grelhada
+371,Músculo cozido
+377,Patinho grelhado
+381,Picanha grelhada
+384,Carne seca cozida
+386,Coxinha de frango
+388,Croquete de carne
+389,Empada de frango
+395,Coração de frango grelhado
+396,Coxa de frango assada
+398,Coxa de frango cozida
+401,Frango à milanesa
+403,Frango assado
+404,Frango cozido
+408,Peito de frango cozido
+410,Peito de frango grelhado
+411,Sobrecoxa de frango assada
+416,Hambúrguer frito
+417,Hambúrguer grelhado
+420,Linguiça de frango grelhada
+422,Linguiça de porco frita
+423,Linguiça de porco grelhada
+424,Mortadela
+425,Peru assado
+428,Bisteca de porco frita
+429,Bisteca de porco grelhada
+430,Costela de porco assada
+432,Lombo de porco assado
+435,Pernil assado
+439,Presunto
+440,Quibe assado
+442,Quibe frito
+443,Salame
+445,Bacon frito
+447,Creme de leite
+448,Iogurte natural
+449,Iogurte natural desnatado
+451,Iogurte de morango
+453,Leite condensado
+455,Leite achocolatado
+457,Leite desnatado
+458,Leite integral
+459,Leite em pó integral
+460,Leite fermentado
+461,Queijo minas frescal
+462,Queijo minas meia cura
+463,Queijo muçarela
+464,Queijo parmesão
+466,Petit suisse
+467,Queijo prato
+468,Requeijão
+469,Ricota
+470,Isotônico
+471,Café
+473,Caldo de cana
+474,Cerveja
+476,Chá mate
+477,Chá preto
+478,Água de coco
+480,Refrigerante de cola
+481,Refrigerante de guaraná
+482,Refrigerante de laranja
+484,Omelete de queijo
+485,Ovo de codorna
+486,Clara de ovo cozida
+488,Ovo cozido
+490,Ovo frito
+491,Achocolatado em pó
+493,Açúcar mascavo
+494,Açúcar
+495,Chocolate ao leite
+498,Chocolate meio amargo
+499,Cocada
+501,Doce de leite
+507,Mel
+509,Quindim
+510,Rapadura
+518,Shoyu
+520,Azeitona preta
+521,Azeitona verde
+523,Leite de coco
+524,Maionese
+525,Acarajé
+526,Arroz carreteiro
+527,Baião de dois
+529,Bife a cavalo
+530,Bolinho de arroz
+531,Camarão à baiana
+533,Cuscuz de milho
+534,Cuscuz paulista
+536,Dobradinha
+537,Estrogonofe de carne
+538,Estrogonofe de frango
+539,Feijão tropeiro
+540,Feijoada
+541,Frango com açafrão
+542,Macarrão à bolonhesa
+543,Maniçoba
+545,Salada de maionese
+546,Legumes no vapor
+547,Salpicão de frango
+549,Tabule
+550,Tacacá
+551,Tapioca com manteiga
+553,Vaca atolada
+554,Vatapá
+555,Virado à paulista
+556,Yakisoba
+558,Amendoim torrado
+560,Ervilha em lata
+561,Feijão carioca cozido
+563,Feijão-fradinho cozido
+567,Feijão preto cozido
+573,Feijão roxo cozido
+577,Lentilha cozida
+579,Paçoca
+580,Pé de moleque
+582,Bebida de soja
+584,Tofu
+587,Amêndoa
+588,Castanha de caju
+589,Castanha-do-pará
+590,Coco
+593,Gergelim
+594,Linhaça
+595,Pinhão cozido

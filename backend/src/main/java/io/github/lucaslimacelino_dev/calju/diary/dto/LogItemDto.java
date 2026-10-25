@@ -28,11 +28,12 @@ public record LogItemDto(
         @NotNull @DecimalMin(value = "0", inclusive = false) @Digits(integer = 8, fraction = 4) BigDecimal quantityG,
         @Pattern(regexp = "g|ml") String unit,
         @Size(max = 100) String portionLabel,
+        @DecimalMin(value = "0", inclusive = false) @Digits(integer = 8, fraction = 4) BigDecimal portionGrams,
         @NotNull @Size(max = 100) List<@Valid @NotNull NutrientValueDto> nutrients) {
 
     public static LogItemDto from(LogItemEntity item) {
         return new LogItemDto(item.getId(), item.getFoodId(), item.getFoodName(), item.getBrand(), item.getSource(),
-                item.getQuantityG(), item.getUnit(), item.getPortionLabel(),
+                item.getQuantityG(), item.getUnit(), item.getPortionLabel(), item.getPortionGrams(),
                 item.getNutrients().stream().map(NutrientValueDto::from).toList());
     }
 }

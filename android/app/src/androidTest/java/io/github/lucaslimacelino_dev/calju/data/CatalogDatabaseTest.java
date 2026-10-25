@@ -13,6 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.math.BigDecimal;
 import java.time.Clock;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -22,8 +23,10 @@ import org.junit.runner.RunWith;
 
 import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
 import io.github.lucaslimacelino_dev.calju.data.local.CatalogImporter;
+import io.github.lucaslimacelino_dev.calju.data.local.CatalogInfoEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.FoodSearchRow;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
+import io.github.lucaslimacelino_dev.calju.data.repository.CustomFoodData;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.FoodInputParser;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
@@ -74,6 +77,33 @@ public class CatalogDatabaseTest {
     public void buscaPorPalavrasEmQualquerOrdem() {
         assertEquals("Arroz, tipo 1, cozido", first("arroz tipo 1 cozido").name);
         assertEquals("Arroz, tipo 1, cozido", first("cozido arroz tipo").name);
+    }
+
+    @Test
+    public void atualizarOCatalogoTrazOsNomesSemPerderOsAlimentosDoUsuario() throws Exception {
+        String granola = repository.createCustomFood(new CustomFoodData("Granola da casa", null,
+                Collections.singletonMap(Nutrients.ENERGY, new BigDecimal("400")), "1 xícara", new BigDecimal("40")));
+        int foods = database.catalogDao().countFoods();
+        int portions = database.catalogDao().countPortions();
+        // Aparelho com o catálogo da versão anterior: a próxima abertura reimporta.
+        database.catalogDao().saveCatalogInfo(new CatalogInfoEntity(CatalogInfoEntity.SINGLE_ROW_ID, 1));
+
+        assertTrue(importer.importIfNeeded());
+
+        assertEquals(foods, database.catalogDao().countFoods());
+        assertEquals(portions, database.catalogDao().countPortions());
+        assertEquals("Granola da casa", repository.food(granola).name());
+        assertEquals("Ovo cozido", first("ovo cozido").shownName());
+    }
+
+    @Test
+    public void comunsTemNomeDoDiaADiaEVemPrimeiro() {
+        assertTrue(first("ovo").common);
+        FoodSearchRow ovo = first("ovo cozido");
+        assertEquals("Ovo cozido", ovo.shownName());
+        assertEquals("Ovo, de galinha, inteiro, cozido/10minutos", ovo.name);
+        assertEquals("Arroz branco cozido", first("arroz branco").shownName());
+        assertEquals("Arroz branco cozido", repository.food(first("arroz tipo 1 cozido").id).name());
     }
 
     @Test

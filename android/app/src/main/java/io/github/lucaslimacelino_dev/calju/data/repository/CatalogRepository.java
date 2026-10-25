@@ -58,7 +58,8 @@ public class CatalogRepository {
                 found.add(row);
             }
         }
-        found.sort(Comparator.<FoodSearchRow>comparingInt(row -> FoodMatcher.score(row.searchName, terms))
+        found.sort(Comparator.<FoodSearchRow, Boolean>comparing(row -> !row.featured())
+                .thenComparingInt(row -> FoodMatcher.score(row.searchName, terms))
                 .thenComparing(row -> row.searchName));
         return found.size() > limit ? new ArrayList<>(found.subList(0, limit)) : found;
     }
@@ -85,7 +86,8 @@ public class CatalogRepository {
         Portion defaultPortion = portion == null ? null
                 : new Portion(portion.label, portion.grams,
                 "USER".equals(portion.source) ? PortionSource.USER : PortionSource.REFERENCE);
-        return new Food(entity.name, nutrients, defaultPortion, QuantityUnit.fromSymbol(entity.unit));
+        String name = entity.displayName != null ? entity.displayName : entity.name;
+        return new Food(name, nutrients, defaultPortion, QuantityUnit.fromSymbol(entity.unit));
     }
 
     public LiveData<List<FoodEntity>> observeCustomFoods() {

@@ -31,6 +31,7 @@ import io.github.lucaslimacelino_dev.calju.data.repository.MealRepository;
 import io.github.lucaslimacelino_dev.calju.domain.Food;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
 import io.github.lucaslimacelino_dev.calju.domain.Intake;
+import io.github.lucaslimacelino_dev.calju.domain.PortionText;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
@@ -39,6 +40,7 @@ import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 public class DiaryViewModel extends ViewModel {
 
     private static final int MAX_SUGGESTIONS = 8;
+    private static final int MAX_OTHER_SUGGESTIONS = 30;
 
     private final CatalogRepository catalog;
     private final DiaryRepository diary;
@@ -52,6 +54,9 @@ public class DiaryViewModel extends ViewModel {
     /** Aberta por padrão: as refeições salvas ficam à vista logo abaixo das do dia. */
     private final MutableLiveData<Boolean> mealsExpanded = new MutableLiveData<>(true);
     private final MutableLiveData<List<Suggestion>> suggestions = new MutableLiveData<>(Collections.emptyList());
+    private final MutableLiveData<Integer> hiddenSuggestions = new MutableLiveData<>(0);
+    private String lastSearch = "";
+    private boolean showAllSuggestions;
     private final MutableLiveData<SelectedFood> selected = new MutableLiveData<>();
     /** Refeição escolhida pelo "+" de uma seção; nula = sugerir pelo horário. */
     private final MutableLiveData<Occasion> target = new MutableLiveData<>();
@@ -118,6 +123,11 @@ public class DiaryViewModel extends ViewModel {
         return suggestions;
     }
 
+    /** Quantas opções menos comuns combinam com o texto e estão escondidas ("Ver mais opções"). */
+    public LiveData<Integer> hiddenSuggestions() {
+        return hiddenSuggestions;
+    }
+
     public LiveData<SelectedFood> selected() {
         return selected;
     }
@@ -168,15 +178,31 @@ public class DiaryViewModel extends ViewModel {
     }
 
     public void onTextChanged(String text) {
+        lastSearch = text;
+        showAllSuggestions = false;
+        runSearch(text);
+    }
+
+    public void showAllSuggestions() {
+        showAllSuggestions = true;
+        runSearch(lastSearch);
+    }
+
+    private void runSearch(String text) {
         int generation = searchGeneration.incrementAndGet();
         if (text.trim().length() < SuggestionSearch.MIN_QUERY_LENGTH) {
             suggestions.setValue(Collections.emptyList());
+            hiddenSuggestions.setValue(0);
             return;
         }
+        SuggestionSearch.Scope scope = showAllSuggestions ? SuggestionSearch.Scope.OTHERS
+                : SuggestionSearch.Scope.FEATURED;
+        int limit = showAllSuggestions ? MAX_OTHER_SUGGESTIONS : MAX_SUGGESTIONS;
         executor.execute(() -> {
-            List<Suggestion> result = SuggestionSearch.search(catalog, text, MAX_SUGGESTIONS);
+            SuggestionSearch.Result result = SuggestionSearch.search(catalog, text, limit, scope);
             if (generation == searchGeneration.get()) {
-                suggestions.postValue(result);
+                suggestions.postValue(result.items());
+                hiddenSuggestions.postValue(result.hidden());
             }
         });
     }
@@ -184,7 +210,8 @@ public class DiaryViewModel extends ViewModel {
     public void select(Suggestion suggestion) {
         Occasion occasion = occasionForNewEntry();
         executor.execute(() -> selected.postValue(new SelectedFood(suggestion.foodId(),
-                catalog.food(suggestion.foodId()), suggestion.grams(), occasion, null, null)));
+                catalog.food(suggestion.foodId()), suggestion.grams(), suggestion.portionText() != null, occasion,
+                null, null)));
     }
 
     /** Abre a tela de quantidade para um alimento recém-criado, já com a porção dele, se houver. */
@@ -194,14 +221,17 @@ public class DiaryViewModel extends ViewModel {
             Food food = catalog.food(foodId);
             if (food != null) {
                 BigDecimal grams = food.portion().isPresent() ? food.portion().get().grams() : null;
-                selected.postValue(new SelectedFood(foodId, food, grams, occasion, null, null));
+                selected.postValue(new SelectedFood(foodId, food, grams, grams != null, occasion, null, null));
             }
         });
     }
 
     /** Abre a tela de quantidade para um registro de um único item. */
     public void edit(EntryRow row) {
-        selected.setValue(new SelectedFood(null, row.snapshot(), row.totalGrams(), row.occasion(), row.itemId(),
+        Food food = row.snapshot();
+        boolean units = food != null && food.portion().isPresent()
+                && PortionText.count(row.totalGrams(), food.portion().get().grams()) != null;
+        selected.setValue(new SelectedFood(null, food, row.totalGrams(), units, row.occasion(), row.itemId(),
                 row.entryId()));
     }
 
@@ -212,6 +242,7 @@ public class DiaryViewModel extends ViewModel {
     public void clearSuggestions() {
         searchGeneration.incrementAndGet();
         suggestions.setValue(Collections.emptyList());
+        hiddenSuggestions.setValue(0);
     }
 
     public void addFood(String foodId, BigDecimal grams, Occasion occasion) {

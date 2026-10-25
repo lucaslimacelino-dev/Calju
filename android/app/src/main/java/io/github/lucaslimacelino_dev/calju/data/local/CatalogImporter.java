@@ -23,7 +23,7 @@ import io.github.lucaslimacelino_dev.calju.domain.FoodMatcher;
  */
 public class CatalogImporter {
 
-    public static final int CATALOG_VERSION = 1;
+    public static final int CATALOG_VERSION = 2;
 
     private final CaljuDatabase database;
     private final AssetManager assets;
@@ -48,11 +48,23 @@ public class CatalogImporter {
                     Integer.parseInt(row.get("display_order"))));
         }
 
+        // Lista curada dos alimentos mais comuns, com o nome do dia a dia (o da TACO continua guardado).
+        Map<Integer, String> common = new HashMap<>();
+        for (Map<String, String> row : read("alimentos-comuns.csv")) {
+            common.put(Integer.valueOf(row.get("numero_taco")), row.get("nome"));
+        }
+
         List<FoodEntity> foods = new ArrayList<>();
         for (Map<String, String> row : read("foods.csv")) {
             String name = row.get("name");
-            foods.add(new FoodEntity(row.get("id"), name, FoodMatcher.normalize(name), row.get("category"),
-                    row.get("source_id"), Integer.valueOf(row.get("source_number"))));
+            Integer number = Integer.valueOf(row.get("source_number"));
+            String displayName = common.get(number);
+            String searchable = displayName == null ? name : displayName + " " + name;
+            FoodEntity food = new FoodEntity(row.get("id"), name, FoodMatcher.normalize(searchable),
+                    row.get("category"), row.get("source_id"), number);
+            food.displayName = displayName;
+            food.common = displayName != null;
+            foods.add(food);
         }
 
         List<FoodNutrientEntity> values = new ArrayList<>();

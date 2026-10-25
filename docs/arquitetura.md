@@ -436,13 +436,18 @@ Diário | Histórico | Perfil
 ### Registro de alimento (um por vez)
 
 1. O usuário digita no campo fixo, por exemplo `arroz 150`.
-2. Sugestões aparecem a cada letra, buscadas no catálogo local (offline).
+2. Sugestões aparecem a cada letra, buscadas no catálogo local (offline). Primeiro os 272
+   alimentos comuns, com nome do dia a dia ("Ovo cozido"), e os criados pelo usuário; os demais
+   da TACO (crus, cortes raros) ficam em "Ver mais opções" (ver docs/fontes-de-dados.md).
 3. Regras do texto (implementadas em `FoodInputParser`):
    - número depois do nome, ou com "g": gramas (`arroz 150`, `150 g de arroz`);
    - número antes do nome: unidades da porção padrão (`2 bananas`, `1,5 banana`);
    - só o nome: 1 porção padrão, se o alimento tiver uma (`banana`);
    - sem porção padrão e sem gramas: o app pergunta a quantidade.
-   O peso calculado aparece antes de confirmar, sempre editável.
+   O peso calculado aparece antes de confirmar, sempre editável. Alimento com porção caseira
+   abre a tela de quantidade em porções ("2 unidades", "= 150 g" embaixo), com a opção de trocar
+   para gramas; o registro guarda o peso da porção (banco v8, servidor V11) e o diário mostra
+   "4 unidades · 300 g" quando a quantidade é um número redondo de porções (`PortionText`).
 4. A ocasião (café, almoço, jantar, lanche) é sugerida pelo horário e pode ser trocada. O "+"
    de uma seção prepara o campo para aquela refeição ("O que você comeu no almoço?"), e ela
    vem marcada na tela de quantidade.

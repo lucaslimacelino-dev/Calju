@@ -77,7 +77,7 @@ public class DiaryRepositoryTest {
         List<EntryWithItems> day = diary.day(DAY);
         assertEquals(1, day.size());
         assertEquals(Occasion.LUNCH, day.get(0).entry.occasion);
-        assertEquals("Arroz, tipo 1, cozido", day.get(0).items.get(0).item.foodNameSnap);
+        assertEquals("Arroz branco cozido", day.get(0).items.get(0).item.foodNameSnap);
         assertEquals(database.catalogDao().nutrientsOf(arrozId).size(), day.get(0).items.get(0).nutrients.size());
         assertEquals(0, new BigDecimal("192.387750").compareTo(kcal(day.get(0))));
     }

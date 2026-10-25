@@ -47,6 +47,8 @@ import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.domain.FoodInputParser;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.Portion;
+import io.github.lucaslimacelino_dev.calju.domain.PortionText;
 import io.github.lucaslimacelino_dev.calju.ui.DateRequest;
 import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
@@ -54,6 +56,9 @@ import io.github.lucaslimacelino_dev.calju.ui.components.NumberAnimator;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
 public class DiaryFragment extends Fragment {
+
+    /** Com mais sugestões que isso, a lista ganha altura fixa e rola dentro do cartão. */
+    private static final int SUGGESTIONS_WITHOUT_SCROLL = 8;
 
     /** Fonte do sistema em 130% ou mais. */
     private static final float LARGE_FONT_SCALE = 1.3f;
@@ -103,6 +108,8 @@ public class DiaryFragment extends Fragment {
             }
         });
         viewModel.suggestions().observe(getViewLifecycleOwner(), this::showSuggestions);
+        viewModel.hiddenSuggestions().observe(getViewLifecycleOwner(), hidden -> showCreateOption());
+        binding.moreFoods.setOnClickListener(v -> viewModel.showAllSuggestions());
         viewModel.target().observe(getViewLifecycleOwner(), occasion -> binding.foodInput.setHint(occasion == null
                 ? getString(R.string.food_input_hint)
                 : getString(R.string.food_input_hint_for, lowerLabel(occasion))));
@@ -274,6 +281,13 @@ public class DiaryFragment extends Fragment {
     private void bindEntry(ItemLogEntryBinding item, EntryRow row) {
         item.foodName.setText(row.title());
         String grams = Formats.quantity(row.totalGrams(), row.unit());
+        if (row.isSingleItem() && row.snapshot() != null && row.snapshot().portion().isPresent()) {
+            Portion portion = row.snapshot().portion().get();
+            BigDecimal count = PortionText.count(row.totalGrams(), portion.grams());
+            if (count != null) {
+                grams = Formats.count(count) + " " + PortionText.noun(portion.label(), count) + " · " + grams;
+            }
+        }
         item.grams.setText(row.isSingleItem() ? grams
                 : getResources().getQuantityString(R.plurals.entry_items, row.itemCount(), row.itemCount(), grams));
         item.kcal.setText(row.kcal() == null
@@ -376,6 +390,11 @@ public class DiaryFragment extends Fragment {
 
     private void showSuggestions(List<Suggestion> suggestions) {
         suggestionAdapter.submitList(suggestions);
+        ViewGroup.LayoutParams params = binding.suggestions.getLayoutParams();
+        params.height = suggestions.size() > SUGGESTIONS_WITHOUT_SCROLL
+                ? getResources().getDimensionPixelSize(R.dimen.suggestions_max_height)
+                : ViewGroup.LayoutParams.WRAP_CONTENT;
+        binding.suggestions.setLayoutParams(params);
         showCreateOption();
     }
 
@@ -388,6 +407,12 @@ public class DiaryFragment extends Fragment {
         boolean canCreate = query.length() >= SuggestionSearch.MIN_QUERY_LENGTH;
         binding.createFood.setVisibility(canCreate ? View.VISIBLE : View.GONE);
         binding.createFood.setText(getString(R.string.food_create, query));
+        Integer hidden = viewModel.hiddenSuggestions().getValue();
+        boolean more = canCreate && hidden != null && hidden > 0;
+        binding.moreFoods.setVisibility(more ? View.VISIBLE : View.GONE);
+        if (more) {
+            binding.moreFoods.setText(getString(R.string.suggestion_more, hidden));
+        }
         binding.suggestionsCard.setVisibility(canCreate || suggestionAdapter.getItemCount() > 0
                 ? View.VISIBLE : View.GONE);
     }

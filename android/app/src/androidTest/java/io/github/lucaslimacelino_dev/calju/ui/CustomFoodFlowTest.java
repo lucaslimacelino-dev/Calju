@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -111,7 +112,9 @@ public class CustomFoodFlowTest {
         onView(withId(R.id.save_button)).perform(scrollTo(), click());
 
         Waits.untilDisplayed(withId(R.id.add_button));
-        onView(withId(R.id.grams)).check(matches(withText("40")));
+        // Alimento com porção abre em porções: "1 xícara" (= 40 g).
+        onView(withId(R.id.unit_portion)).check(matches(isChecked()));
+        onView(withId(R.id.grams)).check(matches(withText("1")));
         onView(withId(R.id.add_button)).perform(click());
 
         Waits.untilPresent(allOf(withText("Granola da casa"), isDescendantOfA(withId(R.id.entries))));

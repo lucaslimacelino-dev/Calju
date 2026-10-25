@@ -37,7 +37,7 @@ public class MigrationTest {
 
     private static final String DB = "migration-test.db";
     private static final String SCHEMAS = "io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase/";
-    private static final int CURRENT_VERSION = 7;
+    private static final int CURRENT_VERSION = 8;
 
     private Context context;
 
@@ -137,5 +137,10 @@ public class MigrationTest {
     @Test
     public void daVersao6ParaAAtual() throws Exception {
         assertMigratesToCurrent(6);
+    }
+
+    @Test
+    public void daVersao7ParaAAtual() throws Exception {
+        assertMigratesToCurrent(7);
     }
 }

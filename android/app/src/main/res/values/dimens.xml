@@ -5,4 +5,5 @@
     <dimen name="snackbar_caju_padding">12dp</dimen>
     <dimen name="welcome_bottom_padding">24dp</dimen>
     <dimen name="macro_stack_gap">8dp</dimen>
+    <dimen name="suggestions_max_height">420dp</dimen>
 </resources>

@@ -62,6 +62,15 @@ public class FoodEntity {
     @ColumnInfo(name = "server_version", defaultValue = "0")
     public int serverVersion;
 
+    /** Nome do dia a dia ("Ovo cozido") para os alimentos da lista de comuns; nulo nos demais. */
+    @ColumnInfo(name = "display_name")
+    @Nullable
+    public String displayName;
+
+    /** Alimento da lista de comuns: aparece primeiro na busca. */
+    @ColumnInfo(name = "is_common", defaultValue = "0")
+    public boolean common;
+
     /** "g" ou "ml" (ver QuantityUnit); os valores são por 100 da unidade. */
     @ColumnInfo(defaultValue = "g")
     @NonNull

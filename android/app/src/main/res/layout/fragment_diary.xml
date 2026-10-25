@@ -399,6 +399,16 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/more_foods"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/create_food"
                     style="@style/Widget.Material3.Button.TextButton.Icon"
                     android:layout_width="match_parent"

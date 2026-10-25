@@ -55,6 +55,11 @@ public class LogItemEntity {
 
     public int position;
 
+    /** Peso da porção no momento do registro (junto com portion_label_snap), para mostrar "4 unidades". */
+    @ColumnInfo(name = "portion_grams_snap")
+    @Nullable
+    public BigDecimal portionGramsSnap;
+
     /** Unidade do alimento no momento do registro ("g" ou "ml"); a quantidade fica em quantity_g. */
     @ColumnInfo(defaultValue = "g")
     @NonNull

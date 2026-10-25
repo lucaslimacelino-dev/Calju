@@ -83,6 +83,21 @@ class LogEntryApiTest extends ApiTest {
     }
 
     @Test
+    void pesoDaPorcaoVaiEVoltaNoItem() {
+        UUID user = newUser();
+        UUID entry = UUID.randomUUID();
+        String banana = item(UUID.randomUUID(), "Banana-prata", 300)
+                .replace("\"portionLabel\":null", "\"portionLabel\":\"1 unidade\",\"portionGrams\":75");
+
+        assertThat(put(user, entry, entry("2026-10-25", "SNACK", 0, banana))).hasStatus(HttpStatus.CREATED);
+
+        MvcTestResult stored = get(user, "/api/v1/log-entries/{id}", entry);
+        assertThat(stored).bodyJson().extractingPath("$.items[0].portionLabel").isEqualTo("1 unidade");
+        assertThat(stored).bodyJson().extractingPath("$.items[0].portionGrams").convertTo(BigDecimal.class)
+                .matches(same("75"));
+    }
+
+    @Test
     void editarQuantidadeEInverterAOrdemDosItens() {
         UUID user = newUser();
         UUID entry = UUID.randomUUID();

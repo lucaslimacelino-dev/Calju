@@ -163,7 +163,7 @@ public class MealRepositoryTest {
 
         EntryWithItems entry = diary.day(DAY).get(0);
         assertEquals(2, entry.items.size());
-        assertEquals("Arroz, tipo 1, cozido", entry.items.get(0).item.foodNameSnap);
+        assertEquals("Arroz branco cozido", entry.items.get(0).item.foodNameSnap);
     }
 
     @Test

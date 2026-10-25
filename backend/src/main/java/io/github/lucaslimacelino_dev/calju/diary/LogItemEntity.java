@@ -49,6 +49,9 @@ public class LogItemEntity {
     @Column(name = "portion_label_snap", length = 100)
     private String portionLabel;
 
+    @Column(name = "portion_grams_snap", precision = 12, scale = 4)
+    private BigDecimal portionGrams;
+
     @Column(nullable = false)
     private int position;
 
@@ -65,7 +68,7 @@ public class LogItemEntity {
     }
 
     void apply(UUID foodId, String foodName, String brand, String source, BigDecimal quantityG, String unit,
-               String portionLabel, int position, List<NutrientAmount> nutrients) {
+               String portionLabel, BigDecimal portionGrams, int position, List<NutrientAmount> nutrients) {
         this.foodId = foodId;
         this.foodName = foodName;
         this.brand = brand;
@@ -73,6 +76,7 @@ public class LogItemEntity {
         this.quantityG = quantityG;
         this.unit = unit;
         this.portionLabel = portionLabel;
+        this.portionGrams = portionGrams;
         this.position = position;
         this.nutrients.clear();
         this.nutrients.addAll(nutrients);
@@ -108,6 +112,10 @@ public class LogItemEntity {
 
     public String getPortionLabel() {
         return portionLabel;
+    }
+
+    public BigDecimal getPortionGrams() {
+        return portionGrams;
     }
 
     public int getPosition() {

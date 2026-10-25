@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Locale;
 
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.R;
@@ -30,20 +31,26 @@ import io.github.lucaslimacelino_dev.calju.domain.Nutrients;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
 import io.github.lucaslimacelino_dev.calju.domain.Portion;
+import io.github.lucaslimacelino_dev.calju.domain.PortionText;
+import io.github.lucaslimacelino_dev.calju.domain.QuantityUnit;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 
 /**
  * Painel inferior para confirmar quantidade e ocasião, com prévia ao vivo de kcal e macros.
- * Serve tanto para um registro novo quanto para editar ou remover um existente.
+ * Serve tanto para um registro novo quanto para editar ou remover um existente. Alimentos com
+ * porção caseira podem ser medidos em porções ("4 unidades") ou em gramas.
  */
 public class QuantityInputSheet extends BottomSheetDialogFragment {
 
     public static final String TAG = "QuantityInputSheet";
+    private static final Locale PT_BR = Locale.forLanguageTag("pt-BR");
 
     private SheetQuantityBinding binding;
     private DiaryViewModel viewModel;
     private SelectedFood selected;
+    private Portion portion;
     private boolean filled;
+    private boolean switching;
 
     @Nullable
     @Override
@@ -88,6 +95,11 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
             }
             return false;
         });
+        binding.unitGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked && !switching) {
+                switchUnit(checkedId == R.id.unit_portion);
+            }
+        });
         binding.addButton.setOnClickListener(v -> confirm());
         binding.removeButton.setOnClickListener(v -> {
             if (selected != null && selected.isEdit()) {
@@ -103,22 +115,25 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
         }
         selected = value;
         Food food = value.food();
+        portion = food.portion().orElse(null);
         binding.foodName.setText(food.name());
         binding.addButton.setText(value.isEdit() ? R.string.quantity_save : R.string.quantity_add);
         binding.removeButton.setVisibility(value.isEdit() ? View.VISIBLE : View.GONE);
-        binding.gramsLayout.setSuffixText(food.unit().symbol());
-        if (food.portion().isPresent()) {
-            Portion portion = food.portion().get();
-            binding.portionButton.setVisibility(View.VISIBLE);
-            binding.portionButton.setText(getString(R.string.quantity_use_portion,
-                    portion.label(), Formats.quantity(portion.grams(), food.unit())));
-            binding.portionButton.setOnClickListener(v -> setGrams(portion.grams()));
+        binding.unitGroup.setVisibility(portion != null ? View.VISIBLE : View.GONE);
+        if (portion != null) {
+            String plural = PortionText.noun(portion.label(), BigDecimal.TEN);
+            binding.unitPortion.setText(plural.substring(0, 1).toUpperCase(PT_BR) + plural.substring(1));
+            binding.unitWeight.setText(food.unit() == QuantityUnit.MILLILITER
+                    ? R.string.quantity_milliliters : R.string.quantity_grams);
         }
         if (!filled) {
             filled = true;
             binding.occasionGroup.check(Occasions.chip(value.occasion()));
+            boolean units = portion != null && value.preferUnits();
+            check(units);
             if (value.suggestedGrams() != null) {
-                setGrams(value.suggestedGrams());
+                setValue(units ? PortionText.exactCount(value.suggestedGrams(), portion.grams())
+                        : value.suggestedGrams());
             } else {
                 binding.grams.requestFocus();
             }
@@ -126,14 +141,55 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
         updatePreview();
     }
 
-    private void setGrams(BigDecimal grams) {
-        String text = grams.stripTrailingZeros().toPlainString().replace('.', ',');
+    private boolean unitsMode() {
+        return portion != null && binding.unitGroup.getCheckedButtonId() == R.id.unit_portion;
+    }
+
+    private void check(boolean units) {
+        switching = true;
+        binding.unitGroup.check(units ? R.id.unit_portion : R.id.unit_weight);
+        switching = false;
+    }
+
+    /** Troca entre porções e gramas mantendo a mesma quantidade. */
+    private void switchUnit(boolean toUnits) {
+        BigDecimal typed = Formats.parsePositive(String.valueOf(binding.grams.getText()));
+        if (typed != null && portion != null) {
+            setValue(toUnits ? PortionText.exactCount(typed, portion.grams()) : typed.multiply(portion.grams()));
+        }
+        updatePreview();
+    }
+
+    private void setValue(BigDecimal value) {
+        String text = value.stripTrailingZeros().toPlainString().replace('.', ',');
         binding.grams.setText(text);
         binding.grams.setSelection(text.length());
     }
 
+    /** O que foi digitado, convertido em gramas (porções vezes o peso da porção). */
+    private BigDecimal grams() {
+        BigDecimal typed = Formats.parsePositive(String.valueOf(binding.grams.getText()));
+        if (typed == null || !unitsMode()) {
+            return typed;
+        }
+        return typed.multiply(portion.grams());
+    }
+
     private void updatePreview() {
-        BigDecimal grams = Formats.parsePositive(String.valueOf(binding.grams.getText()));
+        if (selected == null) {
+            return;
+        }
+        QuantityUnit unit = selected.food().unit();
+        BigDecimal grams = grams();
+        if (unitsMode()) {
+            BigDecimal typed = Formats.parsePositive(String.valueOf(binding.grams.getText()));
+            binding.gramsLayout.setSuffixText(PortionText.noun(portion.label(), typed));
+            binding.gramsLayout.setHelperText(grams == null ? null
+                    : getString(R.string.quantity_equals, Formats.quantity(grams, unit)));
+        } else {
+            binding.gramsLayout.setSuffixText(unit.symbol());
+            binding.gramsLayout.setHelperText(null);
+        }
         value(binding.kcal, grams, Nutrients.ENERGY, NutrientUnit.KCAL);
         value(binding.protein, grams, Nutrients.PROTEIN, NutrientUnit.GRAM);
         value(binding.carbohydrate, grams, Nutrients.CARBOHYDRATE, NutrientUnit.GRAM);
@@ -159,7 +215,7 @@ public class QuantityInputSheet extends BottomSheetDialogFragment {
         if (selected == null) {
             return;
         }
-        BigDecimal grams = Formats.parsePositive(String.valueOf(binding.grams.getText()));
+        BigDecimal grams = grams();
         if (grams == null) {
             binding.gramsLayout.setError(getString(R.string.quantity_invalid));
             return;

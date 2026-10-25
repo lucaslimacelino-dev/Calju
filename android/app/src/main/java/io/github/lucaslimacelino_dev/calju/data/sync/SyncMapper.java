@@ -70,7 +70,7 @@ final class SyncMapper {
             }
             LogItemEntity it = item.item;
             items.add(new SyncDtos.LogItem(it.id, it.foodId, it.foodNameSnap, it.brandSnap, it.sourceSnap,
-                    it.quantityG, it.unit, it.portionLabelSnap, values));
+                    it.quantityG, it.unit, it.portionLabelSnap, it.portionGramsSnap, values));
         }
         LogEntryEntity e = entry.entry;
         return new SyncDtos.LogEntryBody(e.logDate.toString(), e.occasion.name(), e.title, e.sourceMealId,
@@ -155,6 +155,7 @@ final class SyncMapper {
             LogItemEntity entity = new LogItemEntity(item.id(), dto.id(), item.foodId(), item.foodName(),
                     item.brand(), item.source(), item.quantityG(), item.portionLabel(), i);
             entity.unit = QuantityUnit.fromSymbol(item.unit()).symbol();
+            entity.portionGramsSnap = item.portionGrams();
             items.add(entity);
         }
         return items;
@@ -214,7 +215,8 @@ final class SyncMapper {
                     .append(text(item.foodName())).append(",").append(text(item.brand())).append(",")
                     .append(text(item.source())).append(",").append(number(item.quantityG())).append(",")
                     .append(unit(item.unit())).append(",")
-                    .append(text(item.portionLabel())).append(",").append(nutrientsKey(item.nutrients()));
+                    .append(text(item.portionLabel())).append(",").append(number(item.portionGrams())).append(",")
+                    .append(nutrientsKey(item.nutrients()));
         }
         return key.toString();
     }

@@ -47,6 +47,23 @@ Cópias guardadas no repositório: `data/fontes/taco/taco-4a-edicao-2011.pdf` e
 Colunas não usadas: energia em kJ (duplica a kcal; o INFOODS recomenda guardar só uma) e
 vitamina A em RAE (sem tagname INFOODS). Abas de ácidos graxos e aminoácidos ficam para depois.
 
+### Lista de alimentos comuns (`data/catalog/alimentos-comuns.csv`)
+
+Curadoria própria (25/10/2026, pedido do autor para simplificar o app para quem não é da área):
+272 alimentos da TACO escolhidos entre os mais consumidos, cada um com um nome do dia a dia
+(`numero_taco,nome`, por exemplo `488,Ovo cozido`). Os valores nutricionais continuam os da TACO;
+só muda o nome mostrado. Critérios: versões cozidas ou preparadas em vez das cruas (frutas e
+saladas ficam cruas), um representante por tipo quando as variedades têm valores parecidos e
+pratos regionais.
+
+No app, esses alimentos aparecem primeiro na busca (junto com os criados pelo usuário); os outros
+ficam em "Ver mais opções". O nome original da TACO continua guardado e também é encontrado na
+busca ("arroz tipo 1 cozido" acha "Arroz branco cozido").
+
+Correção: o nº 540 aparece como "L" na aba "CMVCol taco3" da planilha oficial, mas a aba de
+ácidos graxos da mesma planilha ("AGtaco3") traz, na mesma sequência, "Feijoada" (logo depois de
+"Feijão tropeiro mineiro"). A lista de comuns usa o nome "Feijoada".
+
 O cabeçalho (nome e unidade de cada coluna) é conferido a cada geração; se a planilha mudar,
 a geração falha em vez de trocar nutrientes. Códigos de nutriente conferidos no corpus oficial
 de tagnames INFOODS (pacote `@infoods/tagnames` 1.0.1).

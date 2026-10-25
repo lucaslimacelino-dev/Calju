@@ -21,7 +21,7 @@ public class SyncMapperTest {
 
     private static SyncDtos.LogItem item(String grams, List<SyncDtos.NutrientValue> nutrients) {
         return new SyncDtos.LogItem("item-1", "arroz", "Arroz, tipo 1, cozido", null, "TACO-4", new BigDecimal(grams),
-                "g", null, nutrients);
+                "g", null, null, nutrients);
     }
 
     private static SyncDtos.LogEntry remote(SyncDtos.LogItem item, String deletedAt) {

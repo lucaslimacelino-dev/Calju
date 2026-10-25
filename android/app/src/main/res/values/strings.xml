@@ -46,7 +46,10 @@
 
     <string name="quantity_label">Quantidade</string>
     <string name="quantity_invalid">Informe uma quantidade maior que zero</string>
-    <string name="quantity_use_portion">Usar %1$s (%2$s)</string>
+    <string name="quantity_grams">Gramas</string>
+    <string name="quantity_milliliters">Mililitros</string>
+    <string name="quantity_equals">= %1$s</string>
+    <string name="suggestion_more">Ver mais opções (%1$d)</string>
     <string name="quantity_add">Adicionar</string>
     <string name="nutrient_kcal">kcal</string>
     <string name="nutrient_protein">Proteína (g)</string>

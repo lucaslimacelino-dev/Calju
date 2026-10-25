@@ -36,7 +36,8 @@ opcional em Spring Boot oferece conta, backup e sincronização entre aparelhos.
 ## Funcionalidades
 
 - **Registro em linguagem natural:** "arroz 150", "150 g de arroz", "2 bananas" (usa a porção
-  caseira do IBGE), "suco 200 ml"; sugestões a cada letra, sem internet.
+  caseira do IBGE e mostra "2 unidades"), "suco 200 ml"; sugestões a cada letra, sem internet,
+  com os alimentos comuns primeiro e nomes do dia a dia.
 - **Painel do dia** com anel de calorias e macros animados, metas com data de vigência e
   micronutrientes sob demanda.
 - **Diário por refeição** (café, almoço, jantar, lanche), edição, remoção com "Desfazer" e
@@ -55,7 +56,7 @@ opcional em Spring Boot oferece conta, backup e sincronização entre aparelhos.
 | **Offline-first** | Room (SQLite) como fonte da verdade; o servidor é opcional. Os nutrientes de cada registro são **copiados no momento do consumo** (snapshot): editar um alimento depois não altera o passado. Valores em `BigDecimal`, distinguindo zero, traço e desconhecido. |
 | **Sincronização** | Protocolo próprio: envio por registro com **versão otimista** (409 em conflito) e recebimento incremental por **cursor** (`change_seq` gerado por trigger no PostgreSQL). Conflitos nunca sobrescrevem em silêncio: refeições viram cópia "(conflito)" e registros do diário são resolvidos pelo usuário. Reenvio idempotente e tolerante a quedas no meio. WorkManager em segundo plano. |
 | **Segurança** | JWT de acesso (15 min) + **refresh token opaco rotativo com detecção de reutilização** (revoga a família de sessões); senhas com **Argon2id**; login com Google validado por JWKS; limitação de tentativas com `429 + Retry-After`; respostas que não revelam se um e-mail tem conta; testes de IDOR; sessão no app cifrada com **AES-GCM no Android Keystore**; padrão "negar tudo" no Spring Security; segredos só em variáveis de ambiente. |
-| **Dados** | Ferramenta própria (`tools/catalog-builder`) converte a planilha oficial da TACO e as porções do IBGE em um catálogo versionado de 596 alimentos com códigos de nutrientes INFOODS. |
+| **Dados** | Ferramenta própria (`tools/catalog-builder`) converte a planilha oficial da TACO e as porções do IBGE em um catálogo versionado de 596 alimentos com códigos de nutrientes INFOODS; uma curadoria de 272 alimentos comuns com nomes do dia a dia aparece primeiro na busca. |
 | **Acessibilidade** | Testes automáticos com o *Accessibility Test Framework* do Google (área de toque, contraste, rótulos) no tema claro e escuro; layout adaptado para fonte em 200%; descrições para TalkBack. |
 | **Qualidade** | 305 testes: unitários, Room com banco real, MockWebServer, Espresso e integração do backend com **Testcontainers** (PostgreSQL real). Migrações de banco testadas desde a versão 1. Lint sem erros. |
 | **Entrega** | APK de release com R8 e **nenhuma permissão** pedida ao usuário; backend em imagem Docker de produção (usuário sem privilégios, perfil `prod`, IP real atrás de proxy); exclusão de conta pela web. |

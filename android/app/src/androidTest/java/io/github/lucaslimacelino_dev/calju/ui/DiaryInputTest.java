@@ -34,7 +34,7 @@ import io.github.lucaslimacelino_dev.calju.R;
 @RunWith(AndroidJUnit4.class)
 public class DiaryInputTest {
 
-    private static final String ARROZ = "Arroz, tipo 1, cozido";
+    private static final String ARROZ = "Arroz branco cozido";
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
@@ -79,15 +79,31 @@ public class DiaryInputTest {
     }
 
     @Test
-    public void unidadesUsamAPorcaoPadraoEAbremATelaDeQuantidadePreenchida() {
+    public void unidadesAbremATelaEmPorcoesEODiarioMostraAsUnidades() {
         onView(withId(R.id.food_input)).perform(replaceText("2 bananas prata"));
 
         Waits.untilDisplayed(withText(containsString("2 × 1 unidade · 150 g")));
-        onView(withText("Banana, prata, crua")).perform(click());
+        onView(withText("Banana-prata")).perform(click());
 
         Waits.untilDisplayed(withId(R.id.grams));
+        onView(withId(R.id.unit_portion)).check(matches(isChecked()));
+        onView(withId(R.id.grams)).check(matches(withText("2")));
+        onView(withId(R.id.grams)).perform(replaceText("4"));
+        onView(withId(R.id.add_button)).perform(click());
+
+        Waits.untilPresent(inEntries(withText("4 unidades · 300 g")));
+    }
+
+    @Test
+    public void trocarParaGramasConverteAQuantidade() {
+        onView(withId(R.id.food_input)).perform(replaceText("2 bananas prata"));
+        Waits.untilDisplayed(withText("Banana-prata"));
+        onView(withText("Banana-prata")).perform(click());
+
+        Waits.untilDisplayed(withId(R.id.unit_weight));
+        onView(withId(R.id.unit_weight)).perform(click());
+
         onView(withId(R.id.grams)).check(matches(withText("150")));
-        onView(withId(R.id.portion_button)).check(matches(withText(containsString("1 unidade (75 g)"))));
     }
 
     @Test

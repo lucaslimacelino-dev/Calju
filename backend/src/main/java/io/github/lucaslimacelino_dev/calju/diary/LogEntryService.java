@@ -95,7 +95,7 @@ public class LogEntryService {
             itemIds.add(dto.id());
             entry.itemFor(dto.id()).apply(dto.foodId(), dto.foodName().trim(), blankToNull(dto.brand()),
                     blankToNull(dto.source()), dto.quantityG(), dto.unit() == null ? "g" : dto.unit(),
-                    blankToNull(dto.portionLabel()), i,
+                    blankToNull(dto.portionLabel()), dto.portionGrams(), i,
                     dto.nutrients().stream().map(NutrientValueDto::toAmount).toList());
         }
         entry.keepOnly(itemIds);
