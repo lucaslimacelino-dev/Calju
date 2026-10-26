@@ -119,7 +119,7 @@
     <string name="micronutrients_show">Ver micronutrientes</string>
     <string name="micronutrients_title">Nutrientes do dia</string>
     <string name="micronutrients_intro">A porcentagem compara o que você comeu hoje com o valor de referência dos rótulos de alimentos. Toque num item para saber para que ele serve.</string>
-    <string name="micronutrients_legend">Referência: ANVISA, Instrução Normativa nº 75/2020 (valores diários de referência dos rótulos, para adultos). Valores dos alimentos: TACO. \"≥\" indica que algum alimento não tem esse valor medido; \"—\", que nenhum tem.</string>
+    <string name="micronutrients_legend">Referência: ANVISA, Instrução Normativa nº 75/2020 (valores diários de referência dos rótulos, para adultos). Valores dos alimentos: TACO; vitamina B12: USDA (EUA), só para os alimentos comuns. \"≥\" indica que algum alimento não tem esse valor medido; \"—\", que nenhum tem.</string>
     <string name="micronutrients_group_minerals">Fibras e minerais</string>
     <string name="micronutrients_group_vitamins">Vitaminas</string>
     <string name="micronutrients_group_watch">Fique de olho</string>
@@ -138,7 +138,8 @@
     <string name="nutrient_CU">Cobre</string>
     <string name="nutrient_MN">Manganês</string>
     <string name="nutrient_VITC">Vitamina C</string>
-    <string name="nutrient_VITA">Vitamina A</string>
+    <string name="nutrient_VITA_RAE">Vitamina A</string>
+    <string name="nutrient_VITB12">Vitamina B12</string>
     <string name="nutrient_THIA">Vitamina B1 (tiamina)</string>
     <string name="nutrient_RIBF">Vitamina B2 (riboflavina)</string>
     <string name="nutrient_VITB6A">Vitamina B6</string>
@@ -155,7 +156,8 @@
     <string name="nutrient_info_CU">Ajuda o corpo a usar o ferro. Castanhas, feijão e fígado são fontes. Referência: 900 µg (0,9 mg) por dia.</string>
     <string name="nutrient_info_MN">Participa do aproveitamento da energia dos alimentos. Cereais integrais e castanhas são fontes. Referência: 3 mg por dia.</string>
     <string name="nutrient_info_VITC">Ajuda na defesa do corpo e no aproveitamento do ferro dos vegetais. Acerola, goiaba e laranja são ótimas fontes. Referência: 100 mg por dia.</string>
-    <string name="nutrient_info_VITA">Importante para a visão e a pele. Cenoura, abóbora, manga e folhas escuras são fontes. Aqui não aparece porcentagem porque a TACO mede a vitamina A de um jeito (RE) diferente da referência da ANVISA (RAE).</string>
+    <string name="nutrient_info_VITA_RAE">Importante para a visão e a pele. Cenoura, abóbora, manga, folhas escuras e fígado são fontes. Referência: 800 µg por dia.</string>
+    <string name="nutrient_info_VITB12">Ajuda a formar o sangue e a cuidar dos nervos. Só existe naturalmente em alimentos de origem animal: carnes, peixes, ovos, leite e queijos. Quem não come esses alimentos costuma precisar de suplemento, com orientação profissional. A TACO não mede B12: os valores vêm da tabela dos EUA (USDA) e são aproximados. Referência: 2,4 µg por dia.</string>
     <string name="nutrient_info_THIA">Ajuda o corpo a usar a energia dos carboidratos. Carne de porco, feijão e cereais integrais são fontes. Referência: 1,2 mg por dia.</string>
     <string name="nutrient_info_RIBF">Ajuda a transformar o alimento em energia. Leite, ovos e carnes são fontes. Referência: 1,2 mg por dia.</string>
     <string name="nutrient_info_VITB6A">Participa do aproveitamento das proteínas. Carnes, banana, batata e feijão são fontes. Referência: 1,3 mg por dia.</string>

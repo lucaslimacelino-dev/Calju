@@ -175,3 +175,6 @@ objetiva que os sustente.
 - Nova folha de nutrientes do dia (grupos e % da referência escolhidos pelo autor entre as
   opções do assistente): valores de referência conferidos pelo assistente no texto oficial da
   IN 75/2020; textos explicativos, código e testes feitos pelo assistente, para revisão do autor.
+- Vitamina A em RAE (coluna da própria TACO) e vitamina B12 do USDA (fonte escolhida pelo autor
+  entre as opções do assistente): pareamento dos 272 alimentos comuns com o USDA, gerador do
+  catálogo, migração e testes feitos pelo assistente; o pareamento fica para revisão do autor.

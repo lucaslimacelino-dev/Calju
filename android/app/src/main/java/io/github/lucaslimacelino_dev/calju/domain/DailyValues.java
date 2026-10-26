@@ -9,10 +9,11 @@ import java.util.List;
  * dos rótulos: ANVISA, Instrução Normativa nº 75/2020, Anexo II. O VDR fica na mesma unidade em
  * que a TACO guarda o nutriente (por isso o cobre, 900 µg no Anexo II, aparece como 0,9 mg).
  *
- * <p>Fora da lista: energia e macronutrientes (já estão no painel), umidade, cinzas e retinol.
- * Vitamina A sem VDR: a TACO mede em RE e o Anexo II usa RAE, que não são equivalentes.
- * Niacina: a TACO traz a niacina pronta e o Anexo II usa NE (que conta também o triptofano),
- * então a porcentagem tende a sair menor que a real.
+ * <p>Fora da lista: energia e macronutrientes (já estão no painel), umidade, cinzas, retinol e a
+ * vitamina A em RE (a lista usa a coluna RAE da TACO, a mesma medida do Anexo II).
+ * Vitamina B12: a TACO não traz; vem do USDA FoodData Central só para os alimentos comuns
+ * (ver docs/fontes-de-dados.md). Niacina: a TACO traz a niacina pronta e o Anexo II usa NE (que
+ * conta também o triptofano), então a porcentagem tende a sair menor que a real.
  */
 public final class DailyValues {
 
@@ -23,7 +24,7 @@ public final class DailyValues {
         WATCH
     }
 
-    /** {@code dailyValue} nulo quando não há VDR comparável. */
+    /** {@code dailyValue} nulo quando não há VDR comparável (hoje todos têm). */
     public record Reference(String code, Group group, NutrientUnit unit, BigDecimal dailyValue) {
     }
 
@@ -38,11 +39,12 @@ public final class DailyValues {
             new Reference("CU", Group.FIBER_AND_MINERALS, NutrientUnit.MILLIGRAM, new BigDecimal("0.9")),
             new Reference("MN", Group.FIBER_AND_MINERALS, NutrientUnit.MILLIGRAM, new BigDecimal("3")),
             new Reference("VITC", Group.VITAMINS, NutrientUnit.MILLIGRAM, new BigDecimal("100")),
-            new Reference("VITA", Group.VITAMINS, NutrientUnit.MICROGRAM, null),
+            new Reference("VITA_RAE", Group.VITAMINS, NutrientUnit.MICROGRAM, new BigDecimal("800")),
             new Reference("THIA", Group.VITAMINS, NutrientUnit.MILLIGRAM, new BigDecimal("1.2")),
             new Reference("RIBF", Group.VITAMINS, NutrientUnit.MILLIGRAM, new BigDecimal("1.2")),
             new Reference("VITB6A", Group.VITAMINS, NutrientUnit.MILLIGRAM, new BigDecimal("1.3")),
             new Reference("NIA", Group.VITAMINS, NutrientUnit.MILLIGRAM, new BigDecimal("15")),
+            new Reference("VITB12", Group.VITAMINS, NutrientUnit.MICROGRAM, new BigDecimal("2.4")),
             new Reference(Nutrients.SODIUM, Group.WATCH, NutrientUnit.MILLIGRAM, new BigDecimal("2000")),
             new Reference("CHOLE", Group.WATCH, NutrientUnit.MILLIGRAM, new BigDecimal("300")));
 

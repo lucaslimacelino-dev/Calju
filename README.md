@@ -234,7 +234,7 @@ Gerado a partir da planilha oficial da TACO (ver [docs/fontes-de-dados.md](docs/
 ```powershell
 cd tools\catalog-builder
 .\mvnw test package
-java -cp target\classes io.github.lucaslimacelino_dev.calju.catalog.Main ..\..\data\fontes\taco\taco-4a-edicao-2011.xlsx ..\..\data\fontes\ibge\porcoes-unidade.csv ..\..\data\catalog
+java -cp target\classes io.github.lucaslimacelino_dev.calju.catalog.Main ..\..\data\fontes\taco\taco-4a-edicao-2011.xlsx ..\..\data\fontes\ibge\porcoes-unidade.csv ..\..\data\fontes\usda\b12-alimentos-comuns.csv ..\..\data\catalog
 ```
 </details>
 

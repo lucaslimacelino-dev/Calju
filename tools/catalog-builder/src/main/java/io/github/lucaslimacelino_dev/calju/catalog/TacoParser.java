@@ -20,7 +20,7 @@ public final class TacoParser {
     public static final String SOURCE_ID = "TACO-4";
     public static final String SHEET_NAME = "CMVCol taco3";
 
-    private static final int SCALE = 4;
+    static final int SCALE = 4;
 
     /**
      * Células com texto inválido na planilha oficial, tratadas como desconhecidas
@@ -51,6 +51,7 @@ public final class TacoParser {
             new Column("AC", "C", "(mg)", new Nutrient("VITC", "Vitamina C", "mg", 16)),
             new Column("W", "RE", "(mcg)", new Nutrient("VITA", "Vitamina A (RE)", "µg", 17)),
             new Column("V", "Retinol", "(mcg)", new Nutrient("RETOL", "Retinol", "µg", 18)),
+            new Column("X", "RAE", "(mcg)", new Nutrient("VITA_RAE", "Vitamina A (RAE)", "µg", 25)),
             new Column("Y", "Tiamina", "(mg)", new Nutrient("THIA", "Tiamina (B1)", "mg", 19)),
             new Column("Z", "Riboflavina", "(mg)", new Nutrient("RIBF", "Riboflavina (B2)", "mg", 20)),
             new Column("AA", "Piridoxina", "(mg)", new Nutrient("VITB6A", "Piridoxina (B6)", "mg", 21)),

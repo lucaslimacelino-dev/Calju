@@ -63,7 +63,7 @@ public class CatalogDatabaseTest {
     @Test
     public void importaOCatalogoCompleto() {
         assertEquals(596, database.catalogDao().countFoods());
-        assertEquals(24, database.catalogDao().countNutrients());
+        assertEquals(26, database.catalogDao().countNutrients());
         assertEquals(50, database.catalogDao().countPortions());
     }
 

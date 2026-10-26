@@ -145,9 +145,6 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
         ViewCompat.replaceAccessibilityAction(row.getRoot(),
                 AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK,
                 getString(open ? R.string.micronutrient_collapse : R.string.micronutrient_expand), null);
-        if (open) {
-            row.getRoot().announceForAccessibility(row.info.getText());
-        }
     }
 
     @StringRes
@@ -163,7 +160,8 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             case "CU" -> R.string.nutrient_CU;
             case "MN" -> R.string.nutrient_MN;
             case "VITC" -> R.string.nutrient_VITC;
-            case "VITA" -> R.string.nutrient_VITA;
+            case "VITA_RAE" -> R.string.nutrient_VITA_RAE;
+            case "VITB12" -> R.string.nutrient_VITB12;
             case "THIA" -> R.string.nutrient_THIA;
             case "RIBF" -> R.string.nutrient_RIBF;
             case "VITB6A" -> R.string.nutrient_VITB6A;
@@ -187,7 +185,8 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             case "CU" -> R.string.nutrient_info_CU;
             case "MN" -> R.string.nutrient_info_MN;
             case "VITC" -> R.string.nutrient_info_VITC;
-            case "VITA" -> R.string.nutrient_info_VITA;
+            case "VITA_RAE" -> R.string.nutrient_info_VITA_RAE;
+            case "VITB12" -> R.string.nutrient_info_VITB12;
             case "THIA" -> R.string.nutrient_info_THIA;
             case "RIBF" -> R.string.nutrient_info_RIBF;
             case "VITB6A" -> R.string.nutrient_info_VITB6A;

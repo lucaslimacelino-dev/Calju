@@ -435,8 +435,9 @@ Diário | Histórico | Perfil
   (sódio e colesterol, em que a referência é um limite). Cada item mostra o total, a % do valor
   diário de referência dos rótulos (ANVISA, IN 75/2020, Anexo II, conferido no texto do DOU em
   26/10/2026) com barra em cor neutra, e uma explicação curta ao tocar. Ficam de fora energia e
-  macros (já no painel), umidade, cinzas e retinol. Vitamina A sem %: a TACO mede em RE e o
-  Anexo II usa RAE. Niacina: a TACO traz a niacina pronta e o Anexo II usa NE, então a % tende a
+  macros (já no painel), umidade, cinzas, retinol e vitamina A em RE (a folha usa a coluna RAE
+  da TACO, a medida do Anexo II). Vitamina B12 do USDA FoodData Central só nos alimentos comuns
+  (docs/fontes-de-dados.md; catálogo v3, servidor V12). Niacina: a TACO traz a niacina pronta e o Anexo II usa NE, então a % tende a
   sair menor que a real.
 
 ### Registro de alimento (um por vez)

@@ -23,7 +23,7 @@ import io.github.lucaslimacelino_dev.calju.domain.FoodMatcher;
  */
 public class CatalogImporter {
 
-    public static final int CATALOG_VERSION = 2;
+    public static final int CATALOG_VERSION = 3;
 
     private final CaljuDatabase database;
     private final AssetManager assets;

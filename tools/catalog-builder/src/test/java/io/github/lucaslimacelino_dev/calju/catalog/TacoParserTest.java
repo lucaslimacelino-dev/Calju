@@ -22,7 +22,7 @@ class TacoParserTest {
             {"M", "Magnésio", "(mg)"}, {"O", "Manganês", "(mg)"}, {"P", "Fósforo", "(mg)"},
             {"Q", "Ferro", "(mg)"}, {"R", "Sódio", "(mg)"}, {"S", "Potássio", "(mg)"},
             {"T", "Cobre", "(mg)"}, {"U", "Zinco", "(mg)"}, {"V", "Retinol", "(mcg)"},
-            {"W", "RE", "(mcg)"}, {"Y", "Tiamina", "(mg)"}, {"Z", "Riboflavina", "(mg)"},
+            {"W", "RE", "(mcg)"}, {"X", "RAE", "(mcg)"}, {"Y", "Tiamina", "(mg)"}, {"Z", "Riboflavina", "(mg)"},
             {"AA", "Piridoxina", "(mg)"}, {"AB", "Niacina", "(mg)"}, {"AC", "C", "(mg)"}};
 
     private final Map<Integer, Map<String, String>> sheet = new TreeMap<>();

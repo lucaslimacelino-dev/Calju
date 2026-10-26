@@ -44,8 +44,35 @@ Cópias guardadas no repositório: `data/fontes/taco/taco-4a-edicao-2011.pdf` e
 | Texto inválido | Interrompe a geração, exceto a célula listada abaixo |
 | Célula AA do nº 373 "Carne, bovina, paleta, com gordura, crua" contém ",0,02" | Piridoxina tratada como desconhecida (não foi possível confirmar o valor no PDF) |
 
-Colunas não usadas: energia em kJ (duplica a kcal; o INFOODS recomenda guardar só uma) e
-vitamina A em RAE (sem tagname INFOODS). Abas de ácidos graxos e aminoácidos ficam para depois.
+Colunas não usadas: energia em kJ (duplica a kcal; o INFOODS recomenda guardar só uma). Abas de
+ácidos graxos e aminoácidos ficam para depois.
+
+Vitamina A: a planilha tem RE (coluna W, código `VITA`) e RAE (coluna X, código `VITA_RAE`, o
+mesmo usado pela TBCA/USP). Desde 26/10/2026 as duas são importadas; o app mostra a RAE, que é a
+medida do valor diário de referência da ANVISA (IN 75/2020). Na planilha, RAE = RE para retinol
+e RAE = RE ÷ 2 para carotenoides (ex.: cenoura crua, RE 1.326 µg e RAE 663 µg).
+
+## USDA FoodData Central — vitamina B12 (`data/fontes/usda/b12-alimentos-comuns.csv`)
+
+A TACO não mede vitamina B12. Por decisão do autor (26/10/2026), a B12 dos alimentos comuns vem
+do USDA FoodData Central, base **SR Legacy (abril de 2018)**, que é de domínio público (CC0),
+baixada de fdc.nal.usda.gov. O arquivo guarda, para cada alimento: número e nome na TACO, B12 em
+µg por 100 g, número FDC e descrição do alimento americano usado (valores copiados por script
+a partir do número FDC, nunca digitados). Critérios:
+
+- **Origem animal de um ingrediente** (77 alimentos: carnes, aves, peixes, ovos, leite, queijos,
+  manteiga, maionese, chocolate ao leite, doce de leite): valor do alimento americano mais
+  parecido no corte e no preparo. É uma aproximação: cortes, raças e preparos diferem (ex.:
+  cupim → brisket; queijo prato → gouda; merluza → whiting; sardinha fresca → sardinha em lata).
+- **Só de origem vegetal** (128 alimentos: frutas, verduras, feijões, cereais simples, óleos,
+  açúcar, café, refrigerantes etc.): 0, pois a B12 só existe naturalmente em alimentos de origem
+  animal.
+- **Sem valor**: pratos e produtos com mistura de ingredientes (estrogonofe, pastel, bolo, pão de
+  queijo, empanados, omelete com queijo), linguiça de frango e queijos sem equivalente (minas
+  meia cura, requeijão, petit suisse), e itens que costumam ser fortificados (cereal matinal,
+  achocolatado em pó, bebida de soja). Os demais alimentos da TACO também ficam sem B12.
+
+O gerador do catálogo confere número e nome de cada alimento na TACO e falha se divergirem.
 
 ### Lista de alimentos comuns (`data/catalog/alimentos-comuns.csv`)
 

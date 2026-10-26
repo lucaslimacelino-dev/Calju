@@ -66,6 +66,13 @@ class TacoOfficialFileTest {
     }
 
     @Test
+    void vitaminaAEmRaeVemDaColunaPropriaDaPlanilha() {
+        CatalogFood cenoura = byName("Cenoura, crua");
+        assertEquals(new BigDecimal("1326.0000"), value(cenoura, "VITA").amount());
+        assertEquals(new BigDecimal("663.0000"), value(cenoura, "VITA_RAE").amount());
+    }
+
+    @Test
     void alimentoEmReavaliacaoFicaDeFora() {
         assertTrue(foods.stream().noneMatch(f -> f.name().equals("Coco, verde, cru")));
     }

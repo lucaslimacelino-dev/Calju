@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Uso: java -cp target/classes io.github.lucaslimacelino_dev.calju.catalog.Main
- * &lt;planilha-taco.xlsx&gt; &lt;porcoes-ibge.csv&gt; &lt;pasta-de-saída&gt;
+ * &lt;planilha-taco.xlsx&gt; &lt;porcoes-ibge.csv&gt; &lt;b12-usda.csv&gt; &lt;pasta-de-saída&gt;
  */
 public final class Main {
 
@@ -17,16 +17,17 @@ public final class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 3) {
-            System.err.println("Uso: Main <planilha-taco.xlsx> <porcoes-ibge.csv> <pasta-de-saída>");
+        if (args.length != 4) {
+            System.err.println("Uso: Main <planilha-taco.xlsx> <porcoes-ibge.csv> <b12-usda.csv> <pasta-de-saída>");
             System.exit(2);
         }
         Path tacoFile = Path.of(args[0]);
         Path portionsFile = Path.of(args[1]);
-        Path output = Path.of(args[2]);
+        Path b12File = Path.of(args[2]);
+        Path output = Path.of(args[3]);
 
         Map<Integer, Map<String, String>> rows = XlsxReader.readSheet(tacoFile, TacoParser.SHEET_NAME);
-        List<CatalogFood> foods = TacoParser.parse(rows);
+        List<CatalogFood> foods = UsdaB12.addTo(TacoParser.parse(rows), CsvReader.read(b12File));
         List<Portion> portions = IbgePortions.link(CsvReader.read(portionsFile), foods);
 
         Files.createDirectories(output);
@@ -50,7 +51,9 @@ public final class Main {
 
     private static void writeNutrients(Path file) throws IOException {
         List<List<String>> rows = new ArrayList<>();
-        for (Nutrient nutrient : TacoParser.nutrients()) {
+        List<Nutrient> nutrients = new ArrayList<>(TacoParser.nutrients());
+        nutrients.add(UsdaB12.NUTRIENT);
+        for (Nutrient nutrient : nutrients) {
             rows.add(List.of(nutrient.code(), nutrient.namePt(), nutrient.unit(),
                     String.valueOf(nutrient.displayOrder())));
         }

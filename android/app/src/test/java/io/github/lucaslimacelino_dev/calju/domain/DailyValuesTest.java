@@ -2,7 +2,6 @@ package io.github.lucaslimacelino_dev.calju.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
@@ -38,19 +37,20 @@ public class DailyValuesTest {
     }
 
     @Test
-    public void vitaminaANaoTemPorcentagem() {
-        assertNull(DailyValues.percent(reference("VITA"), new BigDecimal("500")));
+    public void vitaminaAEmRaeEB12TemPorcentagem() {
+        assertEquals(Integer.valueOf(50), DailyValues.percent(reference("VITA_RAE"), new BigDecimal("400")));
+        assertEquals(Integer.valueOf(50), DailyValues.percent(reference("VITB12"), new BigDecimal("1.2")));
     }
 
     @Test
-    public void listaNaoTemMacrosNemUmidadeCinzasERetinol() {
+    public void listaNaoTemMacrosUmidadeCinzasRetinolNemVitaminaAEmRe() {
         Set<String> codes = new HashSet<>();
         for (Reference reference : DailyValues.ALL) {
             assertTrue("repetido: " + reference.code(), codes.add(reference.code()));
         }
-        for (String removed : new String[]{"ENERC", "PROCNT", "CHOCDF", "FAT", "WATER", "ASH", "RETOL"}) {
+        for (String removed : new String[]{"ENERC", "PROCNT", "CHOCDF", "FAT", "WATER", "ASH", "RETOL", "VITA"}) {
             assertFalse(removed, codes.contains(removed));
         }
-        assertEquals(17, codes.size());
+        assertEquals(18, codes.size());
     }
 }
