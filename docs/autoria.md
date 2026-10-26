@@ -153,14 +153,14 @@ objetiva que os sustente.
   assistente; regra de verificação de desenvolvedor conferida pelo assistente nas páginas oficiais.
 - Aviso de saúde e texto de privacidade no Perfil → Sobre escritos pelo assistente.
 
-### Fase 10 — Portfólio e preparação do INPI
+### Fase 10 — Portfólio e preparação do registro
 
 - README de portfólio, vídeo e capturas de tela do app (gravados no emulador com um dia de
   exemplo), imagem de pré-visualização do repositório e revisão dos comentários do código
   feitos pelo assistente, a pedido do autor.
-- Roteiro do registro no INPI e script que gera o pacote do código-fonte e o resumo SHA-512
-  escritos pelo assistente, com as regras conferidas no portal gov.br e no manual e-Software
-  do INPI. O pedido, a escolha da versão registrada e a declaração de autoria cabem ao autor.
+- Roteiro e script de apoio ao registro do programa escritos pelo assistente (mantidos fora do
+  repositório público). O pedido, a escolha da versão registrada e a declaração de autoria cabem
+  ao autor.
 
 ### Ajustes pedidos pelo autor depois do uso
 

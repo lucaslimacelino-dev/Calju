@@ -108,7 +108,7 @@ Calju/
 ├── backend/   API Spring Boot (auth, account, goal, food, meal, diary, sync)
 ├── tools/     catalog-builder: gera o catálogo a partir da TACO e do IBGE
 ├── data/      fontes oficiais (data/fontes) e catálogo gerado (data/catalog)
-└── docs/      arquitetura, fontes de dados, autoria, INPI e imagens
+└── docs/      arquitetura, fontes de dados, autoria e imagens
 ```
 
 ## Como executar
@@ -246,7 +246,6 @@ java -cp target\classes io.github.lucaslimacelino_dev.calju.catalog.Main ..\..\d
 - [ ] Login com Google no app
 - [ ] Servidor de produção (conta e backup na versão final)
 - [ ] Publicação na Google Play
-- [ ] Registro no INPI ([guia](docs/inpi/README.md))
 
 ## Fontes de dados e créditos
 

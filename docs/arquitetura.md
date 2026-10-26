@@ -611,30 +611,12 @@ de texto por IA, publicação na Play Store, interface web, SQLCipher.
 | 7 (concluída) | Sync push/pull, conflitos, WorkManager | Reenvio não duplica; conflito não sobrescreve; queda no meio |
 | 8 (concluída) | Refino visual, símbolo, acessibilidade; unidade ml | TalkBack, fonte 200%, tema escuro |
 | 9 (concluída, falta a parte do autor) | APK de release assinado com R8, 100% offline (sem conta até haver servidor; decisão do autor em 23/10/2026); backend pronto para produção (Dockerfile, perfil `prod`, exclusão de conta pela web), sem publicar. Publicação na Play é opcional e posterior | Release testado no emulador; revisão de dependências; falta o autor criar a chave, registrar o pacote e testar no aparelho real |
-| 10 (preparada; o pedido fica com o autor) | Documentação e pacote do INPI ([docs/inpi/README.md](inpi/README.md), `tools/inpi/gerar-pacote.ps1`) | Tag congelada; hash SHA-512 só dessa tag (conferido igual ao CertUtil do manual do INPI) |
-
-## 11. INPI (resumo; reconferir nas fontes oficiais na Fase 10)
-
-- Pedido pelo sistema e-Software, com o mesmo login da GRU.
-- Resumo hash (guias institucionais recomendam SHA-512) dos trechos escolhidos, gerado
-  de uma tag Git congelada; o código não é enviado, mas o original deve ser preservado
-  exatamente como estava.
-- Declaração de Veracidade assinada com certificado ICP-Brasil qualificado, em nome do
-  titular que consta na GRU.
-- Valores de taxa: consultar a tabela oficial no momento do pedido.
-- O registro protege a expressão do código, não a ideia abstrata. Publicar na Play
-  Store não substitui o registro.
-- Não exige publicação nem comercialização; recomenda-se programa "suficientemente
-  finalizado". Não se envia código nem executável, só o hash e a Declaração de Veracidade.
-- Validade de 50 anos a partir de 1º de janeiro do ano seguinte à publicação ou, na
-  ausência desta, à criação. O registro não é obrigatório; serve como prova de autoria.
+| 10 (preparada; fica com o autor) | README de portfólio e preparação do registro do programa (material mantido fora do repositório público) | — |
 
 ## Fontes consultadas (20/10/2026)
 
 - Spring Boot: https://endoflife.date/spring-boot · https://versionlog.com/spring-boot/
 - Target SDK da Play: https://developer.android.com/google/play/requirements/target-sdk
-- INPI e-Software: https://www.gov.br/inpi/pt-br/servicos/programas-de-computador/arquivos/guia-basico/eSoftware.pdf
-- INPI perguntas frequentes: https://www.gov.br/inpi/pt-br/servicos/perguntas-frequentes/programas-de-computador
 - Verificação de desenvolvedor Android: https://developer.android.com/developer-verification/guides
 - Compatibilidade AGP/Android Studio: https://developer.android.com/build/releases/about-agp
 - IBGE, medidas referidas (POF 2008-2009): https://www.ibge.gov.br/home/estatistica/populacao/condicaodevida/pof/2008_2009_medidas/default.shtm
