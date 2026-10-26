@@ -27,10 +27,43 @@
     <string name="about_health_disclaimer">O CaLju não é um dispositivo médico e não diagnostica, trata, cura nem previne nenhuma doença. As metas e os valores servem para acompanhamento pessoal; para orientação sobre saúde e alimentação, procure um nutricionista ou médico.</string>
     <string name="about_privacy">Seus registros ficam só neste celular: o app não tem conta, não envia dados pela internet e não mostra anúncios.</string>
 
-    <string name="history_empty">Os dias com registro aparecerão aqui.</string>
-    <string name="history_average_title">Média dos últimos 7 dias</string>
-    <string name="history_average_value">%1$s kcal por dia</string>
-    <string name="history_no_average">Sem registros nos últimos 7 dias (sem contar hoje).</string>
+    <string name="history_week_empty">Nenhum registro nesta semana.</string>
+    <string name="history_average_title">Média por dia</string>
+    <string name="history_average_value">%1$s kcal</string>
+    <string name="history_average_macros">P %1$s g · C %2$s g · G %3$s g</string>
+    <string name="history_average_macros_description">Proteína %1$s gramas, carboidrato %2$s gramas, gordura %3$s gramas</string>
+    <string name="history_no_average">Ainda sem dias completos nesta semana.</string>
+    <plurals name="history_average_days">
+        <item quantity="one">de %d dia com registro</item>
+        <item quantity="other">de %d dias com registro</item>
+    </plurals>
+    <plurals name="history_average_days_today">
+        <item quantity="one">de %d dia com registro, sem contar hoje</item>
+        <item quantity="other">de %d dias com registro, sem contar hoje</item>
+    </plurals>
+    <string name="history_this_week">Esta semana</string>
+    <string name="history_last_week">Semana passada</string>
+    <plurals name="history_weeks_ago">
+        <item quantity="one">Há %d semana</item>
+        <item quantity="other">Há %d semanas</item>
+    </plurals>
+    <string name="history_week_range">%1$s a %2$s</string>
+    <string name="history_previous_week">Semana anterior</string>
+    <string name="history_next_week">Próxima semana</string>
+    <string name="history_goal_legend">Linha tracejada: meta de %1$s kcal</string>
+    <string name="history_no_goal_legend">Defina uma meta no Perfil para ver a linha da meta.</string>
+    <string name="history_chart_description">Calorias por dia. %1$s</string>
+    <string name="history_chart_day">%1$s: %2$s kcal.</string>
+    <string name="history_chart_day_empty">%1$s: sem registro.</string>
+    <plurals name="history_streak">
+        <item quantity="one">%d dia seguido</item>
+        <item quantity="other">%d dias seguidos</item>
+    </plurals>
+    <string name="history_streak_today">anotando. Continue assim!</string>
+    <string name="history_streak_pending">Anote hoje para manter a sequência.</string>
+    <string name="history_streak_none">Sem sequência</string>
+    <string name="history_streak_start">Anote hoje para começar.</string>
+    <string name="history_days_title">Dias da semana</string>
     <string name="history_kcal">%1$s kcal</string>
     <string name="history_kcal_goal">%1$s de %2$s kcal</string>
     <string name="history_macros">Proteína %1$s g · Carbo %2$s g · Gordura %3$s g</string>

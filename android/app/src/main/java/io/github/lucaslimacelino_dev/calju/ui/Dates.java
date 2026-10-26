@@ -15,6 +15,8 @@ public final class Dates {
     private static final DateTimeFormatter WEEKDAY = DateTimeFormatter.ofPattern("EEEE", PT_BR);
     private static final DateTimeFormatter FULL = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", PT_BR);
     private static final DateTimeFormatter SHORT = DateTimeFormatter.ofPattern("EEE, d 'de' MMM", PT_BR);
+    private static final DateTimeFormatter DAY_MONTH = DateTimeFormatter.ofPattern("d 'de' MMM", PT_BR);
+    private static final DateTimeFormatter DAY = DateTimeFormatter.ofPattern("d", PT_BR);
 
     private Dates() {
     }
@@ -36,6 +38,12 @@ public final class Dates {
             return title(context, date, today);
         }
         return capitalize(SHORT.format(date));
+    }
+
+    /** Período da semana: "20 a 26 de out." ou "29 de set. a 5 de out.". */
+    public static String range(Context context, LocalDate start, LocalDate end) {
+        String first = start.getMonth() == end.getMonth() ? DAY.format(start) : DAY_MONTH.format(start);
+        return context.getString(R.string.history_week_range, first, DAY_MONTH.format(end));
     }
 
     public static String full(LocalDate date) {

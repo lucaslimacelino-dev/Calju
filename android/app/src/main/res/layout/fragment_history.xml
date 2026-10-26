@@ -22,30 +22,71 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="14dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:accessibilityHeading="true"
-                    android:text="@string/history_average_title"
-                    android:textAppearance="?attr/textAppearanceLabelLarge"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/previous_week"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/history_previous_week"
+                        app:icon="@drawable/ic_chevron_left" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/week_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:accessibilityHeading="true"
+                            android:accessibilityLiveRegion="polite"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/week_range"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/next_week"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/history_next_week"
+                        app:icon="@drawable/ic_chevron_right" />
+
+                </LinearLayout>
+
+                <io.github.lucaslimacelino_dev.calju.ui.components.WeekChartView
+                    android:id="@+id/week_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="4dp" />
 
                 <TextView
-                    android:id="@+id/average_value"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/goal_legend"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:fontFeatureSettings="tnum"
-                    android:textAppearance="?attr/textAppearanceHeadlineMedium"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/average_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -53,17 +94,131 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.CaLju.Card"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_average_title"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/average_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFeatureSettings="tnum"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/average_macros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFeatureSettings="tnum"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:id="@+id/average_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.CaLju.Card"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:id="@+id/streak_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/streak_caju"
+                        android:layout_width="34dp"
+                        android:layout_height="40dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_caju_comemorando" />
+
+                    <TextView
+                        android:id="@+id/streak_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/streak_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginTop="18dp"
+            android:accessibilityHeading="true"
+            android:text="@string/history_days_title"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/empty_state"
             style="@style/Widget.CaLju.EmptyState"
             android:layout_gravity="center_horizontal"
-            android:text="@string/history_empty" />
+            android:text="@string/history_week_empty" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/days"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

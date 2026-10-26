@@ -491,6 +491,11 @@ Vários alimentos numa única frase e interpretação por IA ficam para depois d
 ### Navegação
 
 - Barra inferior: **Diário, Histórico, Perfil**.
+- Histórico por semana (segunda a domingo, até 12 semanas para trás): gráfico de barras com o
+  kcal de cada dia e a meta como linha tracejada (`WeekChartView`, desenhado no Canvas, sem
+  biblioteca; passar da meta não muda a cor), média por dia de kcal e macros dos dias com
+  registro (hoje não entra), sequência de dias seguidos anotando (hoje vazio não quebra a
+  sequência de ontem) e a lista dos dias da semana; tocar num dia abre o Diário nele.
 - Metas: depois das boas-vindas (e pelo botão "Calcular para mim" no Perfil) o Caju faz um
   questionário curto: objetivo, ritmo (só para perder peso), sexo biológico/idade/altura/peso,
   rotina e situações especiais. `GoalCalculator`: Mifflin-St Jeor × nível de atividade

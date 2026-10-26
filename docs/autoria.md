@@ -170,3 +170,5 @@ objetiva que os sustente.
 - Questionário que sugere a meta (pedido do autor; fórmula, ritmo e divisão dos macros escolhidos
   pelo autor entre as opções do assistente): cálculo, telas, textos e testes feitos pelo
   assistente, com as fontes da fórmula citadas no código e em docs/arquitetura.md.
+- Novo Histórico por semana (formato escolhido pelo autor entre as opções do assistente):
+  gráfico, cálculo da média e da sequência, telas e testes feitos pelo assistente.
