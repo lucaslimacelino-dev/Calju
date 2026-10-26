@@ -431,7 +431,13 @@ Diário | Histórico | Perfil
   dos macros animam do valor anterior até o novo (respeitando a opção do sistema de reduzir
   animações).
 - **Micronutrientes sob demanda:** o painel mostra kcal e macros; "Ver micronutrientes" abre
-  a lista completa do dia.
+  a folha "Nutrientes do dia" (`DailyValues`): Fibras e minerais, Vitaminas e "Fique de olho"
+  (sódio e colesterol, em que a referência é um limite). Cada item mostra o total, a % do valor
+  diário de referência dos rótulos (ANVISA, IN 75/2020, Anexo II, conferido no texto do DOU em
+  26/10/2026) com barra em cor neutra, e uma explicação curta ao tocar. Ficam de fora energia e
+  macros (já no painel), umidade, cinzas e retinol. Vitamina A sem %: a TACO mede em RE e o
+  Anexo II usa RAE. Niacina: a TACO traz a niacina pronta e o Anexo II usa NE, então a % tende a
+  sair menor que a real.
 
 ### Registro de alimento (um por vez)
 

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="16dp"
         android:paddingBottom="24dp">
 
         <com.google.android.material.bottomsheet.BottomSheetDragHandleView
@@ -17,6 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:accessibilityHeading="true"
             android:text="@string/micronutrients_title"
             android:textAppearance="?attr/textAppearanceTitleLarge" />
@@ -24,16 +25,58 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/micronutrients_legend"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/micronutrients_intro"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <TextView
+            android:id="@+id/group_minerals_title"
+            style="@style/Widget.CaLju.NutrientGroupTitle"
+            android:accessibilityHeading="true"
+            android:text="@string/micronutrients_group_minerals" />
+
+        <LinearLayout
+            android:id="@+id/group_minerals"
+            style="@style/Widget.CaLju.NutrientGroup" />
+
+        <TextView
+            android:id="@+id/group_vitamins_title"
+            style="@style/Widget.CaLju.NutrientGroupTitle"
+            android:accessibilityHeading="true"
+            android:text="@string/micronutrients_group_vitamins" />
+
+        <LinearLayout
+            android:id="@+id/group_vitamins"
+            style="@style/Widget.CaLju.NutrientGroup" />
+
+        <TextView
+            android:id="@+id/group_watch_title"
+            style="@style/Widget.CaLju.NutrientGroupTitle"
+            android:accessibilityHeading="true"
+            android:text="@string/micronutrients_group_watch" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:text="@string/micronutrients_group_watch_hint"
             android:textAppearance="?attr/textAppearanceBodySmall"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
         <LinearLayout
-            android:id="@+id/rows"
+            android:id="@+id/group_watch"
+            style="@style/Widget.CaLju.NutrientGroup" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/micronutrients_legend"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
     </LinearLayout>
 

@@ -172,3 +172,6 @@ objetiva que os sustente.
   assistente, com as fontes da fórmula citadas no código e em docs/arquitetura.md.
 - Novo Histórico por semana (formato escolhido pelo autor entre as opções do assistente):
   gráfico, cálculo da média e da sequência, telas e testes feitos pelo assistente.
+- Nova folha de nutrientes do dia (grupos e % da referência escolhidos pelo autor entre as
+  opções do assistente): valores de referência conferidos pelo assistente no texto oficial da
+  IN 75/2020; textos explicativos, código e testes feitos pelo assistente, para revisão do autor.

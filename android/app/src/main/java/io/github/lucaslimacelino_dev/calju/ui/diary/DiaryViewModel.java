@@ -22,7 +22,6 @@ import io.github.lucaslimacelino_dev.calju.AppContainer;
 import io.github.lucaslimacelino_dev.calju.data.local.EntryWithItems;
 import io.github.lucaslimacelino_dev.calju.data.local.MealItemEntity;
 import io.github.lucaslimacelino_dev.calju.data.local.MealWithItems;
-import io.github.lucaslimacelino_dev.calju.data.local.NutrientEntity;
 import io.github.lucaslimacelino_dev.calju.data.repository.CatalogRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.DiaryRepository;
 import io.github.lucaslimacelino_dev.calju.data.repository.GoalRepository;
@@ -61,7 +60,6 @@ public class DiaryViewModel extends ViewModel {
     /** Refeição escolhida pelo "+" de uma seção; nula = sugerir pelo horário. */
     private final MutableLiveData<Occasion> target = new MutableLiveData<>();
     private final MutableLiveData<DiaryEvent> events = new MutableLiveData<>();
-    private final MutableLiveData<List<NutrientEntity>> nutrients = new MutableLiveData<>();
     /** Cada busca recebe um número; resultados de buscas antigas são descartados. */
     private final AtomicInteger searchGeneration = new AtomicInteger();
 
@@ -79,7 +77,6 @@ public class DiaryViewModel extends ViewModel {
         // O resumo (nomes e kcal) precisa ler o catálogo, então é calculado fora da thread da tela.
         mealSummaries.addSource(meals.observeAll(), list ->
                 executor.execute(() -> mealSummaries.postValue(summarize(list))));
-        executor.execute(() -> nutrients.postValue(catalog.nutrients()));
     }
 
     /** Registros junto com a data a que pertencem (a data muda antes de os registros chegarem). */
@@ -146,10 +143,6 @@ public class DiaryViewModel extends ViewModel {
 
     public LiveData<DiaryEvent> events() {
         return events;
-    }
-
-    public LiveData<List<NutrientEntity>> nutrients() {
-        return nutrients;
     }
 
     public LocalDate today() {

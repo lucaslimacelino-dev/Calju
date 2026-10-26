@@ -139,6 +139,25 @@
         <item name="cornerRadius">16dp</item>
     </style>
 
+    <style name="Widget.CaLju.NutrientGroupTitle" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">4dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.CaLju.NutrientGroup" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingVertical">4dp</item>
+        <item name="android:background">@drawable/bg_nutrient_group</item>
+    </style>
+
     <style name="Widget.CaLju.EmptyState" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
