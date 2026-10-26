@@ -121,6 +121,17 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/goals_save" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/calculate_goals"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="48dp"
+                    android:text="@string/goals_calculate"
+                    app:icon="@drawable/ic_caju_pensando"
+                    app:iconTint="@null" />
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

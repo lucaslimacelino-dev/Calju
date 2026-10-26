@@ -491,8 +491,15 @@ Vários alimentos numa única frase e interpretação por IA ficam para depois d
 ### Navegação
 
 - Barra inferior: **Diário, Histórico, Perfil**.
-- Metas: o app não sugere valores; até o usuário definir, o painel mostra kcal consumidas e o
-  botão "Definir meta". Com meta, mostra kcal restantes (ou o excesso) e o anel enche.
+- Metas: depois das boas-vindas (e pelo botão "Calcular para mim" no Perfil) o Caju faz um
+  questionário curto: objetivo, ritmo (só para perder peso), sexo biológico/idade/altura/peso,
+  rotina e situações especiais. `GoalCalculator`: Mifflin-St Jeor × nível de atividade
+  (meio das faixas FAO/WHO/UNU 2001: 1,55, 1,85, 2,20); perder = −500 ou −750 kcal (AHA/ACC/TOS
+  2013); ganhar = +300 kcal (decisão do app); nunca abaixo do gasto em repouso; macros 20/50/30%
+  (dentro das faixas AMDR). Fora de 18–80 anos, gravidez/amamentação ou doença com dieta
+  orientada: não calcula e indica um profissional. As respostas não são gravadas, só a meta
+  aceita. Sem meta, o painel mostra kcal consumidas e o botão "Definir meta"; com meta, kcal
+  restantes (ou o excesso) e o anel enche. A meta sempre pode ser ajustada à mão no Perfil.
 - Perfil: metas, conta, sincronização, fontes dos dados, sobre.
 - Estado da sincronização como ícone discreto (✓ / ↻ / ⊘).
 

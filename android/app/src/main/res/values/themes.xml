@@ -127,6 +127,18 @@
         <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
     </style>
 
+    <style name="Widget.CaLju.QuizOption" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyLarge</item>
+        <item name="cornerRadius">16dp</item>
+    </style>
+
     <style name="Widget.CaLju.EmptyState" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

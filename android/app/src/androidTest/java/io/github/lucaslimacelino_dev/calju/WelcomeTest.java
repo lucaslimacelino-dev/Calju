@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/** A história de boas-vindas aparece só na primeira abertura e leva ao Diário. */
+/** A história de boas-vindas aparece só na primeira abertura e leva ao questionário da meta. */
 @RunWith(AndroidJUnit4.class)
 public class WelcomeTest {
 
@@ -32,7 +32,7 @@ public class WelcomeTest {
     }
 
     @Test
-    public void primeiraAberturaMostraAsDuasPaginasEDepoisODiario() {
+    public void primeiraAberturaMostraAsDuasPaginasEOQuestionario() {
         try (ActivityScenario<WelcomeActivity> ignored = ActivityScenario.launch(WelcomeActivity.class)) {
             onView(withText(R.string.welcome_hello_title)).check(matches(isDisplayed()));
             onView(withId(R.id.next)).perform(click());
@@ -41,8 +41,11 @@ public class WelcomeTest {
             assertFalse(WelcomeActivity.wasSeen(context));
             onView(withId(R.id.next)).perform(click());
 
-            onView(withId(R.id.food_input)).check(matches(isDisplayed()));
+            onView(withText(R.string.quiz_q_objective)).check(matches(isDisplayed()));
             assertTrue(WelcomeActivity.wasSeen(context));
+            onView(withId(R.id.skip)).perform(click());
+
+            onView(withId(R.id.food_input)).check(matches(isDisplayed()));
         }
     }
 

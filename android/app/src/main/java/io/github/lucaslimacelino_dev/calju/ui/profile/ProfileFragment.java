@@ -1,11 +1,15 @@
 package io.github.lucaslimacelino_dev.calju.ui.profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -35,12 +39,19 @@ import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.account.AccountSheet;
 import io.github.lucaslimacelino_dev.calju.ui.diary.Occasions;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
+import io.github.lucaslimacelino_dev.calju.ui.goal.GoalQuizActivity;
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private ProfileViewModel viewModel;
     private boolean filled;
+    private final ActivityResultLauncher<Intent> quiz = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    showCalculated(result.getData());
+                }
+            });
 
     @Nullable
     @Override
@@ -66,6 +77,7 @@ public class ProfileFragment extends Fragment {
             }
         });
         binding.saveGoals.setOnClickListener(v -> save());
+        binding.calculateGoals.setOnClickListener(v -> quiz.launch(GoalQuizActivity.fromProfile(requireContext())));
 
         binding.accountCard.setVisibility(BuildConfig.ACCOUNT_ENABLED ? View.VISIBLE : View.GONE);
         binding.offlinePrivacy.setVisibility(BuildConfig.ACCOUNT_ENABLED ? View.GONE : View.VISIBLE);
@@ -311,6 +323,17 @@ public class ProfileFragment extends Fragment {
         set(binding.protein, goal.proteinG());
         set(binding.carbohydrate, goal.carbohydrateG());
         set(binding.fat, goal.fatG());
+    }
+
+    /** A meta já foi salva pelo questionário; aqui só atualiza os campos. */
+    private void showCalculated(Intent data) {
+        filled = true;
+        int kcal = data.getIntExtra(GoalQuizActivity.EXTRA_KCAL, 0);
+        set(binding.kcal, BigDecimal.valueOf(kcal));
+        set(binding.protein, BigDecimal.valueOf(data.getIntExtra(GoalQuizActivity.EXTRA_PROTEIN, 0)));
+        set(binding.carbohydrate, BigDecimal.valueOf(data.getIntExtra(GoalQuizActivity.EXTRA_CARBOHYDRATE, 0)));
+        set(binding.fat, BigDecimal.valueOf(data.getIntExtra(GoalQuizActivity.EXTRA_FAT, 0)));
+        message(getString(R.string.quiz_goal_saved, Formats.count(BigDecimal.valueOf(kcal)))).show();
     }
 
     private static void set(TextInputEditText field, BigDecimal value) {

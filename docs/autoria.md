@@ -167,3 +167,6 @@ objetiva que os sustente.
 - Simplificação dos alimentos (lista enxuta com nomes do dia a dia, escolhida pelo autor entre
   as opções do assistente) e quantidade em porções ("4 unidades"): lista curada de 272 alimentos,
   código, migrações e testes feitos pelo assistente; a lista fica para revisão do autor.
+- Questionário que sugere a meta (pedido do autor; fórmula, ritmo e divisão dos macros escolhidos
+  pelo autor entre as opções do assistente): cálculo, telas, textos e testes feitos pelo
+  assistente, com as fontes da fórmula citadas no código e em docs/arquitetura.md.

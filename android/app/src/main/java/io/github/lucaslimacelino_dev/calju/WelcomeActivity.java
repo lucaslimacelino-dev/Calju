@@ -13,10 +13,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import io.github.lucaslimacelino_dev.calju.databinding.ActivityWelcomeBinding;
+import io.github.lucaslimacelino_dev.calju.ui.goal.GoalQuizActivity;
 
 /**
- * Porta de entrada do app. Na primeira vez, o Caju se apresenta em duas páginas; depois disso
- * esta tela só encaminha direto para o Diário.
+ * Porta de entrada do app. Na primeira vez, o Caju se apresenta em duas páginas e oferece o
+ * questionário da meta; depois disso esta tela só encaminha direto para o Diário.
  */
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -76,7 +77,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void finishWelcome() {
         markSeen(this);
-        openDiary();
+        startActivity(GoalQuizActivity.onboarding(this));
+        finish();
     }
 
     private void openDiary() {
