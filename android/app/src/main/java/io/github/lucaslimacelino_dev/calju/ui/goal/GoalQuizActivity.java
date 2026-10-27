@@ -41,11 +41,13 @@ import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Objective;
 import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Pace;
 import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Plan;
 import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Sex;
+import io.github.lucaslimacelino_dev.calju.domain.UserProfile;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 
 /**
- * Questionário que sugere a meta diária. As respostas ficam só na tela (não são gravadas);
- * o que vai para o banco é a meta, se a pessoa aceitar.
+ * Questionário que sugere a meta diária. Na primeira abertura é obrigatório. Ao terminar, as
+ * respostas ficam guardadas no aparelho ({@link UserProfile}, usado também nos micronutrientes) e
+ * a meta vai para o banco, se a pessoa aceitar.
  */
 public class GoalQuizActivity extends AppCompatActivity {
 
@@ -77,7 +79,7 @@ public class GoalQuizActivity extends AppCompatActivity {
     private int step;
     private Plan plan;
 
-    /** Logo depois das boas-vindas: "Pular" e o fim do questionário levam ao Diário. */
+    /** Logo depois das boas-vindas (ou sem respostas guardadas): o fim do questionário leva ao Diário. */
     public static Intent onboarding(Context context) {
         return new Intent(context, GoalQuizActivity.class).putExtra(EXTRA_ONBOARDING, true);
     }
@@ -107,15 +109,16 @@ public class GoalQuizActivity extends AppCompatActivity {
                 showTwoLines((MaterialButton) group.getChildAt(i));
             }
         }
-        binding.skip.setVisibility(onboarding ? View.VISIBLE : View.GONE);
-        binding.skip.setOnClickListener(v -> leave());
         binding.back.setOnClickListener(v -> back());
         binding.next.setOnClickListener(v -> next());
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (step == OBJECTIVE || step == PROFESSIONAL) {
-                    leave();
+                if (step == OBJECTIVE) {
+                    // Na primeira abertura não há como pular: voltar fecha o app sem abrir o Diário.
+                    finish();
+                } else if (step == PROFESSIONAL || step == AGE_OUT) {
+                    finishWithProfile();
                 } else {
                     back();
                 }
@@ -190,7 +193,7 @@ public class GoalQuizActivity extends AppCompatActivity {
                 }
             }
             case RESULT -> save();
-            default -> leave();
+            default -> finishWithProfile();
         }
     }
 
@@ -341,10 +344,38 @@ public class GoalQuizActivity extends AppCompatActivity {
         return Formats.count(BigDecimal.valueOf(value));
     }
 
+    /** Situação especial ou idade fora da faixa: guarda as respostas (micros pela ANVISA) e sai. */
+    private void finishWithProfile() {
+        container().profileStore.save(profile());
+        leave();
+    }
+
+    /**
+     * Respostas até onde o questionário foi. Na idade fora da faixa ele para antes da rotina e da
+     * pergunta de saúde.
+     */
+    private UserProfile profile() {
+        Objective objective = objective();
+        Pace pace = objective != Objective.LOSE ? null
+                : binding.paceGroup.getCheckedButtonId() == R.id.pace_moderate ? Pace.MODERATE : Pace.SLOW;
+        Sex sex = binding.sexGroup.getCheckedButtonId() == R.id.sex_male ? Sex.MALE : Sex.FEMALE;
+        boolean reachedActivity = step != AGE_OUT;
+        Activity activity = reachedActivity ? answers().activity() : null;
+        boolean special = step == PROFESSIONAL;
+        return UserProfile.fromAge(sex, whole(binding.age), container().goalRepository.today(),
+                Formats.parsePositive(text(binding.height)), Formats.parsePositive(text(binding.weight)),
+                activity, objective, pace, special);
+    }
+
+    private AppContainer container() {
+        return ((CaLjuApp) getApplication()).container();
+    }
+
     private void save() {
         Plan chosen = plan;
         binding.next.setEnabled(false);
-        AppContainer container = ((CaLjuApp) getApplication()).container();
+        AppContainer container = container();
+        container.profileStore.save(profile());
         GoalRepository goals = container.goalRepository;
         container.databaseExecutor.execute(() -> {
             goals.save(chosen.toGoal(goals.today()));

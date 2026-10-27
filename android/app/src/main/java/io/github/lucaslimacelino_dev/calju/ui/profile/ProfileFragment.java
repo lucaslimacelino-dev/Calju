@@ -22,14 +22,18 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
+import io.github.lucaslimacelino_dev.calju.AppContainer;
 import io.github.lucaslimacelino_dev.calju.BuildConfig;
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.databinding.FragmentProfileBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.ItemCustomFoodBinding;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
+import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Sex;
+import io.github.lucaslimacelino_dev.calju.domain.UserProfile;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientUnit;
 import io.github.lucaslimacelino_dev.calju.data.sync.AccountBinding;
 import io.github.lucaslimacelino_dev.calju.data.sync.ConflictResolver;
@@ -78,6 +82,7 @@ public class ProfileFragment extends Fragment {
         });
         binding.saveGoals.setOnClickListener(v -> save());
         binding.calculateGoals.setOnClickListener(v -> quiz.launch(GoalQuizActivity.fromProfile(requireContext())));
+        binding.deleteProfileData.setOnClickListener(v -> confirmDeleteProfile());
 
         binding.accountCard.setVisibility(BuildConfig.ACCOUNT_ENABLED ? View.VISIBLE : View.GONE);
         binding.offlinePrivacy.setVisibility(BuildConfig.ACCOUNT_ENABLED ? View.GONE : View.VISIBLE);
@@ -323,6 +328,44 @@ public class ProfileFragment extends Fragment {
         set(binding.protein, goal.proteinG());
         set(binding.carbohydrate, goal.carbohydrateG());
         set(binding.fat, goal.fatG());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showProfile();
+    }
+
+    /** Resumo das respostas do questionário, se houver. */
+    private void showProfile() {
+        UserProfile profile = container().profileStore.load();
+        boolean has = profile != null;
+        binding.profileSummary.setVisibility(has ? View.VISIBLE : View.GONE);
+        binding.deleteProfileData.setVisibility(has ? View.VISIBLE : View.GONE);
+        binding.calculateGoals.setText(has ? R.string.profile_redo_quiz : R.string.goals_calculate);
+        if (has) {
+            binding.profileSummary.setText(getString(R.string.profile_data_summary,
+                    getString(profile.sex() == Sex.MALE ? R.string.profile_sex_male : R.string.profile_sex_female),
+                    profile.age(LocalDate.now(container().clock)), Formats.count(profile.heightCm()),
+                    Formats.count(profile.weightKg())));
+        }
+    }
+
+    private void confirmDeleteProfile() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.profile_delete_title)
+                .setMessage(R.string.profile_delete_message)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.profile_delete_confirm, (dialog, which) -> {
+                    container().profileStore.clear();
+                    showProfile();
+                    message(getString(R.string.profile_data_deleted)).show();
+                })
+                .show();
+    }
+
+    private AppContainer container() {
+        return ((CaLjuApp) requireActivity().getApplication()).container();
     }
 
     /** A meta já foi salva pelo questionário; aqui só atualiza os campos. */

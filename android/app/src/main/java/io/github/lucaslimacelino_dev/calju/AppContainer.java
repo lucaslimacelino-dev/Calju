@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 
 import io.github.lucaslimacelino_dev.calju.data.local.CaljuDatabase;
 import io.github.lucaslimacelino_dev.calju.data.local.CatalogImporter;
+import io.github.lucaslimacelino_dev.calju.data.local.ProfileStore;
 import io.github.lucaslimacelino_dev.calju.data.remote.ApiClient;
 import io.github.lucaslimacelino_dev.calju.data.remote.KeystoreSessionStore;
 import io.github.lucaslimacelino_dev.calju.data.repository.AccountRepository;
@@ -34,6 +35,7 @@ public class AppContainer {
     public final DiaryRepository diaryRepository;
     public final GoalRepository goalRepository;
     public final MealRepository mealRepository;
+    public final ProfileStore profileStore;
     public final ApiClient apiClient;
     public final AccountRepository accountRepository;
     public final SyncEngine syncEngine;
@@ -48,6 +50,7 @@ public class AppContainer {
         diaryRepository = new DiaryRepository(database, clock);
         goalRepository = new GoalRepository(database, clock);
         mealRepository = new MealRepository(database, clock);
+        profileStore = new ProfileStore(context);
         apiClient = new ApiClient(BuildConfig.API_BASE_URL, new KeystoreSessionStore(context));
         accountRepository = new AccountRepository(apiClient, Build.MODEL);
         SyncPrefs syncPrefs = new SyncPrefs(context);

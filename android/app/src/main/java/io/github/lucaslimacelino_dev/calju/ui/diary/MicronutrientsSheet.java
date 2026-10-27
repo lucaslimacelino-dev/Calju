@@ -17,13 +17,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.github.lucaslimacelino_dev.calju.AppContainer;
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.R;
+import io.github.lucaslimacelino_dev.calju.data.local.ProfileStore;
 import io.github.lucaslimacelino_dev.calju.databinding.ItemMicronutrientBinding;
 import io.github.lucaslimacelino_dev.calju.databinding.SheetMicronutrientsBinding;
 import io.github.lucaslimacelino_dev.calju.domain.DailyValues;
@@ -34,13 +37,14 @@ import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
 import io.github.lucaslimacelino_dev.calju.ui.Motion;
 
-/** Fibras, minerais e vitaminas do dia, em grupos, com a porcentagem da referência dos rótulos. */
+/** Fibras, minerais e vitaminas do dia, em grupos, com a porcentagem da referência da pessoa. */
 public class MicronutrientsSheet extends BottomSheetDialogFragment {
 
     public static final String TAG = "MicronutrientsSheet";
     private static final String STATE_EXPANDED = "expanded";
 
     private SheetMicronutrientsBinding binding;
+    private ProfileStore profiles;
     private final Set<String> expanded = new HashSet<>();
 
     @Nullable
@@ -56,8 +60,9 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
         if (savedInstanceState != null && savedInstanceState.getStringArrayList(STATE_EXPANDED) != null) {
             expanded.addAll(savedInstanceState.getStringArrayList(STATE_EXPANDED));
         }
-        DiaryViewModel viewModel = new ViewModelProvider(requireParentFragment(),
-                DiaryViewModel.factory(((CaLjuApp) requireActivity().getApplication()).container()))
+        AppContainer container = ((CaLjuApp) requireActivity().getApplication()).container();
+        profiles = container.profileStore;
+        DiaryViewModel viewModel = new ViewModelProvider(requireParentFragment(), DiaryViewModel.factory(container))
                 .get(DiaryViewModel.class);
         viewModel.dayState().observe(getViewLifecycleOwner(), this::render);
     }
@@ -86,7 +91,8 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             group.removeAllViews();
         }
         LayoutInflater inflater = getLayoutInflater();
-        for (Reference reference : DailyValues.ALL) {
+        BigDecimal goalKcal = state.goal() == null ? null : state.goal().kcal();
+        for (Reference reference : DailyValues.forPerson(profiles.load(), state.date(), goalKcal)) {
             LinearLayout group = switch (reference.group()) {
                 case FIBER_AND_MINERALS -> binding.groupMinerals;
                 case VITAMINS -> binding.groupVitamins;
@@ -125,6 +131,8 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
                 percentDescription = getString(R.string.micronutrient_percent_description, percent);
             }
         }
+        // Sem referência (colesterol): só a quantidade, sem barra.
+        row.bar.setVisibility(reference.dailyValue() == null ? View.GONE : View.VISIBLE);
         row.bar.setProgressCompat(progress, true);
         row.getRoot().setContentDescription(name + ", " + row.value.getText()
                 + (percentDescription.isEmpty() ? "" : ". " + percentDescription));

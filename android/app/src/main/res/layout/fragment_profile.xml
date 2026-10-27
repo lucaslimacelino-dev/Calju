@@ -132,6 +132,24 @@
                     app:icon="@drawable/ic_caju_pensando"
                     app:iconTint="@null" />
 
+                <TextView
+                    android:id="@+id/profile_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/delete_profile_data"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/profile_delete_data"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

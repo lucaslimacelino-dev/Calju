@@ -16,8 +16,9 @@ import io.github.lucaslimacelino_dev.calju.databinding.ActivityWelcomeBinding;
 import io.github.lucaslimacelino_dev.calju.ui.goal.GoalQuizActivity;
 
 /**
- * Porta de entrada do app. Na primeira vez, o Caju se apresenta em duas páginas e oferece o
- * questionário da meta; depois disso esta tela só encaminha direto para o Diário.
+ * Porta de entrada do app. Na primeira vez, o Caju se apresenta em duas páginas e faz o
+ * questionário (obrigatório); depois disso esta tela encaminha direto para o Diário, ou de novo
+ * para o questionário se as respostas tiverem sido apagadas.
  */
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -41,7 +42,12 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         if (wasSeen(this)) {
             super.onCreate(savedInstanceState);
-            openDiary();
+            if (((CaLjuApp) getApplication()).container().profileStore.load() == null) {
+                startActivity(GoalQuizActivity.onboarding(this));
+                finish();
+            } else {
+                openDiary();
+            }
             return;
         }
         EdgeToEdge.enable(this);

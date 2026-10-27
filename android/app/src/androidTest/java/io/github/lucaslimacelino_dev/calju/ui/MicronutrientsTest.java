@@ -27,9 +27,16 @@ import io.github.lucaslimacelino_dev.calju.AppContainer;
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.MainActivity;
 import io.github.lucaslimacelino_dev.calju.R;
+import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Activity;
+import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Objective;
+import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Sex;
 import io.github.lucaslimacelino_dev.calju.domain.Occasion;
+import io.github.lucaslimacelino_dev.calju.domain.UserProfile;
 
-/** 400 g de arroz tipo 1 cozido (TACO: fibra 1,561 g, zinco 0,4913 mg por 100 g; sem vitamina C). */
+/**
+ * 400 g de arroz tipo 1 cozido (TACO: fibra 1,561 g, zinco 0,4913 mg por 100 g; sem vitamina C),
+ * para um homem de 30 anos sem meta: referências das DRIs (fibras 38 g, zinco 11 mg).
+ */
 @RunWith(AndroidJUnit4.class)
 public class MicronutrientsTest {
 
@@ -42,6 +49,9 @@ public class MicronutrientsTest {
         AppContainer container = app.container();
         container.catalogImporter.importIfNeeded();
         container.database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM log_entries");
+        container.database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM nutrition_goals");
+        container.profileStore.save(UserProfile.fromAge(Sex.MALE, 30, LocalDate.now(container.clock),
+                new BigDecimal("175"), new BigDecimal("75"), Activity.LIGHT, Objective.KEEP, null, false));
         String arroz = container.catalogRepository.search("arroz tipo 1 cozido", 1).get(0).id;
         container.diaryRepository.addFood(LocalDate.now(container.clock), Occasion.LUNCH, arroz,
                 new BigDecimal("400"));
@@ -53,8 +63,8 @@ public class MicronutrientsTest {
         Waits.scrollAndTap(withId(R.id.micronutrients_button));
 
         Waits.untilDisplayed(withText(R.string.micronutrients_group_minerals));
-        // Fibras: 6,244 g de 25 g = 25%. Zinco: 1,965 mg de 11 mg = 18%.
-        onView(allOf(withId(R.id.percent), withText("25%"))).check(matches(isDisplayed()));
+        // Fibras: 6,244 g de 38 g = 16%. Zinco: 1,965 mg de 11 mg = 18%.
+        onView(allOf(withId(R.id.percent), withText("16%"))).check(matches(isDisplayed()));
         onView(withContentDescription("Zinco, 2,0 mg. 18 por cento da referência do dia"))
                 .perform(scrollTo()).check(matches(isDisplayed()));
         onView(withText("Umidade")).check(doesNotExist());

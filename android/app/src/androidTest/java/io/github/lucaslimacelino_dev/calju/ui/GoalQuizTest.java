@@ -10,6 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -22,12 +23,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
 import io.github.lucaslimacelino_dev.calju.MainActivity;
 import io.github.lucaslimacelino_dev.calju.R;
 import io.github.lucaslimacelino_dev.calju.domain.Goal;
+import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Activity;
+import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Sex;
+import io.github.lucaslimacelino_dev.calju.domain.UserProfile;
 
 /** Questionário da meta aberto pelo Perfil. Pessoa de exemplo: mulher, 30 anos, 165 cm, 60 kg. */
 @RunWith(AndroidJUnit4.class)
@@ -42,6 +47,7 @@ public class GoalQuizTest {
     public void clearGoals() {
         app = ApplicationProvider.getApplicationContext();
         app.container().database.getOpenHelper().getWritableDatabase().execSQL("DELETE FROM nutrition_goals");
+        app.container().profileStore.clear();
     }
 
     private void openQuiz() {
@@ -87,6 +93,14 @@ public class GoalQuizTest {
         assertEquals(1, goals.size());
         assertEquals(0, new BigDecimal("2050").compareTo(goals.get(0).kcal()));
         assertEquals(0, new BigDecimal("103").compareTo(goals.get(0).proteinG()));
+
+        UserProfile profile = app.container().profileStore.load();
+        assertEquals(Sex.FEMALE, profile.sex());
+        assertEquals(30, profile.age(LocalDate.now(app.container().clock)));
+        assertEquals(Activity.LIGHT, profile.activity());
+        assertFalse(profile.specialCondition());
+        onView(withId(R.id.profile_summary)).perform(scrollTo())
+                .check(matches(withText("Seus dados: mulher, 30 anos, 165 cm, 60 kg")));
     }
 
     @Test
@@ -117,6 +131,7 @@ public class GoalQuizTest {
 
         Waits.untilDisplayed(withId(R.id.calculate_goals));
         assertTrue(app.container().goalRepository.all().isEmpty());
+        assertTrue(app.container().profileStore.load().specialCondition());
     }
 
     @Test

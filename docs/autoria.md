@@ -178,3 +178,6 @@ objetiva que os sustente.
 - Vitamina A em RAE (coluna da própria TACO) e vitamina B12 do USDA (fonte escolhida pelo autor
   entre as opções do assistente): pareamento dos 272 alimentos comuns com o USDA, gerador do
   catálogo, migração e testes feitos pelo assistente; o pareamento fica para revisão do autor.
+- Questionário obrigatório e micronutrientes personalizados (decisões do autor: guardar as respostas
+  no aparelho, usar as DRIs por sexo e idade, colesterol sem %): referências conferidas pelo
+  assistente nas tabelas oficiais, código e testes feitos pelo assistente.
