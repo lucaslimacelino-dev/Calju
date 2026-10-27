@@ -6,8 +6,10 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:minHeight="60dp"
         android:orientation="horizontal">
@@ -52,6 +54,15 @@
             android:fontFeatureSettings="tnum"
             android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/chevron"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="6dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_expand"
+            app:tint="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add"

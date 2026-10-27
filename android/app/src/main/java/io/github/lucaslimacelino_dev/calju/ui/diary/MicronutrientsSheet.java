@@ -32,6 +32,7 @@ import io.github.lucaslimacelino_dev.calju.domain.Intake;
 import io.github.lucaslimacelino_dev.calju.domain.NutrientTotal;
 import io.github.lucaslimacelino_dev.calju.domain.NutritionCalculator;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
+import io.github.lucaslimacelino_dev.calju.ui.Motion;
 
 /** Fibras, minerais e vitaminas do dia, em grupos, com a porcentagem da referência dos rótulos. */
 public class MicronutrientsSheet extends BottomSheetDialogFragment {
@@ -106,10 +107,10 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             anyKnown |= intake.food().nutrient(reference.code()).isPresent();
         }
         String percentDescription = "";
+        int progress = 0;
         if (!anyKnown) {
             row.value.setText(R.string.value_unknown);
             row.percent.setText("");
-            row.bar.setVisibility(View.GONE);
         } else {
             NutrientTotal total = NutritionCalculator.total(intakes, reference.code());
             String value = Formats.amount(total.amount(), reference.unit()) + " " + reference.unit().symbol();
@@ -117,31 +118,35 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             Integer percent = DailyValues.percent(reference, total.amount());
             if (percent == null) {
                 row.percent.setText("");
-                row.bar.setVisibility(View.GONE);
             } else {
                 String text = getString(R.string.micronutrient_percent, percent);
                 row.percent.setText(total.complete() ? text : getString(R.string.value_at_least, text));
-                row.bar.setVisibility(View.VISIBLE);
-                row.bar.setProgress(Math.min(100, percent));
+                progress = Math.min(100, percent);
                 percentDescription = getString(R.string.micronutrient_percent_description, percent);
             }
         }
+        row.bar.setProgressCompat(progress, true);
         row.getRoot().setContentDescription(name + ", " + row.value.getText()
                 + (percentDescription.isEmpty() ? "" : ". " + percentDescription));
 
-        showExpanded(row, expanded.contains(reference.code()));
+        showExpanded(row, expanded.contains(reference.code()), false);
         row.getRoot().setOnClickListener(v -> {
             boolean open = !expanded.remove(reference.code());
             if (open) {
                 expanded.add(reference.code());
             }
-            showExpanded(row, open);
+            showExpanded(row, open, true);
         });
     }
 
-    private void showExpanded(ItemMicronutrientBinding row, boolean open) {
+    private void showExpanded(ItemMicronutrientBinding row, boolean open, boolean animate) {
+        if (animate) {
+            Motion.animateLayout((ViewGroup) binding.getRoot().getChildAt(0));
+            Motion.rotateChevron(row.expand, open);
+        } else {
+            row.expand.setRotation(open ? 180f : 0f);
+        }
         row.info.setVisibility(open ? View.VISIBLE : View.GONE);
-        row.expand.setRotation(open ? 180f : 0f);
         ViewCompat.replaceAccessibilityAction(row.getRoot(),
                 AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK,
                 getString(open ? R.string.micronutrient_collapse : R.string.micronutrient_expand), null);

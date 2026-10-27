@@ -1,5 +1,7 @@
 package io.github.lucaslimacelino_dev.calju.ui.diary;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.TextViewCompat;
@@ -30,9 +34,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Locale;
+import java.util.Set;
 import java.util.function.Function;
 
 import io.github.lucaslimacelino_dev.calju.CaLjuApp;
@@ -52,6 +59,7 @@ import io.github.lucaslimacelino_dev.calju.domain.PortionText;
 import io.github.lucaslimacelino_dev.calju.ui.DateRequest;
 import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
+import io.github.lucaslimacelino_dev.calju.ui.Motion;
 import io.github.lucaslimacelino_dev.calju.ui.components.NumberAnimator;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
 
@@ -65,10 +73,15 @@ public class DiaryFragment extends Fragment {
 
     private static final Locale PT_BR = Locale.forLanguageTag("pt-BR");
 
+    private static final String PREFS = "calju";
+    /** Refeições que o usuário recolheu; a escolha vale também nos próximos dias. */
+    private static final String KEY_COLLAPSED = "collapsed_occasions";
+
     private FragmentDiaryBinding binding;
     private DiaryViewModel viewModel;
     private SuggestionAdapter suggestionAdapter;
     private final Map<Occasion, ItemOccasionSectionBinding> sectionCards = new EnumMap<>(Occasion.class);
+    private final Set<Occasion> collapsed = EnumSet.noneOf(Occasion.class);
 
     @Nullable
     @Override
@@ -95,6 +108,7 @@ public class DiaryFragment extends Fragment {
         tintDot(binding.fat, R.color.summary_fat);
 
         suggestionAdapter = new SuggestionAdapter(viewModel::select);
+        loadCollapsed();
         createSections();
         binding.suggestions.setAdapter(suggestionAdapter);
 
@@ -120,7 +134,10 @@ public class DiaryFragment extends Fragment {
             List<MealSummary> meals = viewModel.mealSummaries().getValue();
             showMeals(meals != null ? meals : Collections.emptyList(), Boolean.TRUE.equals(expanded));
         });
-        binding.mealsHeader.setOnClickListener(v -> viewModel.toggleMeals());
+        binding.mealsHeader.setOnClickListener(v -> {
+            Motion.animateLayout((ViewGroup) binding.content.getChildAt(0));
+            viewModel.toggleMeals();
+        });
         binding.newMeal.setOnClickListener(v -> openMealEditor(MealEditorSheet.newMeal()));
         viewModel.selected().observe(getViewLifecycleOwner(), selected -> {
             if (selected != null && getChildFragmentManager().findFragmentByTag(QuantityInputSheet.TAG) == null) {
@@ -257,6 +274,7 @@ public class DiaryFragment extends Fragment {
             card.title.setText(Occasions.label(occasion));
             card.add.setContentDescription(getString(R.string.section_add, lowerLabel(occasion)));
             card.add.setOnClickListener(v -> startAdding(occasion));
+            card.header.setOnClickListener(v -> toggleSection(occasion));
             card.divider.setVisibility(occasion == Occasion.values()[Occasion.values().length - 1]
                     ? View.GONE : View.VISIBLE);
             sectionCards.put(occasion, card);
@@ -267,15 +285,73 @@ public class DiaryFragment extends Fragment {
         for (OccasionSection section : sections) {
             ItemOccasionSectionBinding card = sectionCards.get(section.occasion());
             card.kcal.setVisibility(section.isEmpty() ? View.GONE : View.VISIBLE);
-            card.detail.setVisibility(section.isEmpty() ? View.VISIBLE : View.GONE);
             card.kcal.setText(getString(R.string.entry_kcal, mark(section.complete(), R.string.value_at_least,
                     value -> Formats.amount(value, NutrientUnit.KCAL)).apply(section.kcal())));
+            card.detail.setText(section.isEmpty() ? getString(R.string.section_empty)
+                    : getResources().getQuantityString(R.plurals.section_items, section.entries().size(),
+                    section.entries().size()));
+            card.chevron.setVisibility(section.isEmpty() ? View.GONE : View.VISIBLE);
+            card.header.setClickable(!section.isEmpty());
             card.items.removeAllViews();
-            card.items.setVisibility(section.isEmpty() ? View.GONE : View.VISIBLE);
             for (EntryRow row : section.entries()) {
                 bindEntry(ItemLogEntryBinding.inflate(getLayoutInflater(), card.items, true), row);
             }
+            showSectionOpen(section.occasion(), false);
         }
+    }
+
+    private void toggleSection(Occasion occasion) {
+        if (!collapsed.remove(occasion)) {
+            collapsed.add(occasion);
+        }
+        saveCollapsed();
+        showSectionOpen(occasion, true);
+    }
+
+    /** Aberta: mostra os itens. Recolhida (ou vazia): só o cabeçalho, com a contagem ou "Nada ainda". */
+    private void showSectionOpen(Occasion occasion, boolean animate) {
+        ItemOccasionSectionBinding card = sectionCards.get(occasion);
+        boolean empty = card.items.getChildCount() == 0;
+        boolean open = !collapsed.contains(occasion);
+        if (animate) {
+            Motion.animateLayout((ViewGroup) binding.content.getChildAt(0));
+            Motion.rotateChevron(card.chevron, open);
+        } else {
+            card.chevron.setRotation(open ? 180f : 0f);
+        }
+        card.items.setVisibility(open && !empty ? View.VISIBLE : View.GONE);
+        card.detail.setVisibility(open && !empty ? View.GONE : View.VISIBLE);
+        if (empty) {
+            ViewCompat.setStateDescription(card.header, null);
+            ViewCompat.removeAccessibilityAction(card.header,
+                    AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK.getId());
+            return;
+        }
+        ViewCompat.setStateDescription(card.header,
+                getString(open ? R.string.section_state_open : R.string.section_state_closed));
+        ViewCompat.replaceAccessibilityAction(card.header,
+                AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK,
+                getString(open ? R.string.section_collapse : R.string.section_expand, lowerLabel(occasion)), null);
+    }
+
+    private void loadCollapsed() {
+        collapsed.clear();
+        Set<String> names = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .getStringSet(KEY_COLLAPSED, Collections.emptySet());
+        for (Occasion occasion : Occasion.values()) {
+            if (names.contains(occasion.name())) {
+                collapsed.add(occasion);
+            }
+        }
+    }
+
+    private void saveCollapsed() {
+        Set<String> names = new HashSet<>();
+        for (Occasion occasion : collapsed) {
+            names.add(occasion.name());
+        }
+        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        prefs.edit().putStringSet(KEY_COLLAPSED, names).apply();
     }
 
     private void bindEntry(ItemLogEntryBinding item, EntryRow row) {
@@ -298,6 +374,10 @@ public class DiaryFragment extends Fragment {
 
     /** "+" de uma seção: o próximo registro vai para essa refeição; o campo abre com o teclado. */
     private void startAdding(Occasion occasion) {
+        if (collapsed.remove(occasion)) {
+            saveCollapsed();
+            showSectionOpen(occasion, true);
+        }
         viewModel.setTarget(occasion);
         binding.foodInput.requestFocus();
         WindowCompat.getInsetsController(requireActivity().getWindow(), binding.foodInput)
@@ -495,7 +575,11 @@ public class DiaryFragment extends Fragment {
     /** Seção "Refeições prontas": cabeçalho sempre visível; lista só quando aberta. */
     private void showMeals(List<MealSummary> meals, boolean expanded) {
         binding.mealsCount.setText(getResources().getQuantityString(R.plurals.meals_count, meals.size(), meals.size()));
-        binding.mealsChevron.setRotation(expanded ? 180f : 0f);
+        if (binding.mealsChevron.isLaidOut()) {
+            Motion.rotateChevron(binding.mealsChevron, expanded);
+        } else {
+            binding.mealsChevron.setRotation(expanded ? 180f : 0f);
+        }
         binding.mealsHeader.setContentDescription(getString(expanded ? R.string.meals_collapse : R.string.meals_expand));
         binding.mealsList.setVisibility(expanded ? View.VISIBLE : View.GONE);
         binding.newMeal.setVisibility(expanded ? View.VISIBLE : View.GONE);
