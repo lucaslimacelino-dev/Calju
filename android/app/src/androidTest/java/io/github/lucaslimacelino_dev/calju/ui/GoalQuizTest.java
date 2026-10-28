@@ -116,6 +116,30 @@ public class GoalQuizTest {
     }
 
     @Test
+    public void ganharMassaMuscularMostraProteinaPorQuilo() {
+        openQuiz();
+        onView(withId(R.id.objective_muscle)).perform(scrollTo(), click());
+        onView(withId(R.id.next)).perform(click());
+
+        onView(withText("2 de 4")).check(matches(isDisplayed()));
+        onView(withId(R.id.sex_male)).perform(click());
+        onView(withId(R.id.age)).perform(replaceText("30"));
+        onView(withId(R.id.height)).perform(replaceText("180"));
+        onView(withId(R.id.weight)).perform(replaceText("80"));
+        closeSoftKeyboard();
+        onView(withId(R.id.next)).perform(click());
+        onView(withId(R.id.activity_light)).perform(click());
+        onView(withId(R.id.next)).perform(click());
+        onView(withId(R.id.health_no)).perform(click());
+        onView(withId(R.id.next)).perform(click());
+
+        // Homem 30 anos, 180 cm, 80 kg: 2759 × 1,10 → 3030 kcal; proteína 2 g × 80 kg.
+        onView(withId(R.id.result_kcal)).check(matches(withText("3.030 kcal por dia")));
+        onView(withId(R.id.result_macros))
+                .check(matches(withText("Proteína 160 g · Carboidrato 409 g · Gordura 84 g")));
+    }
+
+    @Test
     public void situacaoEspecialNaoCalculaENaoSalva() {
         openQuiz();
         onView(withId(R.id.objective_keep)).perform(click());

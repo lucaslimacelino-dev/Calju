@@ -181,3 +181,5 @@ objetiva que os sustente.
 - Questionário obrigatório e micronutrientes personalizados (decisões do autor: guardar as respostas
   no aparelho, usar as DRIs por sexo e idade, colesterol sem %): referências conferidas pelo
   assistente nas tabelas oficiais, código e testes feitos pelo assistente.
+- Meta para ganhar massa muscular (aprovada pelo autor): números conferidos pelo assistente nos
+  artigos citados no código; cálculo, tela e testes feitos pelo assistente.

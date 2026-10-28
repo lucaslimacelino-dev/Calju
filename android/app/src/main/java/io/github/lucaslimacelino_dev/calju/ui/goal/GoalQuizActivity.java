@@ -301,6 +301,9 @@ public class GoalQuizActivity extends AppCompatActivity {
         if (id == R.id.objective_lose) {
             return Objective.LOSE;
         }
+        if (id == R.id.objective_muscle) {
+            return Objective.MUSCLE;
+        }
         return id == R.id.objective_gain ? Objective.GAIN : Objective.KEEP;
     }
 
@@ -330,12 +333,14 @@ public class GoalQuizActivity extends AppCompatActivity {
                     : R.string.quiz_result_lose_slow;
             case KEEP -> R.string.quiz_result_keep;
             case GAIN -> R.string.quiz_result_gain;
+            case MUSCLE -> R.string.quiz_result_muscle;
         };
         details.append("\n\n").append(getString(objective));
         if (plan.limitedByResting()) {
             details.append(' ').append(getString(R.string.quiz_result_limited));
         }
-        details.append("\n\n").append(getString(R.string.quiz_result_macros_note))
+        details.append("\n\n").append(getString(answers.objective() == Objective.MUSCLE
+                        ? R.string.quiz_result_macros_note_muscle : R.string.quiz_result_macros_note))
                 .append("\n\n").append(getString(R.string.quiz_result_estimate));
         binding.resultDetails.setText(details);
     }

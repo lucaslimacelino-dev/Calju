@@ -64,6 +64,29 @@ public class GoalCalculatorTest {
     }
 
     @Test
+    public void ganharMassaMuscularUsaProteinaPorQuiloEMaisDezPorCento() {
+        Plan plan = GoalCalculator.plan(answers(Objective.MUSCLE, null, Sex.MALE, 30, "180", "80", Activity.LIGHT));
+
+        assertEquals(3030, plan.targetKcal());   // 1780 × 1,55 = 2759 × 1,10 = 3034,9 → 3030
+        assertEquals(160, plan.proteinG());      // 2 g × 80 kg
+        assertEquals(84, plan.fatG());           // 25% de 3030 / 9 = 84,2
+        assertEquals(409, plan.carbohydrateG()); // (3030 − 160×4 − 84×9) / 4 = 408,5
+    }
+
+    @Test
+    public void proteinaDaMassaMuscularNaoPassaDe35PorCentoDasCalorias() {
+        // Mulher 80 anos, 150 cm, 120 kg: repouso 1576,5 × 1,55 × 1,10 = 2687,9 → 2690 kcal.
+        // 2 g × 120 kg = 240 g passaria do teto: 35% de 2690 / 4 = 235,4 → 235 g.
+        Plan plan = GoalCalculator.plan(answers(Objective.MUSCLE, null, Sex.FEMALE, 80, "150", "120",
+                Activity.LIGHT));
+
+        assertEquals(2690, plan.targetKcal());
+        assertEquals(235, plan.proteinG());
+        assertEquals(75, plan.fatG());
+        assertEquals(269, plan.carbohydrateG());
+    }
+
+    @Test
     public void metaNuncaFicaAbaixoDoGastoEmRepouso() {
         // Mulher 70 anos, 150 cm, 45 kg, rotina leve: repouso 806 kcal, dia 1249, menos 750 = 499.
         Plan plan = GoalCalculator.plan(answers(Objective.LOSE, Pace.MODERATE, Sex.FEMALE, 70, "150", "45",

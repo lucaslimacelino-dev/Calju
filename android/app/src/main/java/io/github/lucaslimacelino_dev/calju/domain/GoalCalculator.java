@@ -17,6 +17,12 @@ import java.util.Objects;
  *   <li>A meta nunca fica abaixo do gasto em repouso.</li>
  *   <li>Macronutrientes: 20% proteína, 50% carboidrato e 30% gordura das calorias, dentro das faixas
  *       das National Academies (proteína 10–35%, carboidrato 45–65%, gordura 20–35%).</li>
+ *   <li>Ganhar massa muscular (quem faz treino de força): +10% sobre o gasto do dia; proteína de
+ *       2,0 g por kg de peso, limitada a 35% das calorias; gordura 25% das calorias; carboidrato o
+ *       restante. Dentro das faixas de Iraki et al. (2019, Sports 7:154: +10–20% para iniciantes e
+ *       intermediários, +5–10% para avançados; proteína 1,6–2,2 g/kg; gordura 0,5–1,5 g/kg, em
+ *       geral 20–35% das calorias) e de Morton et al. (2018, Br J Sports Med 52:376: ganho de massa
+ *       magra estabiliza perto de 1,6 g/kg, com intervalo até 2,2 g/kg).</li>
  * </ul>
  */
 public final class GoalCalculator {
@@ -44,7 +50,9 @@ public final class GoalCalculator {
     public enum Objective {
         LOSE,
         KEEP,
-        GAIN
+        GAIN,
+        /** Ganhar massa muscular com treino de força. */
+        MUSCLE
     }
 
     public enum Pace {
@@ -63,6 +71,10 @@ public final class GoalCalculator {
     public static final int MAX_AGE = 80;
 
     private static final int GAIN_SURPLUS_KCAL = 300;
+    private static final BigDecimal MUSCLE_SURPLUS = new BigDecimal("1.10");
+    private static final BigDecimal MUSCLE_PROTEIN_PER_KG = new BigDecimal("2.0");
+    private static final BigDecimal MUSCLE_PROTEIN_MAX_SHARE = new BigDecimal("0.35");
+    private static final BigDecimal MUSCLE_FAT_SHARE = new BigDecimal("0.25");
     private static final BigDecimal PROTEIN_SHARE = new BigDecimal("0.20");
     private static final BigDecimal CARBOHYDRATE_SHARE = new BigDecimal("0.50");
     private static final BigDecimal FAT_SHARE = new BigDecimal("0.30");
@@ -112,6 +124,7 @@ public final class GoalCalculator {
             case LOSE -> daily.subtract(BigDecimal.valueOf(answers.pace().deficitKcal));
             case KEEP -> daily;
             case GAIN -> daily.add(BigDecimal.valueOf(GAIN_SURPLUS_KCAL));
+            case MUSCLE -> daily.multiply(MUSCLE_SURPLUS);
         };
         boolean limited = target.compareTo(resting) < 0;
         if (limited) {
@@ -119,10 +132,27 @@ public final class GoalCalculator {
         }
         int targetKcal = roundTo10(target);
         BigDecimal kcal = BigDecimal.valueOf(targetKcal);
+        if (answers.objective() == Objective.MUSCLE) {
+            return musclePlan(answers, roundTo10(resting), roundTo10(daily), targetKcal, limited);
+        }
         return new Plan(roundTo10(resting), roundTo10(daily), targetKcal,
                 grams(kcal, PROTEIN_SHARE, KCAL_PER_G_PROTEIN_OR_CARB),
                 grams(kcal, CARBOHYDRATE_SHARE, KCAL_PER_G_PROTEIN_OR_CARB),
                 grams(kcal, FAT_SHARE, KCAL_PER_G_FAT), limited);
+    }
+
+    private static Plan musclePlan(Answers answers, int resting, int daily, int targetKcal, boolean limited) {
+        BigDecimal kcal = BigDecimal.valueOf(targetKcal);
+        BigDecimal byWeight = answers.weightKg().multiply(MUSCLE_PROTEIN_PER_KG);
+        BigDecimal ceiling = kcal.multiply(MUSCLE_PROTEIN_MAX_SHARE).divide(KCAL_PER_G_PROTEIN_OR_CARB, 4,
+                RoundingMode.HALF_UP);
+        int protein = byWeight.min(ceiling).setScale(0, RoundingMode.HALF_UP).intValueExact();
+        int fat = grams(kcal, MUSCLE_FAT_SHARE, KCAL_PER_G_FAT);
+        BigDecimal rest = kcal.subtract(BigDecimal.valueOf(protein).multiply(KCAL_PER_G_PROTEIN_OR_CARB))
+                .subtract(BigDecimal.valueOf(fat).multiply(KCAL_PER_G_FAT));
+        int carbohydrate = rest.max(BigDecimal.ZERO).divide(KCAL_PER_G_PROTEIN_OR_CARB, 0, RoundingMode.HALF_UP)
+                .intValueExact();
+        return new Plan(resting, daily, targetKcal, protein, carbohydrate, fat, limited);
     }
 
     /** Mifflin-St Jeor: 10 × peso (kg) + 6,25 × altura (cm) − 5 × idade + 5 (homens) ou − 161 (mulheres). */

@@ -355,6 +355,7 @@
     <string name="quiz_objective_lose">Perder peso</string>
     <string name="quiz_objective_keep">Manter meu peso</string>
     <string name="quiz_objective_gain">Ganhar peso</string>
+    <string name="quiz_objective_muscle">Ganhar massa muscular\nfaço treino de força, como musculação</string>
     <string name="quiz_pace_slow">Devagar\nmenos 500 kcal por dia</string>
     <string name="quiz_pace_moderate">Moderado\nmenos 750 kcal por dia</string>
     <string name="quiz_sex_title">Sexo biológico</string>
@@ -382,7 +383,9 @@
     <string name="quiz_result_lose_moderate">Para perder peso num ritmo moderado, a meta é o gasto do dia menos 750 kcal.</string>
     <string name="quiz_result_keep">Para manter o peso, a meta é igual ao gasto do dia.</string>
     <string name="quiz_result_gain">Para ganhar peso, a meta é o gasto do dia mais 300 kcal.</string>
+    <string name="quiz_result_muscle">Para ganhar massa muscular, a meta é o gasto do dia mais 10%: um pouco a mais de energia para o corpo construir músculo, junto com o treino.</string>
     <string name="quiz_result_limited">Eu não sugiro comer menos do que seu corpo gasta em repouso, então a meta ficou nesse valor.</string>
+    <string name="quiz_result_macros_note_muscle">A proteína fica em 2 g por kg do seu peso, como recomendam os estudos com quem treina força. A gordura fica em 25% das calorias e o carboidrato completa o resto, para dar energia ao treino.</string>
     <string name="quiz_result_macros_note">Os macros seguem a divisão 20% proteína, 50% carboidrato e 30% gordura, dentro das faixas recomendadas para adultos.</string>
     <string name="quiz_result_estimate">É uma estimativa: acompanhe e ajuste no Perfil quando quiser. Não substitui um nutricionista.</string>
     <string name="quiz_use_goal">Usar essa meta</string>
