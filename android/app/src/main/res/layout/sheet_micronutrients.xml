@@ -23,15 +23,6 @@
             android:textAppearance="?attr/textAppearanceTitleLarge" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/micronutrients_intro"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="?attr/colorOnSurfaceVariant" />
-
-        <TextView
             android:id="@+id/group_minerals_title"
             style="@style/Widget.CaLju.NutrientGroupTitle"
             android:accessibilityHeading="true"

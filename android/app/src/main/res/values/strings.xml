@@ -118,12 +118,9 @@
 
     <string name="micronutrients_show">Ver micronutrientes</string>
     <string name="micronutrients_title">Nutrientes do dia</string>
-    <string name="micronutrients_intro">A porcentagem compara o que você comeu com o recomendado para você. Toque num item para ver onde encontrar.</string>
-    <string name="micronutrients_legend">Referências: valores diários por sexo e idade das National Academies (EUA), com fibras proporcionais à sua meta; sem esses dados, valores dos rótulos (ANVISA). Dados dos alimentos: TACO; B12: USDA. \"≥\": falta o valor de algum alimento. \"—\": nenhum alimento do dia tem esse valor.</string>
     <string name="micronutrients_group_minerals">Fibras e minerais</string>
     <string name="micronutrients_group_vitamins">Vitaminas</string>
     <string name="micronutrients_group_watch">Fique de olho</string>
-    <string name="micronutrients_group_watch_hint">No sódio, a referência é um limite: o ideal é ficar abaixo de 100%. O colesterol não tem valor diário recomendado.</string>
     <string name="micronutrient_percent">%1$d%%</string>
     <string name="micronutrient_percent_description">%1$d por cento da referência do dia</string>
     <string name="micronutrient_expand">Mostrar explicação</string>
@@ -145,7 +142,6 @@
     <string name="nutrient_VITB6A">Vitamina B6</string>
     <string name="nutrient_NIA">Niacina (vitamina B3)</string>
     <string name="nutrient_NA">Sódio</string>
-    <string name="nutrient_CHOLE">Colesterol</string>
     <string name="nutrient_info_FIBTG">Ajuda o intestino e dá saciedade.\nOnde tem: feijão, aveia, frutas e verduras.</string>
     <string name="nutrient_info_CA">Ossos e dentes.\nOnde tem: leite, queijo, iogurte e couve.</string>
     <string name="nutrient_info_FE">Leva oxigênio pelo sangue.\nOnde tem: carne vermelha, fígado, feijão e folhas verde-escuras.</string>
@@ -163,7 +159,6 @@
     <string name="nutrient_info_VITB6A">Aproveitamento das proteínas.\nOnde tem: frango, peixe, banana e batata.</string>
     <string name="nutrient_info_NIA">Transforma o alimento em energia.\nOnde tem: frango, peixe, carne e amendoim.</string>
     <string name="nutrient_info_NA">Em excesso, aumenta a pressão.\nVem do sal e de industrializados: embutidos, salgadinhos e temperos prontos.</string>
-    <string name="nutrient_info_CHOLE">Não há valor diário recomendado: o próprio corpo produz o colesterol de que precisa.\nOnde tem: ovos, carnes, miúdos e laticínios.</string>
 
     <string name="meals_title">Refeições prontas</string>
     <string name="meals_empty">Nenhuma refeição salva ainda.</string>
@@ -414,4 +409,10 @@
     <string name="profile_delete_message">Sexo, idade, altura, peso e rotina saem deste celular. A meta continua. Na próxima abertura o Caju vai perguntar de novo.</string>
     <string name="profile_delete_confirm">Apagar</string>
     <string name="profile_data_deleted">Respostas apagadas</string>
+    <string name="micronutrients_group_watch_hint">Limites do dia: o ideal é ficar abaixo de 100%.</string>
+    <string name="micronutrients_legend">\"≥\": falta o valor de algum alimento. \"—\": nenhum alimento tem o valor. Fontes no Perfil.</string>
+    <string name="nutrient_FAT">Gordura total</string>
+    <string name="nutrient_info_FAT">Em excesso, sobe as calorias e o risco ao coração. Limite: 30% das calorias da sua meta.\nOnde tem: frituras, carnes gordas, queijos, doces e óleos.</string>
+    <string name="micronutrient_reached">meta do dia atingida</string>
+    <string name="micronutrient_over_limit">acima do limite</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.color.MaterialColors;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -114,6 +116,7 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
         }
         String percentDescription = "";
         int progress = 0;
+        Integer shown = null;
         if (!anyKnown) {
             row.value.setText(R.string.value_unknown);
             row.percent.setText("");
@@ -128,12 +131,25 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
                 String text = getString(R.string.micronutrient_percent, percent);
                 row.percent.setText(total.complete() ? text : getString(R.string.value_at_least, text));
                 progress = Math.min(100, percent);
+                shown = percent;
                 percentDescription = getString(R.string.micronutrient_percent_description, percent);
             }
         }
-        // Sem referência (colesterol): só a quantidade, sem barra.
+        // Verde: meta do dia atingida. Vermelho: limite (sódio, gordura) ultrapassado.
+        boolean done = shown != null && shown >= 100;
+        boolean over = done && DailyValues.isLimit(reference);
+        int color = over ? MaterialColors.getColor(row.bar, androidx.appcompat.R.attr.colorError)
+                : done ? ContextCompat.getColor(requireContext(), R.color.nutrient_reached)
+                : MaterialColors.getColor(row.bar, androidx.appcompat.R.attr.colorPrimary);
+        row.bar.setIndicatorColor(color);
+        row.percent.setTextColor(done ? color
+                : MaterialColors.getColor(row.percent, com.google.android.material.R.attr.colorOnSurface));
         row.bar.setVisibility(reference.dailyValue() == null ? View.GONE : View.VISIBLE);
         row.bar.setProgressCompat(progress, true);
+        if (done) {
+            percentDescription += ". " + getString(over ? R.string.micronutrient_over_limit
+                    : R.string.micronutrient_reached);
+        }
         row.getRoot().setContentDescription(name + ", " + row.value.getText()
                 + (percentDescription.isEmpty() ? "" : ". " + percentDescription));
 
@@ -180,7 +196,7 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             case "VITB6A" -> R.string.nutrient_VITB6A;
             case "NIA" -> R.string.nutrient_NIA;
             case "NA" -> R.string.nutrient_NA;
-            case "CHOLE" -> R.string.nutrient_CHOLE;
+            case "FAT" -> R.string.nutrient_FAT;
             default -> throw new IllegalArgumentException(code);
         };
     }
@@ -205,7 +221,7 @@ public class MicronutrientsSheet extends BottomSheetDialogFragment {
             case "VITB6A" -> R.string.nutrient_info_VITB6A;
             case "NIA" -> R.string.nutrient_info_NIA;
             case "NA" -> R.string.nutrient_info_NA;
-            case "CHOLE" -> R.string.nutrient_info_CHOLE;
+            case "FAT" -> R.string.nutrient_info_FAT;
             default -> throw new IllegalArgumentException(code);
         };
     }

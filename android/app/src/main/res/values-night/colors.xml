@@ -39,4 +39,5 @@
     <color name="caju_bubble">#2A231E</color>
     <color name="add_button">#4A2219</color>
     <color name="on_add_button">#FF8A70</color>
+    <color name="nutrient_reached">#A9D18E</color>
 </resources>

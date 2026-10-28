@@ -187,3 +187,5 @@ objetiva que os sustente.
   de rotina reduzidos pela metade do acréscimo, decididos pelo autor): fontes conferidas, cálculo,
   textos e testes feitos pelo assistente.
 - Perfil reorganizado em blocos (pedido do autor): layout, código e testes feitos pelo assistente.
+- Cores de meta e limite nos micronutrientes e gordura total no lugar do colesterol (pedido do
+  autor): limite da OMS conferido pelo assistente; código e testes feitos pelo assistente.

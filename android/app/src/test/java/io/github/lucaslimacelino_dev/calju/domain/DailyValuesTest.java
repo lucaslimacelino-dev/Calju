@@ -2,7 +2,6 @@ package io.github.lucaslimacelino_dev.calju.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -65,18 +64,29 @@ public class DailyValuesTest {
     }
 
     @Test
-    public void colesterolNaoTemReferencia() {
-        assertNull(DailyValues.percent(reference("CHOLE"), new BigDecimal("714")));
-        assertNull(value(DailyValues.forPerson(person(Sex.MALE, 30, false), DAY, null), "CHOLE"));
+    public void gorduraTotalTemLimiteDe30PorCentoDaMeta() {
+        // 30% de 2660 kcal / 9 = 88,7 g.
+        assertEquals(new BigDecimal("88.7"),
+                value(DailyValues.forPerson(person(Sex.MALE, 30, false), DAY, new BigDecimal("2660")), "FAT"));
+        // Sem meta: 65 g da ANVISA. Sem perfil, mas com meta: segue a meta.
+        assertEquals(new BigDecimal("65"), value(DailyValues.forPerson(person(Sex.MALE, 30, false), DAY, null), "FAT"));
+        assertEquals(new BigDecimal("60.0"), value(DailyValues.forPerson(null, DAY, new BigDecimal("1800")), "FAT"));
     }
 
     @Test
-    public void listaNaoTemMacrosUmidadeCinzasRetinolNemVitaminaAEmRe() {
+    public void sodioEGorduraSaoLimites() {
+        assertTrue(DailyValues.isLimit(reference("NA")));
+        assertTrue(DailyValues.isLimit(reference("FAT")));
+        assertFalse(DailyValues.isLimit(reference("FE")));
+    }
+
+    @Test
+    public void listaNaoTemMacrosRepetidosColesterolUmidadeCinzasNemRetinol() {
         Set<String> codes = new HashSet<>();
         for (Reference reference : DailyValues.ALL) {
             assertTrue("repetido: " + reference.code(), codes.add(reference.code()));
         }
-        for (String removed : new String[]{"ENERC", "PROCNT", "CHOCDF", "FAT", "WATER", "ASH", "RETOL", "VITA"}) {
+        for (String removed : new String[]{"ENERC", "PROCNT", "CHOCDF", "CHOLE", "WATER", "ASH", "RETOL", "VITA"}) {
             assertFalse(removed, codes.contains(removed));
         }
         assertEquals(18, codes.size());

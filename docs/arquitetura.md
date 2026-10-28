@@ -432,16 +432,19 @@ Diário | Histórico | Perfil
   animações).
 - **Micronutrientes sob demanda:** o painel mostra kcal e macros; "Ver micronutrientes" abre
   a folha "Nutrientes do dia" (`DailyValues`): Fibras e minerais, Vitaminas e "Fique de olho"
-  (sódio e colesterol). Cada item mostra o total, a % da referência da pessoa com barra em cor
-  neutra e uma explicação curta ao tocar. Referências (`DailyValues.forPerson`): para adultos de
-  19 a 80 anos sem situação especial, as Dietary Reference Intakes das National Academies por
-  sexo e idade (RDA/AI; sódio = limite CDRR de 2.300 mg), conferidas nas tabelas da Health Canada
-  em 27/10/2026, com fibras = 14 g a cada 1.000 kcal da meta; nos demais casos, os valores de
-  rótulo da ANVISA (IN 75/2020, Anexo II). Colesterol sem % nem barra: as DRIs não definem valor
-  ("o mais baixo possível numa alimentação adequada"). Ficam de fora energia e macros (já no
-  painel), umidade, cinzas, retinol e vitamina A em RE (a folha usa a coluna RAE da TACO).
-  Vitamina B12 do USDA FoodData Central só nos alimentos comuns (docs/fontes-de-dados.md).
-  Niacina: a TACO traz a niacina pronta e as referências usam NE, então a % tende a sair menor.
+  (limites do dia: sódio e gordura total). Cada item mostra o total e a % da referência da pessoa,
+  com barra; explicação curta ao tocar. Cores (decisão do autor em 28/10/2026): marrom neutro,
+  **verde** ao atingir 100% da meta e **vermelho** ao passar de 100% de um limite. Referências
+  (`DailyValues.forPerson`): para adultos de 19 a 80 anos sem situação especial, as Dietary
+  Reference Intakes das National Academies por sexo e idade (RDA/AI; sódio = limite CDRR de
+  2.300 mg), conferidas nas tabelas da Health Canada em 27/10/2026, com fibras = 14 g a cada
+  1.000 kcal da meta; nos demais casos, os valores de rótulo da ANVISA (IN 75/2020, Anexo II).
+  Gordura total: limite de 30% das calorias da meta (OMS, ficha "Healthy diet" e diretriz de
+  2023), ou 65 g da ANVISA sem meta. Colesterol fora da lista (as DRIs não definem valor). Ficam
+  de fora energia, proteína e carboidrato (já no painel), umidade, cinzas, retinol e vitamina A em
+  RE (a folha usa a coluna RAE da TACO). Vitamina B12 do USDA FoodData Central só nos alimentos
+  comuns (docs/fontes-de-dados.md). Niacina: a TACO traz a niacina pronta e as referências usam
+  NE, então a % tende a sair menor.
 
 ### Registro de alimento (um por vez)
 

@@ -17,8 +17,9 @@ import io.github.lucaslimacelino_dev.calju.domain.GoalCalculator.Sex;
  *       idade; sódio = CDRR de 2019, um limite), como publicadas nas tabelas da Health Canada
  *       (conferidas em 27/10/2026). Fibras: 14 g a cada 1.000 kcal da meta, a mesma base da AI.</li>
  *   <li>Sem perfil adulto: valores dos rótulos da ANVISA (Instrução Normativa nº 75/2020, Anexo II).</li>
- *   <li>Colesterol: sem valor de referência. As DRIs não definem RDA, AI nem limite ("o mais baixo
- *       possível numa alimentação adequada"); os 300 mg da ANVISA são só de rótulo.</li>
+ *   <li>Limites do dia (grupo {@link Group#WATCH}): sódio (acima) e gordura total, no máximo 30% das
+ *       calorias da meta (OMS, ficha "Healthy diet" e diretriz de 2023); sem meta, os 65 g da ANVISA.
+ *       O colesterol saiu da lista: as DRIs não definem valor para ele.</li>
  * </ul>
  *
  * <p>Os valores ficam na mesma unidade em que a TACO guarda o nutriente (cobre, 900 µg, aparece como
@@ -32,11 +33,11 @@ public final class DailyValues {
     public enum Group {
         FIBER_AND_MINERALS,
         VITAMINS,
-        /** Sódio (a referência é um limite) e colesterol (sem referência). */
+        /** Limites: o ideal é ficar abaixo de 100%. */
         WATCH
     }
 
-    /** {@code dailyValue} nulo quando não há referência (colesterol). */
+    /** {@code dailyValue} nulo quando não há referência. */
     public record Reference(String code, Group group, NutrientUnit unit, BigDecimal dailyValue) {
     }
 
@@ -45,6 +46,8 @@ public final class DailyValues {
     static final int ADULT_MAX_AGE = 80;
 
     private static final BigDecimal FIBER_PER_1000_KCAL = new BigDecimal("14");
+    private static final BigDecimal FAT_MAX_SHARE = new BigDecimal("0.30");
+    private static final BigDecimal KCAL_PER_G_FAT = new BigDecimal("9");
 
     /** Valores dos rótulos (ANVISA, IN 75/2020, Anexo II), na ordem em que aparecem na tela. */
     public static final List<Reference> ALL = List.of(
@@ -65,27 +68,34 @@ public final class DailyValues {
             new Reference("NIA", Group.VITAMINS, NutrientUnit.MILLIGRAM, new BigDecimal("15")),
             new Reference("VITB12", Group.VITAMINS, NutrientUnit.MICROGRAM, new BigDecimal("2.4")),
             new Reference(Nutrients.SODIUM, Group.WATCH, NutrientUnit.MILLIGRAM, new BigDecimal("2000")),
-            new Reference("CHOLE", Group.WATCH, NutrientUnit.MILLIGRAM, null));
+            new Reference(Nutrients.FAT, Group.WATCH, NutrientUnit.GRAM, new BigDecimal("65")));
 
     private DailyValues() {
     }
 
+    /** Sódio e gordura total: passar de 100% é exceder o limite, e não atingir a meta. */
+    public static boolean isLimit(Reference reference) {
+        return reference.group() == Group.WATCH;
+    }
+
     /**
-     * Referências para a pessoa. Sem perfil, fora de 19 a 80 anos ou com situação especial, devolve
-     * {@link #ALL}. {@code goalKcal} nula: fibras pela AI da idade.
+     * Referências para a pessoa. Sem perfil, fora de 19 a 80 anos ou com situação especial, usa os
+     * valores da ANVISA. {@code goalKcal} nula: fibras pela AI da idade e gordura pelos 65 g da ANVISA.
      */
     public static List<Reference> forPerson(UserProfile profile, LocalDate day, BigDecimal goalKcal) {
-        if (profile == null || profile.specialCondition()) {
+        boolean adult = profile != null && !profile.specialCondition()
+                && profile.age(day) >= ADULT_MIN_AGE && profile.age(day) <= ADULT_MAX_AGE;
+        if (!adult && goalKcal == null) {
             return ALL;
         }
-        int age = profile.age(day);
-        if (age < ADULT_MIN_AGE || age > ADULT_MAX_AGE) {
-            return ALL;
-        }
-        boolean male = profile.sex() == Sex.MALE;
         List<Reference> references = new ArrayList<>();
         for (Reference reference : ALL) {
-            BigDecimal value = dri(reference.code(), male, age, goalKcal);
+            BigDecimal value = adult
+                    ? dri(reference.code(), profile.sex() == Sex.MALE, profile.age(day), goalKcal)
+                    : reference.dailyValue();
+            if (reference.code().equals(Nutrients.FAT) && goalKcal != null && goalKcal.signum() > 0) {
+                value = goalKcal.multiply(FAT_MAX_SHARE).divide(KCAL_PER_G_FAT, 1, RoundingMode.HALF_UP);
+            }
             references.add(new Reference(reference.code(), reference.group(), reference.unit(), value));
         }
         return references;
@@ -112,7 +122,7 @@ public final class DailyValues {
             case "NIA" -> value(male ? "16" : "14");
             case "VITB12" -> value("2.4");
             case Nutrients.SODIUM -> value("2300");
-            case "CHOLE" -> null;
+            case Nutrients.FAT -> value("65");
             default -> throw new IllegalArgumentException("Nutriente sem referência: " + code);
         };
     }
