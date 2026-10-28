@@ -54,8 +54,18 @@ public class ProfileStore {
         return new UserProfile(Sex.valueOf(sex), prefs.getInt(BIRTH_YEAR, 0),
                 new BigDecimal(prefs.getString(HEIGHT, "0")), new BigDecimal(prefs.getString(WEIGHT, "0")),
                 activity == null ? null : Activity.valueOf(activity),
-                Objective.valueOf(prefs.getString(OBJECTIVE, Objective.KEEP.name())),
+                objective(prefs.getString(OBJECTIVE, null)),
                 pace == null ? null : Pace.valueOf(pace), prefs.getBoolean(SPECIAL, false));
+    }
+
+    /** Valor antigo ou desconhecido conta como "manter". */
+    private static Objective objective(String name) {
+        for (Objective objective : Objective.values()) {
+            if (objective.name().equals(name)) {
+                return objective;
+            }
+        }
+        return Objective.KEEP;
     }
 
     public void clear() {

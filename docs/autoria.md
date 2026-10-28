@@ -183,3 +183,6 @@ objetiva que os sustente.
   assistente nas tabelas oficiais, código e testes feitos pelo assistente.
 - Meta para ganhar massa muscular (aprovada pelo autor): números conferidos pelo assistente nos
   artigos citados no código; cálculo, tela e testes feitos pelo assistente.
+- Revisão das metas a pedido do autor (objetivos com foco em massa magra, superávit menor e fatores
+  de rotina reduzidos pela metade do acréscimo, decididos pelo autor): fontes conferidas, cálculo,
+  textos e testes feitos pelo assistente.

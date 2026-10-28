@@ -81,18 +81,18 @@ public class GoalQuizTest {
         onView(withId(R.id.health_no)).perform(click());
         onView(withId(R.id.next)).perform(click());
 
-        // Repouso 1.320 kcal × 1,55 = 2.046 → 2.050; 20/50/30% = 103 g, 256 g e 68 g.
-        onView(withId(R.id.result_kcal)).check(matches(withText("2.050 kcal por dia")));
+        // Repouso 1.320,25 × 1,275 = 1.683 → 1.680; proteína 1,6 × 60 = 96 g; gordura 25% = 47 g.
+        onView(withId(R.id.result_kcal)).check(matches(withText("1.680 kcal por dia")));
         onView(withId(R.id.result_macros))
-                .check(matches(withText("Proteína 103 g · Carboidrato 256 g · Gordura 68 g")));
+                .check(matches(withText("Proteína 96 g · Carboidrato 218 g · Gordura 47 g")));
         onView(withId(R.id.next)).perform(click());
 
-        Waits.untilDisplayed(withText("Meta salva: 2.050 kcal por dia"));
-        onView(withId(R.id.kcal)).perform(scrollTo()).check(matches(withText("2050")));
+        Waits.untilDisplayed(withText("Meta salva: 1.680 kcal por dia"));
+        onView(withId(R.id.kcal)).perform(scrollTo()).check(matches(withText("1680")));
         List<Goal> goals = app.container().goalRepository.all();
         assertEquals(1, goals.size());
-        assertEquals(0, new BigDecimal("2050").compareTo(goals.get(0).kcal()));
-        assertEquals(0, new BigDecimal("103").compareTo(goals.get(0).proteinG()));
+        assertEquals(0, new BigDecimal("1680").compareTo(goals.get(0).kcal()));
+        assertEquals(0, new BigDecimal("96").compareTo(goals.get(0).proteinG()));
 
         UserProfile profile = app.container().profileStore.load();
         assertEquals(Sex.FEMALE, profile.sex());
@@ -116,9 +116,9 @@ public class GoalQuizTest {
     }
 
     @Test
-    public void ganharMassaMuscularMostraProteinaPorQuilo() {
+    public void ganharPesoUsaSuperavitPequenoEProteinaAlta() {
         openQuiz();
-        onView(withId(R.id.objective_muscle)).perform(scrollTo(), click());
+        onView(withId(R.id.objective_gain)).perform(click());
         onView(withId(R.id.next)).perform(click());
 
         onView(withText("2 de 4")).check(matches(isDisplayed()));
@@ -133,10 +133,10 @@ public class GoalQuizTest {
         onView(withId(R.id.health_no)).perform(click());
         onView(withId(R.id.next)).perform(click());
 
-        // Homem 30 anos, 180 cm, 80 kg: 2759 × 1,10 → 3030 kcal; proteína 2 g × 80 kg.
-        onView(withId(R.id.result_kcal)).check(matches(withText("3.030 kcal por dia")));
+        // Homem 30 anos, 180 cm, 80 kg: 1780 × 1,275 × 1,05 = 2383 → 2380 kcal; proteína 2 g × 80 kg.
+        onView(withId(R.id.result_kcal)).check(matches(withText("2.380 kcal por dia")));
         onView(withId(R.id.result_macros))
-                .check(matches(withText("Proteína 160 g · Carboidrato 409 g · Gordura 84 g")));
+                .check(matches(withText("Proteína 160 g · Carboidrato 287 g · Gordura 66 g")));
     }
 
     @Test

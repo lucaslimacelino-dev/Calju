@@ -34,66 +34,74 @@ public class GoalCalculatorTest {
     }
 
     @Test
-    public void manterUsaOGastoDoDiaEDivideOsMacros() {
+    public void manterUsaOGastoDoDiaEProteinaDe1v6PorQuilo() {
         Plan plan = GoalCalculator.plan(answers(Objective.KEEP, null, Sex.MALE, 30, "180", "80", Activity.LIGHT));
 
         assertEquals(1780, plan.restingKcal());
-        assertEquals(2760, plan.dailyKcal());          // 1780 × 1,55 = 2759 → 2760
-        assertEquals(2760, plan.targetKcal());
-        assertEquals(138, plan.proteinG());            // 20% de 2760 / 4
-        assertEquals(345, plan.carbohydrateG());       // 50% de 2760 / 4
-        assertEquals(92, plan.fatG());                 // 30% de 2760 / 9
+        assertEquals(2270, plan.dailyKcal());          // 1780 × 1,275 = 2269,5
+        assertEquals(2270, plan.targetKcal());
+        assertEquals(128, plan.proteinG());            // 1,6 g × 80 kg
+        assertEquals(63, plan.fatG());                 // 25% de 2270 / 9 = 63,1
+        assertEquals(298, plan.carbohydrateG());       // (2270 − 128×4 − 63×9) / 4 = 297,75
         assertFalse(plan.limitedByResting());
+        assertFalse(plan.proteinLimited());
     }
 
     @Test
-    public void perderTiraODeficitEscolhido() {
-        Answers devagar = answers(Objective.LOSE, Pace.SLOW, Sex.MALE, 30, "180", "80", Activity.ACTIVE);
-        Answers moderado = answers(Objective.LOSE, Pace.MODERATE, Sex.MALE, 30, "180", "80", Activity.ACTIVE);
-
-        assertEquals(2790, GoalCalculator.plan(devagar).targetKcal());   // 1780 × 1,85 = 3293 − 500
-        assertEquals(2540, GoalCalculator.plan(moderado).targetKcal());  // 3293 − 750
+    public void fatoresDaRotinaSaoMetadeDoAcrescimo() {
+        assertEquals(2540, GoalCalculator.plan(answers(Objective.KEEP, null, Sex.MALE, 30, "180", "80",
+                Activity.ACTIVE)).dailyKcal());        // 1780 × 1,425 = 2536,5
+        assertEquals(2850, GoalCalculator.plan(answers(Objective.KEEP, null, Sex.MALE, 30, "180", "80",
+                Activity.VIGOROUS)).dailyKcal());      // 1780 × 1,60 = 2848
     }
 
     @Test
-    public void ganharSomaUmPouco() {
-        Plan plan = GoalCalculator.plan(answers(Objective.GAIN, null, Sex.FEMALE, 30, "165", "60", Activity.LIGHT));
+    public void perderTiraODeficitEMantemProteinaAlta() {
+        Plan devagar = GoalCalculator.plan(answers(Objective.LOSE, Pace.SLOW, Sex.MALE, 30, "180", "80",
+                Activity.ACTIVE));
+        Plan moderado = GoalCalculator.plan(answers(Objective.LOSE, Pace.MODERATE, Sex.MALE, 30, "180", "80",
+                Activity.ACTIVE));
 
-        assertEquals(2050, plan.dailyKcal());   // 1320,25 × 1,55 = 2046
-        assertEquals(2350, plan.targetKcal());  // + 300
+        assertEquals(2040, devagar.targetKcal());    // 2536,5 − 500
+        assertEquals(1790, moderado.targetKcal());   // 2536,5 − 750
+        assertEquals(160, devagar.proteinG());       // 2,0 g × 80 kg
+        assertFalse(devagar.proteinLimited());
+        assertEquals(157, moderado.proteinG());      // teto: 35% de 1790 / 4 = 156,6
+        assertTrue(moderado.proteinLimited());
     }
 
     @Test
-    public void ganharMassaMuscularUsaProteinaPorQuiloEMaisDezPorCento() {
-        Plan plan = GoalCalculator.plan(answers(Objective.MUSCLE, null, Sex.MALE, 30, "180", "80", Activity.LIGHT));
+    public void ganharSomaCincoPorCentoComProteinaAlta() {
+        Plan plan = GoalCalculator.plan(answers(Objective.GAIN, null, Sex.MALE, 30, "180", "80", Activity.LIGHT));
 
-        assertEquals(3030, plan.targetKcal());   // 1780 × 1,55 = 2759 × 1,10 = 3034,9 → 3030
-        assertEquals(160, plan.proteinG());      // 2 g × 80 kg
-        assertEquals(84, plan.fatG());           // 25% de 3030 / 9 = 84,2
-        assertEquals(409, plan.carbohydrateG()); // (3030 − 160×4 − 84×9) / 4 = 408,5
-    }
-
-    @Test
-    public void proteinaDaMassaMuscularNaoPassaDe35PorCentoDasCalorias() {
-        // Mulher 80 anos, 150 cm, 120 kg: repouso 1576,5 × 1,55 × 1,10 = 2687,9 → 2690 kcal.
-        // 2 g × 120 kg = 240 g passaria do teto: 35% de 2690 / 4 = 235,4 → 235 g.
-        Plan plan = GoalCalculator.plan(answers(Objective.MUSCLE, null, Sex.FEMALE, 80, "150", "120",
-                Activity.LIGHT));
-
-        assertEquals(2690, plan.targetKcal());
-        assertEquals(235, plan.proteinG());
-        assertEquals(75, plan.fatG());
-        assertEquals(269, plan.carbohydrateG());
+        assertEquals(2380, plan.targetKcal());       // 2269,5 × 1,05 = 2383
+        assertEquals(160, plan.proteinG());          // 2,0 g × 80 kg
+        assertEquals(66, plan.fatG());               // 25% de 2380 / 9 = 66,1
+        assertEquals(287, plan.carbohydrateG());     // (2380 − 640 − 594) / 4 = 286,5
     }
 
     @Test
     public void metaNuncaFicaAbaixoDoGastoEmRepouso() {
-        // Mulher 70 anos, 150 cm, 45 kg, rotina leve: repouso 806 kcal, dia 1249, menos 750 = 499.
+        // Mulher 70 anos, 150 cm, 45 kg: repouso 876,5; dia 1117,5; menos 750 = 367,5.
         Plan plan = GoalCalculator.plan(answers(Objective.LOSE, Pace.MODERATE, Sex.FEMALE, 70, "150", "45",
                 Activity.LIGHT));
 
         assertTrue(plan.limitedByResting());
         assertEquals(plan.restingKcal(), plan.targetKcal());
+    }
+
+    @Test
+    public void proteinaNaoPassaDe35PorCentoDasCalorias() {
+        // Mulher 80 anos, 150 cm, 120 kg: meta presa no repouso, 1576,5 → 1580 kcal.
+        // 2 g × 120 kg = 240 g passaria do teto: 35% de 1580 / 4 = 138,25 → 138 g.
+        Plan plan = GoalCalculator.plan(answers(Objective.LOSE, Pace.SLOW, Sex.FEMALE, 80, "150", "120",
+                Activity.LIGHT));
+
+        assertEquals(1580, plan.targetKcal());
+        assertEquals(138, plan.proteinG());
+        assertTrue(plan.proteinLimited());
+        assertEquals(44, plan.fatG());
+        assertEquals(158, plan.carbohydrateG());
     }
 
     @Test

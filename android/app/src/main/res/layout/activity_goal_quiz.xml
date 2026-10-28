@@ -78,11 +78,6 @@
                     style="@style/Widget.CaLju.QuizOption"
                     android:text="@string/quiz_objective_gain" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/objective_muscle"
-                    style="@style/Widget.CaLju.QuizOption"
-                    android:text="@string/quiz_objective_muscle" />
-
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.button.MaterialButtonToggleGroup

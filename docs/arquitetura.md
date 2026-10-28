@@ -508,12 +508,14 @@ Vários alimentos numa única frase e interpretação por IA ficam para depois d
   sequência de ontem) e a lista dos dias da semana; tocar num dia abre o Diário nele.
 - Metas: depois das boas-vindas (e pelo botão "Calcular para mim" no Perfil) o Caju faz um
   questionário curto: objetivo, ritmo (só para perder peso), sexo biológico/idade/altura/peso,
-  rotina e situações especiais. `GoalCalculator`: Mifflin-St Jeor × nível de atividade
-  (meio das faixas FAO/WHO/UNU 2001: 1,55, 1,85, 2,20); perder = −500 ou −750 kcal (AHA/ACC/TOS
-  2013); ganhar = +300 kcal (decisão do app); nunca abaixo do gasto em repouso; macros 20/50/30%
-  (dentro das faixas AMDR). Ganhar massa muscular (treino de força): +10% sobre o gasto do dia,
-  proteína 2,0 g/kg com teto de 35% das calorias, gordura 25%, carboidrato o resto (dentro das
-  faixas de Iraki et al. 2019 e Morton et al. 2018, citadas no `GoalCalculator`). Fora de 18–80 anos, gravidez/amamentação ou doença com dieta
+  rotina e situações especiais. `GoalCalculator`: Mifflin-St Jeor × fator da rotina
+  (1,275 / 1,425 / 1,60: metade do acréscimo do meio das faixas FAO/WHO/UNU 2001, decisão do autor
+  em 28/10/2026 para não superestimar o gasto). Três objetivos, todos com proteína por kg (teto de
+  35% das calorias), gordura 25% e carboidrato o resto: perder peso preservando músculo (−500 ou
+  −750 kcal, AHA/ACC/TOS 2013; proteína 2,0 g/kg), manter (gasto do dia; 1,6 g/kg) e ganhar peso
+  em músculo com pouca gordura (+5%, menor superávit de Iraki et al. 2019; 2,0 g/kg). Proteína
+  conforme ISSN 2017 (1,4–2,0 g/kg) e Morton et al. 2018. Nunca abaixo do gasto em repouso.
+  Fora de 18–80 anos, gravidez/amamentação ou doença com dieta
   orientada: não calcula e indica um profissional. O questionário é obrigatório na primeira
   abertura (sem "Pular"; sem respostas guardadas, ele volta). As respostas ficam só no aparelho
   (`UserProfile` em `ProfileStore`, SharedPreferences "calju_profile"; ano de nascimento em vez
