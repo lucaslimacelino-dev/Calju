@@ -100,7 +100,7 @@ public class GoalQuizTest {
         assertEquals(Activity.LIGHT, profile.activity());
         assertFalse(profile.specialCondition());
         onView(withId(R.id.profile_summary)).perform(scrollTo())
-                .check(matches(withText("Seus dados: mulher, 30 anos, 165 cm, 60 kg")));
+                .check(matches(withText("Mulher · 30 anos · 165 cm · 60 kg\nManter o peso · rotina mais parada")));
     }
 
     @Test

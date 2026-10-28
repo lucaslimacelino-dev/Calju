@@ -521,7 +521,9 @@ Vários alimentos numa única frase e interpretação por IA ficam para depois d
   (`UserProfile` em `ProfileStore`, SharedPreferences "calju_profile"; ano de nascimento em vez
   da idade) e aparecem no Perfil com "Refazer questionário" e "Apagar meus dados". Sem meta, o painel mostra kcal consumidas e o botão "Definir meta"; com meta, kcal
   restantes (ou o excesso) e o anel enche. A meta sempre pode ser ajustada à mão no Perfil.
-- Perfil: metas, conta, sincronização, fontes dos dados, sobre.
+- Perfil, em blocos: Seus dados (resumo do questionário, "Refazer questionário", "Apagar meus
+  dados"), Metas diárias, Meus alimentos, Conta e backup (só com conta) e "Sobre o app e fontes"
+  (recolhido, com a versão sempre visível; aviso de saúde, privacidade e todas as fontes).
 - Estado da sincronização como ícone discreto (✓ / ↻ / ⊘).
 
 ### Componentes reutilizáveis

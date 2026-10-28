@@ -186,3 +186,4 @@ objetiva que os sustente.
 - Revisão das metas a pedido do autor (objetivos com foco em massa magra, superávit menor e fatores
   de rotina reduzidos pela metade do acréscimo, decididos pelo autor): fontes conferidas, cálculo,
   textos e testes feitos pelo assistente.
+- Perfil reorganizado em blocos (pedido do autor): layout, código e testes feitos pelo assistente.

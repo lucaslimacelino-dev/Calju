@@ -13,6 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -40,6 +42,7 @@ import io.github.lucaslimacelino_dev.calju.data.sync.ConflictResolver;
 import io.github.lucaslimacelino_dev.calju.data.sync.SyncEngine;
 import io.github.lucaslimacelino_dev.calju.ui.Dates;
 import io.github.lucaslimacelino_dev.calju.ui.Formats;
+import io.github.lucaslimacelino_dev.calju.ui.Motion;
 import io.github.lucaslimacelino_dev.calju.ui.account.AccountSheet;
 import io.github.lucaslimacelino_dev.calju.ui.diary.Occasions;
 import io.github.lucaslimacelino_dev.calju.ui.food.CustomFoodSheet;
@@ -49,7 +52,10 @@ public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private ProfileViewModel viewModel;
+    private static final String STATE_ABOUT_OPEN = "about_open";
+
     private boolean filled;
+    private boolean aboutOpen;
     private final ActivityResultLauncher<Intent> quiz = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
@@ -73,6 +79,8 @@ public class ProfileFragment extends Fragment {
                 .get(ProfileViewModel.class);
 
         binding.version.setText(getString(R.string.about_version, BuildConfig.VERSION_NAME));
+        showAbout(savedInstanceState != null && savedInstanceState.getBoolean(STATE_ABOUT_OPEN), false);
+        binding.aboutHeader.setOnClickListener(v -> showAbout(!aboutOpen, true));
         viewModel.currentGoal().observe(getViewLifecycleOwner(), this::fill);
         viewModel.saved().observe(getViewLifecycleOwner(), saved -> {
             if (Boolean.TRUE.equals(saved)) {
@@ -331,6 +339,12 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_ABOUT_OPEN, aboutOpen);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         showProfile();
@@ -340,15 +354,44 @@ public class ProfileFragment extends Fragment {
     private void showProfile() {
         UserProfile profile = container().profileStore.load();
         boolean has = profile != null;
-        binding.profileSummary.setVisibility(has ? View.VISIBLE : View.GONE);
         binding.deleteProfileData.setVisibility(has ? View.VISIBLE : View.GONE);
         binding.calculateGoals.setText(has ? R.string.profile_redo_quiz : R.string.goals_calculate);
-        if (has) {
-            binding.profileSummary.setText(getString(R.string.profile_data_summary,
-                    getString(profile.sex() == Sex.MALE ? R.string.profile_sex_male : R.string.profile_sex_female),
-                    profile.age(LocalDate.now(container().clock)), Formats.count(profile.heightCm()),
-                    Formats.count(profile.weightKg())));
+        if (!has) {
+            binding.profileSummary.setText(R.string.profile_no_data);
+            return;
         }
+        String body = getString(R.string.profile_data_summary,
+                getString(profile.sex() == Sex.MALE ? R.string.profile_sex_male : R.string.profile_sex_female),
+                profile.age(LocalDate.now(container().clock)), Formats.count(profile.heightCm()),
+                Formats.count(profile.weightKg()));
+        String plan = getString(switch (profile.objective()) {
+            case LOSE -> R.string.profile_objective_lose;
+            case KEEP -> R.string.profile_objective_keep;
+            case GAIN -> R.string.profile_objective_gain;
+        });
+        if (profile.activity() != null) {
+            plan = getString(R.string.profile_plan_with_activity, plan, getString(switch (profile.activity()) {
+                case LIGHT -> R.string.profile_activity_light;
+                case ACTIVE -> R.string.profile_activity_active;
+                case VIGOROUS -> R.string.profile_activity_vigorous;
+            }));
+        }
+        binding.profileSummary.setText(body + "\n" + plan);
+    }
+
+    /** "Sobre" e as fontes ficam recolhidos: abrem ao tocar no cabeçalho. */
+    private void showAbout(boolean open, boolean animate) {
+        aboutOpen = open;
+        if (animate) {
+            Motion.animateLayout(binding.profileContent);
+            Motion.rotateChevron(binding.aboutExpand, open);
+        } else {
+            binding.aboutExpand.setRotation(open ? 180f : 0f);
+        }
+        binding.aboutContent.setVisibility(open ? View.VISIBLE : View.GONE);
+        ViewCompat.replaceAccessibilityAction(binding.aboutHeader,
+                AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK,
+                getString(open ? R.string.about_collapse : R.string.about_expand), null);
     }
 
     private void confirmDeleteProfile() {

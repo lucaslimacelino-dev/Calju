@@ -22,7 +22,7 @@
     <string name="sources_taco">Composição dos alimentos: NÚCLEO DE ESTUDOS E PESQUISAS EM ALIMENTAÇÃO — NEPA/UNICAMP. Tabela brasileira de composição de alimentos — TACO. 4. ed. rev. e ampl. Campinas: NEPA-UNICAMP, 2011.</string>
     <string name="sources_ibge" tools:ignore="TypographyDashes">Peso das porções (ex.: 1 banana): IBGE. Pesquisa de orçamentos familiares 2008-2009: tabela de medidas referidas para os alimentos consumidos no Brasil. Rio de Janeiro: IBGE, 2011.</string>
     <string name="sources_icons">Ícones: Material Icons (Google), licença Apache 2.0. Fonte: Nunito (The Nunito Project Authors), SIL Open Font License 1.1.</string>
-    <string name="about_title">Sobre</string>
+    <string name="about_title">Sobre o app e fontes</string>
     <string name="about_version">CaLju, versão %1$s</string>
     <string name="about_health_disclaimer">O CaLju não é um dispositivo médico e não diagnostica, trata, cura nem previne nenhuma doença. As metas e os valores servem para acompanhamento pessoal; para orientação sobre saúde e alimentação, procure um nutricionista ou médico.</string>
     <string name="about_privacy">Seus registros e as respostas do questionário ficam só neste celular: o app não tem conta, não envia dados pela internet e não mostra anúncios.</string>
@@ -393,9 +393,21 @@
     <string name="quiz_close">Voltar ao Perfil</string>
     <string name="quiz_goal_saved">Meta salva: %1$s kcal por dia</string>
     <string name="goals_calculate">Calcular para mim</string>
-    <string name="profile_data_summary">Seus dados: %1$s, %2$d anos, %3$s cm, %4$s kg</string>
-    <string name="profile_sex_female">mulher</string>
-    <string name="profile_sex_male">homem</string>
+    <string name="profile_data_title">Seus dados</string>
+    <string name="profile_no_data">Responda algumas perguntas e o Caju calcula sua meta e os nutrientes recomendados para você.</string>
+    <string name="profile_data_summary">%1$s · %2$d anos · %3$s cm · %4$s kg</string>
+    <string name="profile_sex_female">Mulher</string>
+    <string name="profile_sex_male">Homem</string>
+    <string name="profile_plan_with_activity">%1$s · rotina %2$s</string>
+    <string name="profile_objective_lose">Perder peso</string>
+    <string name="profile_objective_keep">Manter o peso</string>
+    <string name="profile_objective_gain">Ganhar peso</string>
+    <string name="profile_activity_light">mais parada</string>
+    <string name="profile_activity_active">ativa</string>
+    <string name="profile_activity_vigorous">muito ativa</string>
+    <string name="about_expand">Mostrar sobre o app e fontes</string>
+    <string name="about_collapse">Esconder sobre o app e fontes</string>
+    <string name="sources_extra">Vitamina B12 dos alimentos comuns: USDA FoodData Central (EUA), domínio público. Valores diários de referência: National Academies (EUA), publicados pela Health Canada, e ANVISA, Instrução Normativa nº 75/2020.</string>
     <string name="profile_redo_quiz">Refazer questionário</string>
     <string name="profile_delete_data">Apagar meus dados</string>
     <string name="profile_delete_title">Apagar suas respostas?</string>
